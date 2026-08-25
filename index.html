@@ -178,6 +178,10 @@ a{color:inherit;text-decoration:none}
 .tbl{width:100%;border-collapse:collapse;font-size:13px}
 .tbl th{text-align:left;font-size:11px;color:var(--muted);font-weight:600;padding:8px 10px;border-bottom:1px solid var(--line-strong);white-space:nowrap}
 .tbl td{padding:9px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+.num-r{text-align:right}
+.cat-tbl .pct{color:var(--muted);font-variant-numeric:tabular-nums}
+.tbl.acct-tbl.compact th{padding:5px 6px;font-size:11px}
+.tbl.acct-tbl.compact td{padding:6px 7px;font-size:12px}
 .tbl tr:hover td{background:var(--surface-2)}
 .code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11px;color:var(--ink-soft);background:var(--surface-2);padding:1px 6px;border-radius:5px}
 
@@ -292,8 +296,9 @@ a{color:inherit;text-decoration:none}
   .pf-tbl{font-size:11px}.pf-tbl .pf-cell{min-width:50px}
   .kv{grid-template-columns:1fr}
   .hook .chip{padding:2px 10px;flex:1 1 40%}
-  .tabbar{display:flex;position:fixed;left:0;right:0;bottom:0;height:var(--tab-h);background:rgba(251,252,254,.94);backdrop-filter:blur(10px);border-top:1px solid var(--line);z-index:40;padding-bottom:env(safe-area-inset-bottom)}
-  .tabbar a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--muted);font-size:10px;font-weight:600;position:relative}
+  .tabbar{display:flex;position:fixed;left:0;right:0;bottom:0;height:var(--tab-h);background:rgba(251,252,254,.94);backdrop-filter:blur(10px);border-top:1px solid var(--line);z-index:40;padding-bottom:env(safe-area-inset-bottom);overflow-x:auto;justify-content:flex-start}
+  .tabbar::-webkit-scrollbar{display:none}
+  .tabbar a{flex:0 0 auto;min-width:62px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--muted);font-size:10px;font-weight:600;position:relative}
   .tabbar a .ti{font-size:19px}.tabbar a.active{color:var(--accent)}
   .tabbar a .badge{position:absolute;top:6px;right:50%;margin-right:-18px;background:var(--expense);color:#fff;font-size:9px;min-width:15px;height:15px;border-radius:8px;display:grid;place-items:center;padding:0 4px}
 }
@@ -372,7 +377,11 @@ a{color:inherit;text-decoration:none}
   <a data-route="#/money" href="#/money"><span class="ti">💰</span>资金</a>
   <a data-route="#/biz" href="#/biz"><span class="ti">📊</span>经营</a>
   <a data-route="#/baby" href="#/baby"><span class="ti">🍼</span>带娃</a>
+  <a data-route="#/diary" href="#/diary"><span class="ti">📝</span>日记</a>
+  <a data-route="#/idea" href="#/idea"><span class="ti">💡</span>灵感</a>
   <a data-route="#/todo" href="#/todo"><span class="ti">✅</span>待办<span class="badge" id="tab-todo">5</span></a>
+  <a data-route="#/review" href="#/review"><span class="ti">📈</span>复盘</a>
+  <a data-route="#/settings" href="#/settings"><span class="ti">⚙️</span>设置</a>
 </nav>
 
 <div class="overlay" id="overlay"><div class="modal" id="modal"></div></div>
@@ -384,10 +393,10 @@ a{color:inherit;text-decoration:none}
 const TODAY=new Date("2026-08-24");
 const M = {
   accounts:[
-    {code:"A0001",name:"招商银行卡",type:"银行卡",balance:8420},
-    {code:"A0002",name:"微信钱包",type:"微信",balance:2310},
-    {code:"A0003",name:"支付宝",type:"支付宝",balance:1700},
-    {code:"A0004",name:"现金",type:"现金",balance:0}
+    {code:"A0001",name:"招商银行卡",type:"银行卡",balance:8420,opening:8420},
+    {code:"A0002",name:"微信钱包",type:"微信",balance:2310,opening:2310},
+    {code:"A0003",name:"支付宝",type:"支付宝",balance:1700,opening:1700},
+    {code:"A0004",name:"现金",type:"现金",balance:0,opening:0}
   ],
   txns:[
     {code:"T202608240001",date:"2026-08-24",type:"支出",amount:38,category:"生活开销",from:"A0002",tag:"正常",note:"午饭",project:""},
@@ -456,7 +465,8 @@ const M = {
     {code:"I0003",text:"带娃记录是否可以和喂养量提醒联动",archived:true,project:"",archivedAt:"2026-08-20 21:10"}
   ],
   params:{
-    "收支类型":["工资收入","投资收入","生活开销","经营成本","经营成本回款"],
+    "收入类型":["工资收入","投资收入","经营成本回款"],
+    "支出类型":["生活开销","经营成本"],
     "客户来源":["转介绍","线上","线下","代理"],
     "客户类型":["个人","企业","代理"],
     "账户类型":["现金","银行卡","微信","支付宝","信用"],
@@ -496,6 +506,32 @@ function inRange(dateStr,range){
   if(range==="本季"){const q=Math.floor(TODAY.getMonth()/3);return d.getFullYear()===TODAY.getFullYear()&&Math.floor(d.getMonth()/3)===q;}
   if(range==="本周"){const from=new Date(TODAY);from.setDate(TODAY.getDate()-6);return d>=from;}
   return true;
+}
+function inPeriod(dateStr,p){
+  const dt=new Date(dateStr);
+  if(p==="日")return dt.getFullYear()===TODAY.getFullYear()&&dt.getMonth()===TODAY.getMonth()&&dt.getDate()===TODAY.getDate();
+  if(p==="周"){const from=new Date(TODAY);from.setDate(TODAY.getDate()-6);return dt>=from;}
+  if(p==="月")return dt.getFullYear()===TODAY.getFullYear()&&dt.getMonth()===TODAY.getMonth();
+  if(p==="季"){const q=Math.floor(TODAY.getMonth()/3);return dt.getFullYear()===TODAY.getFullYear()&&Math.floor(dt.getMonth()/3)===q;}
+  if(p==="年")return dt.getFullYear()===TODAY.getFullYear();
+  return true;
+}
+function accountInc(code){return M.txns.filter(t=>t.from===code&&t.type==="收入"&&t.tag==="正常"&&inRange(t.date,moneyFilter)).reduce((s,t)=>s+t.amount,0);}
+function accountExp(code){return M.txns.filter(t=>t.from===code&&t.type==="支出"&&t.tag==="正常"&&inRange(t.date,moneyFilter)).reduce((s,t)=>s+t.amount,0);}
+function setAccountOpening(code,val){const a=M.accounts.find(x=>x.code===code);if(!a)return;a.opening=parseFloat(val)||0;const inc=accountInc(code),exp=accountExp(code),end=a.opening+inc-exp;const e=document.getElementById("end-"+code);if(e)e.textContent=fmt(end);refreshAccountTotals();}
+function refreshAccountTotals(){let to=0,ti=0,te=0;M.accounts.forEach(a=>{to+=a.opening;ti+=accountInc(a.code);te+=accountExp(a.code);});const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};set("tot-open",fmt(to));set("tot-inc","+"+fmt(ti));set("tot-exp","-"+fmt(te));set("tot-end",fmt(to+ti-te));}
+function catCard(type,title){
+  const f=M.txns.filter(t=>inRange(t.date,moneyFilter)&&t.type===type&&t.tag==="正常");
+  const map={};f.forEach(t=>{map[t.category]=(map[t.category]||0)+t.amount;});
+  const arr=Object.keys(map).map(c=>({c,v:map[c]})).sort((a,b)=>b.v-a.v);
+  const total=arr.reduce((s,x)=>s+x.v,0);
+  const rows=arr.length?arr.map(({c,v})=>`<tr><td>${esc(c)}</td><td class="num-r ${type==='收入'?'pos':'neg'}">${type==='收入'?'+':'-'}${fmt(v)}</td><td class="num-r pct">${total?Math.round(v/total*100):0}%</td></tr>`).join(""):'<tr><td colspan="3"><div class="empty">该周期暂无'+type+'流水</div></td></tr>';
+  return `<div class="card"><h3>${title} <span class="hint">${moneyFilter} · 按金额降序 · 占比=占${type}总额</span></h3>
+      <div style="overflow-x:auto"><table class="tbl cat-tbl">
+        <thead><tr><th>分类</th><th class="num-r">金额</th><th class="num-r">占比</th></tr></thead>
+        <tbody>${rows}
+        <tr class="acct-tot"><td><b>合计</b></td><td class="num-r ${type==='收入'?'pos':'neg'}"><b>${type==='收入'?'+':'-'}${fmt(total)}</b></td><td class="num-r"><b>${total?100:0}%</b></td></tr>
+        </tbody></table></div></div>`;
 }
 let moneyFilter="本月";
 let todoSub="list";
@@ -594,15 +630,37 @@ const screens={
       <div style="overflow-x:auto"><table class="tbl">
         <thead><tr><th>流水号</th><th>日期</th><th>类型</th><th>分类</th><th>账户</th><th>关联项目</th><th>标签</th><th>摘要</th><th style="text-align:right">金额</th></tr></thead>
         <tbody>${txns.map(t=>{const a=M.accounts.find(x=>x.code===t.from);return `<tr>
-          <td><span class="code">${t.code}</span></td><td>${t.date.slice(5)}</td><td>${t.type}</td><td>${esc(t.category)}</td>
+          <td><span class="code link" title="点击编辑该笔流水" onclick="editTxn('${t.code}')" style="cursor:pointer;color:var(--accent);text-decoration:underline">${t.code}</span></td><td>${t.date.slice(5)}</td><td>${t.type}</td><td>${esc(t.category)}</td>
           <td>${a?a.name:'—'}</td><td>${t.project?`<span class="tag proj">${projName(t.project)}</span>`:'<span class="ls">—</span>'}</td>
           <td><span class="tag ${t.tag==='正常'?'normal':t.tag==='应收'?'rec':'pay'}">${t.tag}</span></td>
           <td>${esc(t.note)}</td><td style="text-align:right" class="amount ${t.type==='收入'?'inc':'exp'}">${t.type==='收入'?'+':'-'}${fmt(t.amount)}</td></tr>`}).join("")||'<tr><td colspan="9"><div class="empty">该周期暂无流水</div></td></tr>'}</tbody>
       </table></div>
     </div>
-    <div class="grid-2">
-      <div class="card"><h3>账户 <span class="hint">点击管理</span></h3>${M.accounts.map(a=>`<div class="litem"><div class="lmain"><div class="lt">${a.name}</div><div class="ls">${a.type} · <span class="code">${a.code}</span></div></div><div class="amount">${fmt(a.balance)}</div></div>`).join("")}</div>
-      <div class="card"><h3>收支分类 <span class="hint">可自定义</span></h3>${[...new Set(M.txns.map(t=>t.category))].map(c=>`<div class="litem"><div class="lmain"><div class="lt">${esc(c)}</div></div><span class="tag">${M.txns.find(t=>t.category===c).type}</span></div>`).join("")}<button class="mini-btn mt-s" onclick="toast('设置中可增删改分类')">+ 新增分类</button></div>
+    <div class="card mb">
+      <h3>账户资金总览 <span class="hint">期初可编辑·期末=期初+收支（${moneyFilter}）</span></h3>
+      <div style="overflow-x:auto"><table class="tbl acct-tbl">
+        <thead><tr><th>账户</th><th>期初余额</th><th>收入</th><th>支出</th><th>期末余额</th></tr></thead>
+        <tbody>
+        ${M.accounts.map(a=>{const inc=accountInc(a.code),exp=accountExp(a.code),end=a.opening+inc-exp;return `<tr>
+          <td><div class="pn">${a.name}</div><div class="ls" style="font-size:11px;color:var(--muted)"><span class="code">${a.code}</span> · ${a.type}</div></td>
+          <td><input type="number" value="${a.opening}" oninput="setAccountOpening('${a.code}',this.value)" style="width:96px;padding:6px 8px;border:1px solid var(--line-strong);border-radius:8px;font-size:13px;font-family:inherit"></td>
+          <td class="pos">+${fmt(inc)}</td>
+          <td class="neg">-${fmt(exp)}</td>
+          <td><b id="end-${a.code}">${fmt(end)}</b></td>
+        </tr>`;}).join("")}
+        <tr class="acct-tot">
+          <td><b>合计</b></td>
+          <td id="tot-open"><b>${fmt(M.accounts.reduce((s,a)=>s+a.opening,0))}</b></td>
+          <td id="tot-inc" class="pos"><b>+${fmt(M.accounts.reduce((s,a)=>s+accountInc(a.code),0))}</b></td>
+          <td id="tot-exp" class="neg"><b>-${fmt(M.accounts.reduce((s,a)=>s+accountExp(a.code),0))}</b></td>
+          <td id="tot-end"><b>${fmt(M.accounts.reduce((s,a)=>s+(a.opening+accountInc(a.code)-accountExp(a.code)),0))}</b></td>
+        </tr>
+        </tbody>
+      </table></div>
+    </div>
+    <div class="grid-2 mb">
+      ${catCard("收入","收入分类")}
+      ${catCard("支出","支出分类")}
     </div>`;
   },
 
@@ -691,6 +749,7 @@ const screens={
 
   "#/diary":()=>{
     const e=M.diaries.find(x=>x.code===diarySel)||M.diaries[0];
+    if(!e)return `<div class="card"><div class="empty"><div class="eb">📝</div>暂无日记</div><div style="margin-top:12px"><button class="mini-btn" onclick="setDiarySel('__new__')">＋ 新建一篇</button></div></div>`;
     const cls=["今日小事","收获新知","感恩时刻","优化改进"];
     const ic={今日小事:"📌",收获新知:"💡",感恩时刻:"🙏",优化改进:"🔧"};
     return `
@@ -792,7 +851,7 @@ const screens={
       <button class="mini-btn" style="margin-left:auto" onclick="toast('新增参数类别')">+ 新增类别</button></h3>
       ${Object.entries(M.params).map(([cat,items],idx)=>`<div class="param-group ${idx===0?'open':''}">
         <div class="pg-head" onclick="this.parentElement.classList.toggle('open')">${cat}<span style="margin-left:auto;color:var(--muted);font-weight:500;font-size:11px;margin-right:8px">${items.length} 项</span><span class="caret">›</span></div>
-        <div class="pg-body">${items.map(it=>`<div class="pg-row"><span class="pt">${esc(it)}</span><div class="pd"><button class="iconbtn" onclick="toast('编辑')">✎</button><button class="iconbtn" onclick="toast('删除（被引用时需迁移提示）')">🗑</button></div></div>`).join("")}<button class="mini-btn mt-s" onclick="toast('新增 ${cat} 项')">+ 新增</button></div>
+        <div class="pg-body">${items.map((it,i)=>`<div class="pg-row"><span class="pt">${esc(it)}</span><div class="pd"><button class="iconbtn" onclick="editParam('${cat}',${i})">✎</button><button class="iconbtn" onclick="delParam('${cat}',${i})">🗑</button></div></div>`).join("")}<button class="mini-btn mt-s" onclick="addParam('${cat}')">+ 新增</button></div>
       </div>`).join("")}
     </div>
     <div class="card"><h3>AI 配置 <span class="hint">占位 · 界面完成后接 API</span></h3>
@@ -928,19 +987,27 @@ function setTodoSub(v,el){
 
 /* ============== period ============== */
 function periodTiles(p){
-  const data={日:{收入:0,支出:186,应收:4400,应付:800,可用:M.accounts.reduce((s,a)=>s+a.balance,0)},
-    周:{收入:14800,支出:4106,应收:4400,应付:800,可用:M.accounts.reduce((s,a)=>s+a.balance,0)},
-    月:{收入:16000,支出:4106,应收:4400,应付:800,可用:M.accounts.reduce((s,a)=>s+a.balance,0)},
-    季:{收入:42000,支出:12000,应收:4400,应付:800,可用:M.accounts.reduce((s,a)=>s+a.balance,0)},
-    年:{收入:160000,支出:48000,应收:4400,应付:800,可用:M.accounts.reduce((s,a)=>s+a.balance,0)}}[p];
+  const f=M.txns.filter(t=>inPeriod(t.date,p));
+  const inc=f.filter(t=>t.type==="收入"&&t.tag==="正常").reduce((s,t)=>s+t.amount,0);
+  const exp=f.filter(t=>t.type==="支出"&&t.tag==="正常").reduce((s,t)=>s+t.amount,0);
+  const rec=f.filter(t=>t.tag==="应收").reduce((s,t)=>s+t.amount,0);
+  const pay=f.filter(t=>t.tag==="应付").reduce((s,t)=>s+t.amount,0);
+  const avail=M.accounts.reduce((s,a)=>s+a.balance,0);
+  const data={收入:inc,支出:exp,可用:avail,应收:rec,应付:pay};
   const tiles=[["收入","inc",data.收入],["支出","exp",data.支出],["可用资金","",data.可用],["应收","rec",data.应收],["应付","pay",data.应付]];
   return tiles.map(([k,c,v])=>`<div class="tile ${c}"><div class="k">${k}</div><div class="v">${fmt(v)}</div></div>`).join("");
 }
 function periodSeries(p){
-  const base={日:[[9,18],[12,30],[15,22],[18,26]],周:[380,460,440,500,420,450,480],
-    月:[...Array(24)].map((_,i)=>[i+1,[0,150,310,460,300,450,600,290,440,0,150,300,450,0,150,300,150,300,450,300,150,460,440,450][i]||0]),
-    季:[["4月",12000],["5月",14000],["6月",16000]],年:[["2023",90000],["2024",130000],["2025",160000]]}[p];
-  return base.map(([x,v])=>({x,v}));
+  const ds=dt=>dt.getFullYear()+"-"+String(dt.getMonth()+1).padStart(2,"0")+"-"+String(dt.getDate()).padStart(2,"0");
+  const y=TODAY.getFullYear(),mo=TODAY.getMonth(),d=TODAY.getDate(),q=Math.floor(mo/3);
+  const netDay=dt=>{const s=ds(dt);return M.txns.filter(t=>t.date===s&&t.tag==="正常").reduce((s,t)=>s+(t.type==="收入"?t.amount:-t.amount),0);};
+  const netMon=(yy,mm)=>{const pre=yy+"-"+String(mm+1).padStart(2,"0");return M.txns.filter(t=>t.date.startsWith(pre)&&t.tag==="正常").reduce((s,t)=>s+(t.type==="收入"?t.amount:-t.amount),0);};
+  if(p==="日")return [{x:"今天",v:netDay(TODAY)}];
+  if(p==="周"){const a=[];for(let i=6;i>=0;i--){const dt=new Date(TODAY);dt.setDate(d-i);a.push({x:String(dt.getDate()),v:netDay(dt)});}return a;}
+  if(p==="月"){const a=[];for(let i=1;i<=d;i++)a.push({x:String(i),v:netDay(new Date(y,mo,i))});return a;}
+  if(p==="季"){const a=[];for(let mm=q*3;mm<q*3+3;mm++)a.push({x:(mm+1)+"月",v:netMon(y,mm)});return a;}
+  if(p==="年"){const a=[];for(let mm=0;mm<12;mm++)a.push({x:(mm+1)+"月",v:netMon(y,mm)});return a;}
+  return [];
 }
 function setPeriod(p,el){
   document.querySelectorAll("#periodSeg button").forEach(b=>b.classList.remove("on"));el.classList.add("on");
@@ -962,6 +1029,14 @@ let bizPage={cust:1,order:1,recv:1};
 let bizSize={cust:10,order:10,recv:10};
 let babyPage=1,babySize=10,babyTodayPage=1;
 let _txnProjAll="";
+let _editingTxnCode=null;
+function renderTxnCatOptions(type,selected){
+  const list=type==="收入"?M.params["收入类型"]:M.params["支出类型"];
+  let arr=list.slice();
+  if(selected&&!arr.includes(selected))arr.push(selected);
+  const sel=$("#txCat");if(!sel)return;
+  sel.innerHTML=arr.map(c=>`<option ${c===selected?'selected':''}>${c}</option>`).join("");
+}
 function bizAmtRange(){const mn=bizFilter.amtMin?parseFloat(bizFilter.amtMin):null;const mx=bizFilter.amtMax?parseFloat(bizFilter.amtMax):null;return {mn,mx};}
 function bizFilteredCustomers(){
   let arr=M.customers.slice();
@@ -1107,6 +1182,26 @@ function confirmModal(title,msg,onYes){
   showModal();
   const yes=$("#cfYes");if(yes)yes.onclick=()=>{closeModal();onYes();};
 }
+function promptModal(title,defaultVal,onOk,placeholder){
+  $("#modal").innerHTML=`<h2>${esc(title)}</h2>
+    <div class="field"><input id="pmInput" type="text" value="${esc(defaultVal||"")}" placeholder="${esc(placeholder||"")}" style="width:100%;padding:9px 10px;border:1px solid var(--line-strong);border-radius:10px;font-family:inherit;font-size:14px"></div>
+    <div class="btn-row"><button class="btn btn-ghost" onclick="closeModal()">取消</button><button class="btn btn-primary" id="pmOk">确定</button></div>`;
+  showModal();
+  const inp=$("#pmInput");if(inp)inp.focus();
+  const ok=$("#pmOk");if(ok)ok.onclick=()=>{const v=($("#pmInput").value||"").trim();closeModal();if(v)onOk(v);};
+}
+function editParam(cat,i){
+  const arr=M.params[cat];if(!arr||!arr[i])return;
+  promptModal("编辑「"+cat+"」项",arr[i],(v)=>{arr[i]=v;toast("已更新");if(location.hash==="#/settings")render();});
+}
+function delParam(cat,i){
+  const arr=M.params[cat];if(!arr||!arr[i])return;
+  const val=arr[i];
+  confirmModal("删除「"+cat+"」项",`确认删除：${val}？\n若该项已被交易/账户引用，相关记录将仅保留原文本、不再关联到该选项。`,()=>{arr.splice(i,1);toast("已删除："+val);if(location.hash==="#/settings")render();});
+}
+function addParam(cat){
+  promptModal("新增「"+cat+"」项","",(v)=>{M.params[cat].push(v);toast("已新增："+v);if(location.hash==="#/settings")render();},"输入名称");
+}
 function render(){
   const r=location.hash||"#/home";
   if(!screens[r])location.hash="#/home";
@@ -1127,11 +1222,12 @@ $("#overlay").addEventListener("click",e=>{if(e.target===$("#overlay"))closeModa
 
 function openTxn(opts={}){
   _txnProjAll="";
+  _editingTxnCode=opts.editCode||null;
   $("#modal").innerHTML=`
     <h2>${opts.fromReceived?'登记回款':'记一笔'}${opts.fromReceived?'<span style="font-size:12px;color:var(--muted);font-weight:400;margin-left:8px">选择订单后自动带出项目/客户</span>':''}</h2>
     <div class="field"><label>类型</label><div class="radios" id="txType">${["支出","收入","转账"].map((t,i)=>`<label><input type="radio" name="tt" value="${t}" ${(opts.defaultType===t)||(!opts.defaultType&&i===0)?'checked':''}><span>${t}</span></label>`).join("")}</div></div>
     <div class="field"><label>金额</label><input id="txAmt" type="number" placeholder="0.00" inputmode="decimal"></div>
-    <div class="field" id="catField"><label>分类</label><select id="txCat">${M.params["收支类型"].map(c=>`<option ${opts.defaultType==='收入'&&c==='经营成本回款'?'selected':''}>${c}</option>`).join("")}</select></div>
+    <div class="field" id="catField"><label>分类</label><select id="txCat"></select></div>
     <div class="field"><label>账户</label><select id="txAcc">${M.accounts.map(a=>`<option value="${a.code}">${a.name}</option>`).join("")}</select></div>
     <div class="transfer-fields" id="txTransfer"><div class="field" style="flex:1"><label>转入账户</label><select id="txTo">${M.accounts.map(a=>`<option value="${a.code}">${a.name}</option>`).join("")}</select></div></div>
     <div class="field"><label>关联项目（可选；选择订单后自动带出该订单全部关联项目）</label>
@@ -1170,22 +1266,47 @@ function openTxn(opts={}){
       oEl.innerHTML=`<option value="">不挂钩</option>`+list.map(o=>{const c=M.customers.find(x=>x.code===o.customer);const due=Math.max(0,o.amount-(o.received||0));return `<option value="${o.code}">${o.code} · ${c?c.name:'?'} · ${fmt(o.received||0)}/${fmt(o.amount)}${due>0?' · 待 '+fmt(due):''}</option>`;}).join("");
       if(cur&&list.some(o=>o.code===cur))oEl.value=cur;else if(cur)oEl.value="";
     };
-    $("#txType").addEventListener("change",e=>{const t=e.target.value,isT=t==="转账";$("#catField").style.display=isT?"none":"block";$("#txTransfer").classList.toggle("show",isT);});
+    $("#txType").addEventListener("change",e=>{const t=e.target.value,isT=t==="转账";$("#catField").style.display=isT?"none":"block";$("#txTransfer").classList.toggle("show",isT);renderTxnCatOptions(t);});
     $("#txOrder").addEventListener("change",updProjFromOrder);
     $("#txCust").addEventListener("change",renderTxnOrderOptions);
+    if(_editingTxnCode){
+      const t=M.txns.find(x=>x.code===_editingTxnCode);
+      if(t){
+        const isTransfer=t.category==="转账";
+        const dispType=isTransfer?"转账":t.type;
+        document.querySelectorAll('#txType input[name=tt]').forEach(r=>{r.checked=(r.value===dispType);});
+        $("#txAmt").value=t.amount;
+        $("#txAcc").value=t.from;
+        $("#txProj").value=t.project||"";
+        $("#txOrder").value=t.order||"";
+        $("#txCust").value=t.customer||"";
+        document.querySelectorAll('#txTag input[name=tg]').forEach(r=>{r.checked=(r.value===t.tag);});
+        $("#txNote").value=t.note||"";
+        $("#catField").style.display=isTransfer?"none":"block";
+        $("#txTransfer").classList.toggle("show",isTransfer);
+        renderTxnCatOptions(dispType,isTransfer?"":t.category);
+      }
+    }else{
+      const defType=opts.defaultType||"支出";
+      renderTxnCatOptions(defType,opts.defaultType==='收入'?'经营成本回款':undefined);
+    }
     renderTxnOrderOptions();showModal();
   }
+function editTxn(code){
+  const t=M.txns.find(x=>x.code===code);
+  if(!t){toast("流水不存在");return;}
+  openTxn({editCode:code});
+}
 function saveTxn(){
   const type=document.querySelector('input[name=tt]:checked').value;
   const amt=parseFloat($("#txAmt").value)||0;if(!amt){toast("请输入金额");return;}
   const tag=document.querySelector('input[name=tg]:checked').value;
-  const seq=String(M.txns.length+1).padStart(4,"0");
   const proj=$("#txProj").value;
   const order=$("#txOrder").value;
   const cust=$("#txCust").value;
   // 关联订单时自动同步关联客户/项目（项目取订单全部，确保各项目收支均能取到）
   let finalProj=proj,finalCust=cust;
-  if(order){
+  if(order&&!_editingTxnCode){
     const o=M.orders.find(x=>x.code===order);if(o){
       if(!finalCust)finalCust=o.customer||"";
       if(!finalProj)finalProj=_txnProjAll||o.project||"";
@@ -1196,6 +1317,25 @@ function saveTxn(){
       }
     }
   }
+  if(_editingTxnCode){
+    const t=M.txns.find(x=>x.code===_editingTxnCode);
+    if(t){
+      t.type=type==="转账"?"支出":type;
+      t.amount=amt;
+      t.category=type==="转账"?"转账":$("#txCat").value;
+      t.from=$("#txAcc").value;
+      t.tag=type==="转账"?"正常":tag;
+      t.note=$("#txNote").value||(type==="转账"?"A→B 转账":"");
+      t.project=finalProj;
+      t.order=order;
+      t.customer=finalCust;
+    }
+    _editingTxnCode=null;
+    closeModal();toast("已更新流水");
+    if(["#/money","#/home","#/biz"].includes(location.hash))render();
+    return;
+  }
+  const seq=String(M.txns.length+1).padStart(4,"0");
   M.txns.push({code:"T20260824"+seq,date:"2026-08-24",type:type==="转账"?"支出":type,amount:amt,category:type==="转账"?"转账":$("#txCat").value,from:$("#txAcc").value,tag:type==="转账"?"正常":tag,note:$("#txNote").value||(type==="转账"?"A→B 转账":"")||"",project:finalProj,order,customer:finalCust});
   closeModal();toast("已保存 · "+type+" "+fmt(amt)+(order?` · 订单 ${order} 已自动收款`:""));
   if(["#/money","#/home","#/biz"].includes(location.hash))render();
@@ -1539,10 +1679,11 @@ function delProduct(code){
 }
 /* 清空全部业务示例数据（保留账户/参数/产品等配置项） */
 function delAllDemo(){
-  confirmModal("删除全部示例数据","确认清空全部业务示例数据？\n\n将清空：客户、订单、回款流水、项目、带娃记录、待办、日记、灵感。\n保留：账户、全局参数、产品清单。\n\n此操作不可撤销。",()=>{
+  confirmModal("删除全部示例数据","确认清空全部业务示例数据？\n\n将清空：客户、订单、回款流水、项目、带娃记录、待办、日记、灵感，以及所有账户余额（含期初余额）。\n保留：账户列表、全局参数、产品清单。\n\n此操作不可撤销。",()=>{
     M.customers=[];M.orders=[];M.txns=[];M.projects=[];M.baby=[];M.todos=[];M.diaries=[];M.ideas=[];
+    M.accounts.forEach(a=>{a.balance=0;a.opening=0;});
     diarySel="";babyPage=1;babyTodayPage=1;
-    toast("已清空全部示例数据");if(["#/settings","#/baby","#/biz"].includes(location.hash))render();
+    toast("已清空全部示例数据");updateTodoBadge();render();
   });
 }
 
