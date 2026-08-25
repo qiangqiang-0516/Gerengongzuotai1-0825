@@ -1,0 +1,1573 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>一人公司工作台 · 界面原型</title>
+<style>
+/* finesse · register=product · A=blue-gray business · B=400/700 · C=sidebar-shell
+ * D=css-only · E=excel-clean · SOUL=6 SPECTACLE=2 DENSITY=7 */
+:root{
+  --bg:#eef1f6;
+  --surface:#fbfcfe;
+  --surface-2:#f3f6fb;
+  --ink:#1f2733;
+  --ink-soft:#5b6675;
+  --muted:#8a93a3;
+  --line:rgba(31,39,51,.09);
+  --line-strong:rgba(31,39,51,.16);
+  --accent:#2f6fed;
+  --accent-soft:#e7effe;
+  --accent-deep:#1e4fb0;
+  --income:#1f9d6b;
+  --expense:#e0494b;
+  --receivable:#e0913a;
+  --payable:#8a6fd1;
+  --ok:#1f9d6b;
+  --warn:#e0494b;
+  --shadow:0 1px 2px rgba(31,39,51,.05),0 6px 20px rgba(31,39,51,.06);
+  --radius:14px;
+  --nav-w:218px;
+  --tab-h:60px;
+  --font:"Microsoft YaHei","PingFang SC","Segoe UI",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{overflow-x:clip}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--accent-soft)}
+
+.app{display:flex;min-height:100vh;min-height:100dvh}
+.sidebar{width:var(--nav-w);flex:0 0 var(--nav-w);background:linear-gradient(180deg,#f7f9fc,#eef2f8);
+  border-right:1px solid var(--line);padding:18px 12px;position:sticky;top:0;height:100vh;height:100dvh;
+  display:flex;flex-direction:column;gap:4px}
+.brand{display:flex;align-items:center;gap:10px;padding:6px 10px 16px}
+.brand .logo{width:34px;height:34px;border-radius:9px;background:var(--accent);display:grid;place-items:center;color:#fff;font-weight:700;font-size:16px;box-shadow:0 4px 10px rgba(47,111,237,.35)}
+.brand .name{font-weight:700;font-size:15px;letter-spacing:.3px}
+.brand .sub{font-size:11px;color:var(--muted)}
+.nav-group{font-size:11px;color:var(--muted);padding:10px 12px 4px;letter-spacing:.5px}
+.nav-item{display:flex;align-items:center;gap:11px;padding:9px 12px;border-radius:10px;color:var(--ink-soft);font-weight:500;transition:.15s;position:relative}
+.nav-item .ico{width:20px;height:20px;flex:0 0 20px;opacity:.85}
+.nav-item .badge{margin-left:auto;background:var(--expense);color:#fff;font-size:10px;min-width:18px;height:18px;border-radius:9px;display:grid;place-items:center;padding:0 5px}
+.nav-item:hover{background:rgba(47,111,237,.06);color:var(--ink)}
+.nav-item.active{background:var(--accent-soft);color:var(--accent-deep);font-weight:700}
+.nav-item.active::before{content:"";position:absolute;left:0;top:8px;bottom:8px;width:3px;border-radius:3px;background:var(--accent)}
+.side-foot{margin-top:auto;font-size:11px;color:var(--muted);padding:10px 12px;border-top:1px solid var(--line);display:flex;align-items:center;gap:8px}
+.sync-dot{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px rgba(31,157,107,.18)}
+
+.content{flex:1;min-width:0;display:flex;flex-direction:column}
+.topbar{height:56px;display:flex;align-items:center;gap:12px;padding:0 22px;border-bottom:1px solid var(--line);background:rgba(251,252,254,.8);backdrop-filter:blur(6px);position:sticky;top:0;z-index:20}
+.topbar .page-title{font-weight:700;font-size:16px}
+.topbar .crumb{font-size:12px;color:var(--muted)}
+.topbar .spacer{flex:1}
+.avatar{width:32px;height:32px;border-radius:50%;background:var(--accent-soft);display:grid;place-items:center;color:var(--accent-deep);font-weight:700;font-size:13px}
+.scroll{padding:20px 22px 40px;max-width:1180px;width:100%;margin:0 auto}
+.tabbar{display:none}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px 18px}
+.card h3{font-size:13px;font-weight:700;color:var(--ink-soft);margin-bottom:12px;display:flex;align-items:center;gap:8px;letter-spacing:.3px}
+.card h3 .hint{font-weight:400;color:var(--muted);font-size:11px;margin-left:auto}
+.row{display:flex;gap:14px;flex-wrap:wrap}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.grid-5{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.mt{margin-top:14px}.mt-s{margin-top:8px}.mb{margin-bottom:14px}
+.section-title{font-size:14px;font-weight:700;margin:22px 0 10px;display:flex;align-items:center;gap:8px}
+.section-title .bar{width:4px;height:15px;border-radius:3px;background:var(--accent)}
+
+.quick{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.qbtn{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px 10px;display:flex;flex-direction:column;align-items:center;gap:9px;box-shadow:var(--shadow);transition:.15s}
+.qbtn:hover{transform:translateY(-2px);border-color:var(--accent);box-shadow:0 8px 22px rgba(47,111,237,.14)}
+.qbtn .qi{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent);font-size:20px}
+.qbtn .ql{font-size:13px;font-weight:600;color:var(--ink)}
+
+.hook{background:linear-gradient(120deg,#1e2c44,#2f6fed);border-radius:var(--radius);padding:16px 18px;color:#eaf1ff;box-shadow:var(--shadow);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.hook .chip{display:flex;flex-direction:column;padding:2px 16px;border-right:1px solid rgba(255,255,255,.14)}
+.hook .chip:last-child{border-right:none}
+.hook .chip .v{font-size:19px;font-weight:700;letter-spacing:.3px}
+.hook .chip .v small{font-size:12px;font-weight:500;opacity:.85}
+.hook .chip .k{font-size:11px;opacity:.8;margin-top:2px}
+.hook .chip.alert .v{color:#ffd479}
+.hook .chip.alert .v::after{content:" ⚠";font-size:12px}
+
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 15px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.tile .k{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.tile .v{font-size:22px;font-weight:700;margin-top:6px;letter-spacing:.3px}
+.tile .v .u{font-size:13px;font-weight:500;color:var(--ink-soft);margin-right:1px}
+.tile .dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.tile.inc .v{color:var(--income)} .tile.exp .v{color:var(--expense)}
+.tile.rec .v{color:var(--receivable)} .tile.pay .v{color:var(--payable)}
+.tile .sub{font-size:11px;color:var(--muted);margin-top:3px}
+
+.seg{display:inline-flex;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:3px;gap:2px}
+.seg button{padding:6px 14px;border-radius:8px;font-size:13px;color:var(--ink-soft);font-weight:600}
+.seg button.on{background:var(--surface);color:var(--accent-deep);box-shadow:var(--shadow)}
+
+.list{display:flex;flex-direction:column}
+.litem{display:flex;align-items:center;gap:12px;padding:11px 4px;border-bottom:1px solid var(--line)}
+.litem:last-child{border-bottom:none}
+.litem .lmain{flex:1;min-width:0}
+.litem .lt{font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.litem .ls{font-size:11px;color:var(--muted);margin-top:2px}
+.tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:20px;font-weight:600;background:var(--surface-2);color:var(--ink-soft);border:1px solid var(--line)}
+.tag.normal{background:#eef3ee;color:var(--income);border-color:#d6e8dc}
+.tag.rec{background:#fbf0df;color:var(--receivable);border-color:#f0dcb8}
+.tag.pay{background:#efeafb;color:var(--payable);border-color:#dcd2f2}
+.tag.defer{background:#fde9e9;color:var(--expense);border-color:#f3cccc}
+.tag.proj{background:var(--accent-soft);color:var(--accent-deep);border-color:#cfe0fd}
+.tag.link{background:#eef3fb;color:#3a6fd0;border-color:#d3e0f6}
+.amount{font-weight:700;font-size:14px;font-variant-numeric:tabular-nums}
+.amount.inc{color:var(--income)} .amount.exp{color:var(--expense)}
+.mini-btn{font-size:12px;font-weight:600;color:var(--accent);padding:5px 10px;border-radius:8px;background:var(--accent-soft)}
+.mini-btn:hover{background:#d8e6fe}
+.clickable{color:var(--accent-deep);font-weight:700;cursor:pointer}
+.clickable:hover{text-decoration:underline}
+
+.milk-sum{font-size:30px;font-weight:800;color:var(--accent)}
+.milk-sum small{font-size:14px;color:var(--muted);font-weight:500;margin-left:4px}
+
+.barchart{display:flex;align-items:flex-end;gap:8px;height:160px;padding:8px 2px 0}
+.barchart .bc{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0}
+.barchart .barwrap{flex:1;width:100%;display:flex;align-items:flex-end;justify-content:center}
+.barchart .bar{width:min(70%,34px);border-radius:6px 6px 0 0;background:linear-gradient(180deg,#5b8ff7,#2f6fed);position:relative;transition:height .6s cubic-bezier(.2,.7,.3,1)}
+.barchart .bar small{position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:11px;font-weight:700;color:var(--ink-soft);white-space:nowrap}
+.barchart .xlab{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+
+/* donut */
+.donut{width:120px;height:120px;border-radius:50%;position:relative;flex:0 0 120px}
+.donut .hole{position:absolute;inset:30px;background:var(--surface);border-radius:50%;display:grid;place-items:center;text-align:center}
+.donut .hole .hv{font-size:15px;font-weight:700}
+.donut .hole .hl{font-size:10px;color:var(--muted)}
+.donut-wrap{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.donut-legend{flex:1;min-width:170px}
+.donut-legend .dl{display:flex;align-items:center;gap:8px;padding:5px 0;font-size:12px}
+.donut-legend .dl .sw{width:10px;height:10px;border-radius:3px;flex:0 0 10px}
+.donut-legend .dl .nm{flex:1;color:var(--ink-soft)}
+.donut-legend .dl .am{font-weight:700}
+.donut-legend .dl .pc{color:var(--muted);width:46px;text-align:right;font-variant-numeric:tabular-nums}
+
+.proj-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.proj-col{background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:12px}
+.proj-col .col-h{font-weight:700;font-size:12px;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.proj-card{border:1px solid var(--line);border-radius:10px;padding:11px 12px;background:var(--surface);box-shadow:var(--shadow);margin-bottom:10px;transition:.15s}
+.proj-card:hover{border-color:var(--accent)}
+.proj-card .pn{font-weight:700;font-size:14px;display:flex;align-items:center;gap:8px}
+.status-pill{font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px}
+.st-plan{background:#eef3fb;color:#3a6fd0} .st-doing{background:#e9f7ef;color:var(--income)} .st-done{background:#f1f1f3;color:var(--muted)}
+.proj-card .stats{display:flex;gap:14px;margin-top:8px}
+.proj-card .stats div .n{font-size:15px;font-weight:700}
+.proj-card .stats div .l{font-size:11px;color:var(--muted)}
+
+.order-card{border:1px solid var(--line);border-radius:11px;padding:11px 13px;background:var(--surface);box-shadow:var(--shadow);margin-bottom:10px}
+.order-card .ot{font-weight:700;font-size:13px;display:flex;align-items:center;gap:8px}
+.order-card .om{font-size:11px;color:var(--muted);margin-top:3px}
+
+/* project finance table */
+.pf-tbl{width:100%;border-collapse:collapse;font-size:12.5px}
+.pf-tbl th{text-align:right;font-size:11px;color:var(--muted);font-weight:600;padding:9px 8px;border-bottom:1px solid var(--line-strong);white-space:nowrap}
+.pf-tbl th:first-child{text-align:left}
+.pf-tbl td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.pf-tbl td:first-child{text-align:left}
+.pf-tbl tr:hover td{background:var(--surface-2)}
+.pf-tbl .pn{font-weight:700;font-size:13px}
+.pf-tbl .pos{color:var(--income)} .pf-tbl .neg{color:var(--expense)}
+.pf-cell{display:inline-block;min-width:64px}
+
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{text-align:left;font-size:11px;color:var(--muted);font-weight:600;padding:8px 10px;border-bottom:1px solid var(--line-strong);white-space:nowrap}
+.tbl td{padding:9px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+.tbl tr:hover td{background:var(--surface-2)}
+.code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11px;color:var(--ink-soft);background:var(--surface-2);padding:1px 6px;border-radius:5px}
+
+.param-group{border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:12px}
+.param-group .pg-head{display:flex;align-items:center;padding:11px 14px;background:var(--surface-2);font-weight:700;font-size:13px;cursor:pointer;user-select:none}
+.param-group .pg-head .caret{margin-left:auto;transition:.2s;color:var(--muted)}
+.param-group.open .pg-head .caret{transform:rotate(90deg)}
+.param-group .pg-body{padding:6px 14px;display:none}
+.param-group.open .pg-body{display:block}
+.pg-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}
+.pg-row:last-child{border-bottom:none}
+.pg-row .pt{font-weight:500}
+.pg-row .pd{margin-left:auto;display:flex;gap:8px}
+.iconbtn{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;color:var(--ink-soft);background:var(--surface-2)}
+.iconbtn:hover{background:var(--accent-soft);color:var(--accent)}
+
+.overlay{position:fixed;inset:0;background:rgba(20,28,40,.42);backdrop-filter:blur(2px);display:none;align-items:flex-end;justify-content:center;z-index:50;padding:0}
+.overlay.show{display:flex}
+.modal{background:var(--surface);width:100%;max-width:480px;border-radius:18px 18px 0 0;padding:20px 20px 26px;box-shadow:0 -10px 40px rgba(0,0,0,.2);max-height:92vh;overflow:auto}
+@media(min-width:560px){.overlay{align-items:center}.modal{border-radius:18px}}
+.modal h2{font-size:17px;font-weight:700;margin-bottom:16px}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:12px;color:var(--ink-soft);font-weight:600;margin-bottom:6px}
+.field input,.field select,.field textarea{width:100%;padding:10px 12px;border:1px solid var(--line-strong);border-radius:10px;font-family:inherit;font-size:14px;background:var(--surface);color:var(--ink)}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.field .ro{background:var(--surface-2);padding:10px 12px;border-radius:10px;font-size:13px;color:var(--ink-soft)}
+.field .est{margin-top:6px;font-size:12px;font-weight:700;color:var(--accent-deep)}
+.radios{display:flex;gap:8px;flex-wrap:wrap}
+.radios label{flex:1;min-width:64px;text-align:center;padding:9px;border:1px solid var(--line-strong);border-radius:10px;font-size:13px;font-weight:600;color:var(--ink-soft);cursor:pointer}
+.radios input{display:none}
+.radios label:has(input:checked){border-color:var(--accent);background:var(--accent-soft);color:var(--accent-deep)}
+.btn{padding:11px 18px;border-radius:11px;font-weight:700;font-size:14px;transition:.15s}
+.btn-primary{background:var(--accent);color:#fff;box-shadow:0 6px 16px rgba(47,111,237,.3)}
+.btn-primary:hover{background:var(--accent-deep)}
+.btn-ghost{background:var(--surface-2);color:var(--ink-soft)}
+.btn-ghost:hover{background:#e7ebf2}
+.btn-row{display:flex;gap:10px;margin-top:6px}
+.btn-row .btn{flex:1}
+.transfer-fields{display:none;gap:10px;margin-bottom:14px}
+.transfer-fields.show{display:flex}
+
+.oi-h{font-size:11px;color:var(--muted);font-weight:600}
+.todo-topseg{display:flex;width:100%;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:3px;gap:2px;margin-bottom:14px}
+.todo-topseg button{flex:1;padding:11px 0;border-radius:8px;font-size:14px;font-weight:600;color:var(--ink-soft);text-align:center}
+.todo-topseg button.on{background:var(--surface);color:var(--accent-deep);box-shadow:var(--shadow)}
+
+.prod-cell{white-space:normal;line-height:1.45;vertical-align:top;max-width:220px;min-width:180px}
+.prod-line{display:grid;grid-template-columns:1fr auto auto auto;gap:6px;align-items:baseline;padding:3px 0;border-bottom:1px dashed var(--line)}
+.prod-line:last-child{border-bottom:none}
+.pn-q{font-weight:600;color:var(--ink)}
+.pn-x{color:var(--muted);font-size:11px}
+.pn-d{color:var(--receivable);font-size:11px;font-weight:600}
+.pn-amount{font-weight:700;color:var(--accent-deep);white-space:nowrap;font-size:12px}
+.proj-cell{white-space:normal;line-height:1.5;vertical-align:top;max-width:220px;min-width:160px}
+.proj-cell .proj-line{display:block;padding:2px 0}
+.op-col{text-align:right;white-space:nowrap}
+.op-col .iconbtn{margin-left:4px}
+.proj-auto{display:flex;flex-wrap:wrap;gap:6px;padding:4px 0;min-height:24px}
+
+.diary-top{display:flex;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.grid-4{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.qcard{background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:12px;min-height:92px}
+.qcard .qh{font-size:13px;font-weight:700;color:var(--accent-deep);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.qcard .qi{font-size:12px;color:var(--ink-soft);line-height:1.6;padding-left:2px}
+.qcard .qempty{font-size:12px;color:var(--muted)}
+.dsearch-box{margin-bottom:14px}
+
+.todo-tabs{display:inline-flex;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:3px;gap:2px;margin-bottom:6px}
+.todo-tabs button{padding:6px 16px;border-radius:8px;font-size:13px;font-weight:600;color:var(--ink-soft)}
+.todo-tabs button.on{background:var(--surface);color:var(--accent-deep);box-shadow:var(--shadow)}
+
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:11px 18px;border-radius:12px;font-size:13px;font-weight:600;opacity:0;pointer-events:none;transition:.25s;z-index:90;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+.empty{padding:30px 10px;text-align:center;color:var(--muted);font-size:13px}
+.empty .eb{font-size:30px;margin-bottom:8px;opacity:.5}
+
+/* todo 3-column layout */
+.todo-layout{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:14px;align-items:start}
+.todo-quick{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.todo-quick input[type=text]{flex:1;min-width:160px}
+.todo-quick input[type=date]{width:140px}
+.todo-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
+.todo-stats .s{background:var(--surface-2);border-radius:10px;padding:10px;text-align:center}
+.todo-stats .s .n{font-size:20px;font-weight:800}
+.todo-stats .s .l{font-size:11px;color:var(--muted);margin-top:2px}
+.timeline-item{display:flex;gap:10px;padding:10px 4px;border-bottom:1px solid var(--line)}
+.timeline-item .tm{font-size:11px;color:var(--muted);font-weight:700;width:46px;flex:0 0 46px}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cal-grid .wd{font-size:11px;color:var(--muted);text-align:center;padding:4px 0;font-weight:600}
+.cal-cell{border:1px solid var(--line);border-radius:8px;min-height:74px;padding:4px;background:var(--surface);font-size:10px}
+.cal-cell.empty{background:transparent;border:none}
+.cal-cell.today{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
+.cal-cell .cd{font-weight:700;font-size:11px;color:var(--ink-soft);margin-bottom:3px}
+.cal-dot{background:var(--accent-soft);color:var(--accent-deep);border-radius:5px;padding:2px 4px;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cal-dot.done{background:var(--surface-2);color:var(--muted);text-decoration:line-through}
+
+.cust-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.cust-head .av{width:44px;height:44px;border-radius:12px;background:var(--accent-soft);color:var(--accent-deep);display:grid;place-items:center;font-size:20px;font-weight:700}
+.kv{display:grid;grid-template-columns:repeat(2,1fr);gap:8px 18px}
+.kv .kv-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--line);font-size:13px}
+.kv .kv-row .k{color:var(--muted)} .kv .kv-row .v{font-weight:600}
+
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}.barchart .bar{transition:none}}
+
+@media(max-width:980px){.todo-layout{grid-template-columns:1fr}.todo-stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:820px){
+  .sidebar{display:none}.content{min-width:0}.topbar{padding:0 16px}.scroll{padding:14px 14px 90px}
+  .quick{grid-template-columns:repeat(5,1fr);gap:8px}.qbtn{padding:12px 4px;border-radius:12px}.qbtn .qi{width:34px;height:34px;font-size:17px}.qbtn .ql{font-size:11px}
+  .grid-2,.grid-3,.grid-4,.grid-5,.proj-cols{grid-template-columns:1fr}
+  .baby-2col{grid-template-columns:1fr!important}
+  .pf-tbl{font-size:11px}.pf-tbl .pf-cell{min-width:50px}
+  .kv{grid-template-columns:1fr}
+  .hook .chip{padding:2px 10px;flex:1 1 40%}
+  .tabbar{display:flex;position:fixed;left:0;right:0;bottom:0;height:var(--tab-h);background:rgba(251,252,254,.94);backdrop-filter:blur(10px);border-top:1px solid var(--line);z-index:40;padding-bottom:env(safe-area-inset-bottom)}
+  .tabbar a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--muted);font-size:10px;font-weight:600;position:relative}
+  .tabbar a .ti{font-size:19px}.tabbar a.active{color:var(--accent)}
+  .tabbar a .badge{position:absolute;top:6px;right:50%;margin-right:-18px;background:var(--expense);color:#fff;font-size:9px;min-width:15px;height:15px;border-radius:8px;display:grid;place-items:center;padding:0 4px}
+}
+
+/* 经营模块：操作列横向、搜索、分页 */
+.op-actions{display:inline-flex;gap:6px;justify-content:flex-end}
+.op-actions .iconbtn{margin-left:0}
+.search-mod .search-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media(max-width:820px){.search-mod .search-grid{grid-template-columns:1fr 1fr}}
+.tbl-wrap{overflow-x:auto}
+.biz-tbl.tbl-fixed{table-layout:fixed}
+.biz-tbl.tbl-fixed td{vertical-align:top;overflow:hidden}
+.biz-tbl.tbl-fixed .ellipsis{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pager{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:12px;padding-top:10px;border-top:1px solid var(--line)}
+.pg-info{font-size:12px;color:var(--muted)}
+.pg-btns{display:flex;gap:4px}
+.pg{min-width:30px;height:30px;padding:0 8px;border:1px solid var(--line-strong);background:var(--surface);border-radius:8px;font-size:13px;font-weight:600;color:var(--ink-soft);cursor:pointer}
+.pg.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.pg:disabled{opacity:.4;cursor:default}
+.pg-ell{padding:0 4px;color:var(--muted)}
+.pg-size{margin-left:auto;padding:7px 8px;border:1px solid var(--line-strong);border-radius:8px;font-size:13px;background:var(--surface)}
+.btn-danger{background:#e5484d;color:#fff}
+.btn-danger:hover{background:#c93b3b}
+.cf-msg{font-size:13px;line-height:1.7;color:var(--ink-soft);margin-bottom:18px;white-space:normal}
+/* 订单卡片列表（经营模块，无横向拖拽） */
+.ord-list{display:flex;flex-direction:column;gap:10px}
+.ord-card{border:1px solid var(--line-strong);border-radius:12px;padding:12px 14px;background:var(--surface)}
+.ord-h{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.ord-h .code{font-size:13px}
+.ord-rows{display:flex;flex-direction:column;gap:5px;margin:4px 0}
+.ord-row{display:flex;gap:10px;align-items:flex-start}
+.ord-row .k{flex:0 0 52px;color:var(--muted);font-size:12px;font-weight:600;padding-top:1px}
+.ord-row .v{flex:1;min-width:0;font-size:13px}
+.ord-foot{display:flex;align-items:baseline;gap:12px;margin-top:8px;padding-top:8px;border-top:1px dashed var(--line)}
+.ord-foot .amount{font-size:15px}
+@media(max-width:900px){
+  .biz-tbl thead{display:none}
+  .biz-tbl,.biz-tbl tbody,.biz-tbl tr{display:block;width:100%}
+  .biz-tbl tr{border:1px solid var(--line-strong);border-radius:12px;margin-bottom:10px;padding:6px 4px;background:var(--surface)}
+  .biz-tbl td{display:flex;justify-content:space-between;gap:12px;border:none;padding:6px 10px;white-space:normal;text-align:left!important;width:100%}
+  .biz-tbl td[data-label]::before{content:attr(data-label);font-weight:700;color:var(--muted);font-size:12px}
+  .biz-tbl td.op-col{justify-content:flex-end}
+  .biz-tbl td.proj-cell,.biz-tbl td.prod-cell{max-width:none}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand"><div class="logo">壹</div><div><div class="name">一人公司</div><div class="sub">经营+生活工作台</div></div></div>
+    <div class="nav-group">每日</div>
+    <a class="nav-item active" data-route="#/home" href="#/home"><span class="ico">🏠</span>首页</a>
+    <a class="nav-item" data-route="#/money" href="#/money"><span class="ico">💰</span>资金</a>
+    <a class="nav-item" data-route="#/biz" href="#/biz"><span class="ico">📊</span>经营</a>
+    <a class="nav-item" data-route="#/baby" href="#/baby"><span class="ico">🍼</span>带娃</a>
+    <div class="nav-group">记录·执行</div>
+    <a class="nav-item" data-route="#/diary" href="#/diary"><span class="ico">📝</span>日记</a>
+    <a class="nav-item" data-route="#/idea" href="#/idea"><span class="ico">💡</span>灵感</a>
+    <a class="nav-item" data-route="#/todo" href="#/todo"><span class="ico">✅</span>待办<span class="badge" id="nav-todo">5</span></a>
+    <a class="nav-item" data-route="#/review" href="#/review"><span class="ico">📈</span>复盘</a>
+    <a class="nav-item" data-route="#/settings" href="#/settings"><span class="ico">⚙️</span>设置</a>
+    <div class="side-foot"><span class="sync-dot"></span>实时同步 · 已连接</div>
+  </aside>
+
+  <main class="content">
+    <div class="topbar">
+      <div><div class="page-title" id="pageTitle">首页</div><div class="crumb" id="crumb">今天 · 2026-08-24</div></div>
+      <div class="spacer"></div><div class="avatar">壹</div>
+    </div>
+    <div class="scroll" id="view"></div>
+  </main>
+</div>
+
+<nav class="tabbar">
+  <a data-route="#/home" href="#/home"><span class="ti">🏠</span>首页</a>
+  <a data-route="#/money" href="#/money"><span class="ti">💰</span>资金</a>
+  <a data-route="#/biz" href="#/biz"><span class="ti">📊</span>经营</a>
+  <a data-route="#/baby" href="#/baby"><span class="ti">🍼</span>带娃</a>
+  <a data-route="#/todo" href="#/todo"><span class="ti">✅</span>待办<span class="badge" id="tab-todo">5</span></a>
+</nav>
+
+<div class="overlay" id="overlay"><div class="modal" id="modal"></div></div>
+<div class="toast" id="toast"></div>
+<input type="file" id="importFile" accept="application/json" style="display:none">
+
+<script>
+/* ============== Mock data ============== */
+const TODAY=new Date("2026-08-24");
+const M = {
+  accounts:[
+    {code:"A0001",name:"招商银行卡",type:"银行卡",balance:8420},
+    {code:"A0002",name:"微信钱包",type:"微信",balance:2310},
+    {code:"A0003",name:"支付宝",type:"支付宝",balance:1700},
+    {code:"A0004",name:"现金",type:"现金",balance:0}
+  ],
+  txns:[
+    {code:"T202608240001",date:"2026-08-24",type:"支出",amount:38,category:"生活开销",from:"A0002",tag:"正常",note:"午饭",project:""},
+    {code:"T202608240002",date:"2026-08-24",type:"支出",amount:148,category:"生活开销",from:"A0001",tag:"正常",note:"超市采购",project:""},
+    {code:"T202608240003",date:"2026-08-24",type:"收入",amount:3200,category:"经营成本回款",from:"A0001",tag:"应收",note:"客户A尾款",project:"P0001",customer:"K0001",order:"D202608240001"},
+    {code:"T202608230001",date:"2026-08-23",type:"收入",amount:9800,category:"工资收入",from:"A0001",tag:"正常",note:"月薪",project:""},
+    {code:"T202608230002",date:"2026-08-23",type:"支出",amount:2600,category:"经营成本",from:"A0001",tag:"正常",note:"服务器+域名",project:"P0001"},
+    {code:"T202608220001",date:"2026-08-22",type:"支出",amount:520,category:"生活开销",from:"A0002",tag:"正常",note:"聚餐",project:""},
+    {code:"T202608210001",date:"2026-08-21",type:"收入",amount:1500,category:"投资收入",from:"A0003",tag:"正常",note:"基金分红",project:""},
+    {code:"T202608200001",date:"2026-08-20",type:"支出",amount:800,category:"经营成本",from:"A0001",tag:"应付",note:"外包设计",project:"P0003"}
+  ],
+  customers:[
+    {code:"K0001",name:"陈先生",contact:"138****0001",source:"转介绍",type:"个人",id_card:"440305199003071234",age:36,gender:"男",birthday:"1990-03-07",region:"广东省深圳市南山区",累计成交:3200,应收:3200,上次成交:"2026-08-24",间隔:0,频次:1,projects:["P0001"]},
+    {code:"K0002",name:"云图科技",contact:"021-6688****",source:"线上",type:"企业",id_card:"310115200011223344",age:26,gender:"男",birthday:"2000-11-22",region:"上海市浦东新区",累计成交:12800,应收:0,上次成交:"2026-08-15",间隔:9,频次:3,projects:["P0002","P0003"]},
+    {code:"K0003",name:"林女士",contact:"139****6688",source:"线下",type:"个人",id_card:"330106198807159876",age:38,gender:"女",birthday:"1988-07-15",region:"浙江省杭州市西湖区",累计成交:4500,应收:1200,上次成交:"2026-08-18",间隔:6,频次:2,projects:["P0003"]},
+    {code:"K0004",name:"宏达贸易",contact:"—",source:"代理",type:"企业",id_card:"",累计成交:0,应收:0,上次成交:"—",间隔:0,频次:0,projects:[]}
+  ],
+  projects:[
+    {code:"P0001",name:"官网改版",status:"进行",desc:"公司官网视觉+内容重构",progress:60},
+    {code:"P0002",name:"私域运营咨询",status:"规划",desc:"为云图科技搭建私域体系",progress:10},
+    {code:"P0003",name:"年度品牌设计",status:"结束",desc:"2025 全年品牌物料",progress:100}
+  ],
+  orders:[
+    {code:"D202608240001",customer:"K0001",project:"P0001",products:"官网改版第三期",items:[{name:"官网改版第三期",qty:1,disc:100,sub:3200}],amount:3200,received:3200,date:"2026-08-24"},
+    {code:"D202608220002",customer:"K0002",project:"P0002,P0003",products:"私域咨询首期；品牌设计季度包",items:[{name:"私域咨询首期",qty:1,disc:100,sub:6000},{name:"品牌设计季度包",qty:2,disc:90,sub:12240}],amount:18240,received:8000,date:"2026-08-22"},
+    {code:"D202608150001",customer:"K0002",project:"P0003",products:"品牌设计季度包",items:[{name:"品牌设计季度包",qty:1,disc:100,sub:6800}],amount:6800,received:6800,date:"2026-08-15"},
+    {code:"D202608100001",customer:"K0003",project:"P0003",products:"物料印刷",items:[{name:"物料印刷",qty:1,disc:100,sub:1200}],amount:1200,received:0,date:"2026-08-10"},
+    {code:"D202608010001",customer:"K0002",project:"P0002",products:"私域咨询首期",items:[{name:"私域咨询首期",qty:1,disc:100,sub:6000}],amount:6000,received:6000,date:"2026-08-01"}
+  ],
+  products:[
+    {code:"PR0001",name:"官网改版第三期",price:3200,project:"P0001"},
+    {code:"PR0002",name:"品牌设计季度包",price:6800,project:"P0003"},
+    {code:"PR0003",name:"私域咨询首期",price:6000,project:"P0002"},
+    {code:"PR0004",name:"物料印刷",price:400,project:"P0003"}
+  ],
+  baby:[
+    {code:"B20260824001",type:"泡奶",time:"09:00",volume:150,date:"2026-08-24"},
+    {code:"B20260824002",type:"拉臭臭",time:"10:30",volume:0,note:"金黄色，正常",date:"2026-08-24"},
+    {code:"B20260824003",type:"泡奶",time:"13:00",volume:160,date:"2026-08-24"},
+    {code:"B20260824004",type:"泡奶",time:"16:30",volume:140,date:"2026-08-24"},
+    {code:"B20260823001",type:"泡奶",time:"08:30",volume:150,date:"2026-08-23"},
+    {code:"B20260823002",type:"泡奶",time:"12:00",volume:160,date:"2026-08-23"},
+    {code:"B20260823003",type:"泡奶",time:"19:00",volume:150,date:"2026-08-23"},
+    {code:"B20260822001",type:"泡奶",time:"09:30",volume:140,date:"2026-08-22"},
+    {code:"B20260822002",type:"泡奶",time:"15:00",volume:150,date:"2026-08-22"}
+  ],
+  todos:[
+    {code:"TD0001",title:"给陈先生发尾款确认函",remind:"09:30",repeat:"无",done:false,created:"2026-08-24",due:"2026-08-24"},
+    {code:"TD0002",title:"官网改版第三版评审",remind:"14:00",repeat:"无",done:false,created:"2026-08-24",due:"2026-08-24"},
+    {code:"TD0003",title:"整理本月经营账单",remind:"20:00",repeat:"每月",done:false,created:"2026-08-21",due:"2026-08-25"},
+    {code:"TD0004",title:"回复云图科技报价",remind:"—",repeat:"无",done:false,created:"2026-08-23",due:"2026-08-24"},
+    {code:"TD0005",title:"买宝宝辅食",remind:"—",repeat:"无",done:true,created:"2026-08-20",due:"2026-08-20"},
+    {code:"TD0006",title:"读完《纳瓦尔宝典》第三章",remind:"—",repeat:"无",done:false,created:"2026-08-20",due:"2026-08-26"}
+  ],
+  diaries:[
+    {code:"R20260824",date:"2026-08-24",title:"推进官网改版与尾款、聊私域思路",raw:"今天推进了官网改版评审，和陈先生确认了尾款。中午和同事聚餐聊到私域运营的新思路，很有收获。感恩家人今天帮忙带娃，让我能专注工作。明天可以把咨询方案再优化一下结构。",
+      summary:{今日小事:["推进官网改版评审，与陈先生确认尾款"],收获新知:["聚餐聊到私域运营新思路"],感恩时刻:["家人帮忙带娃，得以专注工作"],优化改进:["咨询方案可再优化结构"]}},
+    {code:"R20260820",date:"2026-08-20",title:"云图私域初稿、用户分层方法",raw:"上午处理了云图科技的私域方案初稿。学到了不少关于用户分层的方法。感谢同事帮忙校对。后续可以把模板再优化。",
+      summary:{今日小事:["处理云图科技私域方案初稿"],收获新知:["学到用户分层方法"],感恩时刻:["同事帮忙校对"],优化改进:["模板可再优化"]}},
+    {code:"R20260715",date:"2026-07-15",title:"月度复盘、现金流新认识",raw:"月度复盘完成。收获了对现金流的新认识。感恩团队配合。可以提前规划下月预算。",
+      summary:{今日小事:["月度复盘完成"],收获新知:["对现金流的新认识"],感恩时刻:["团队配合"],优化改进:["提前规划下月预算"]}}
+  ],
+  ideas:[
+    {code:"I0001",text:"用 Notion 数据库统一管理客户跟进时间线",archived:false,project:"",archivedAt:""},
+    {code:"I0002",text:"周末试试把复盘做成自动周报推送",archived:false,project:"P0001",archivedAt:""},
+    {code:"I0003",text:"带娃记录是否可以和喂养量提醒联动",archived:true,project:"",archivedAt:"2026-08-20 21:10"}
+  ],
+  params:{
+    "收支类型":["工资收入","投资收入","生活开销","经营成本","经营成本回款"],
+    "客户来源":["转介绍","线上","线下","代理"],
+    "客户类型":["个人","企业","代理"],
+    "账户类型":["现金","银行卡","微信","支付宝","信用"],
+    "提醒方式":["应用内","短信","无"]
+  }
+};
+
+/* ============== Helpers ============== */
+const $=(s,r=document)=>r.querySelector(s);
+const fmt=n=>"¥"+Math.round(n).toLocaleString("zh-CN");
+function toast(msg){const t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove("show"),1800);}
+function esc(s){return (s??"").toString().replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));}
+function projName(code){if(!code)return "—";return code.split(",").map(c=>{const p=M.projects.find(x=>x.code===c);return p?p.name:c;}).join("、");}
+function projShort(code){const p=M.projects.find(x=>x.code===code);return p?`${p.name}(${p.code})`:"—";}
+function daysBetween(a,b){return Math.round((b-a)/86400000);}
+function deferDays(t){if(t.done)return 0;const c=new Date(t.created);return Math.max(0,daysBetween(c,TODAY));}
+
+/* ============== Charts ============== */
+function barChart(data,opts={}){
+  const max=Math.max(1,...data.map(d=>d.v));
+  return `<div class="barchart">${data.map(d=>`<div class="bc"><div class="barwrap"><div class="bar" data-h="${(d.v/max*100)}" style="height:0;background:${d.color||'linear-gradient(180deg,#5b8ff7,#2f6fed)'}">${opts.showVal?`<small>${typeof d.v==='number'&&Math.abs(d.v)>=1000?fmt(d.v):d.v}</small>`:""}</div></div><div class="xlab">${esc(d.x)}</div></div>`).join("")}</div>`;
+}
+function donut(segments,center){
+  const total=Math.max(1,segments.reduce((s,x)=>s+x.v,0));
+  let acc=0,conic="";
+  segments.forEach(s=>{const start=acc/total*360;acc+=s.v;const end=acc/total*360;conic+=`${s.color} ${start}deg ${end}deg,`;});
+  const legend=segments.map(s=>{const pct=Math.round(s.v/total*100);return `<div class="dl"><span class="sw" style="background:${s.color}"></span><span class="nm">${esc(s.name||"")}</span><span class="am">${fmt(s.v)}</span><span class="pc">${pct}%</span></div>`;}).join("");
+  return `<div class="donut-wrap"><div class="donut" style="background:conic-gradient(${conic.slice(0,-1)})"><div class="hole"><div><div class="hv">${center.v}</div><div class="hl">${center.l}</div></div></div></div><div class="donut-legend">${legend}</div></div>`;
+}
+function animateBars(root){root.querySelectorAll(".bar").forEach((b,i)=>{const h=b.getAttribute("data-h");setTimeout(()=>b.style.height=h+"%",40+i*40);});}
+
+/* ============== Date range filter ============== */
+function inRange(dateStr,range){
+  const d=new Date(dateStr);
+  if(range==="本月")return d.getFullYear()===TODAY.getFullYear()&&d.getMonth()===TODAY.getMonth();
+  if(range==="本年")return d.getFullYear()===TODAY.getFullYear();
+  if(range==="本季"){const q=Math.floor(TODAY.getMonth()/3);return d.getFullYear()===TODAY.getFullYear()&&Math.floor(d.getMonth()/3)===q;}
+  if(range==="本周"){const from=new Date(TODAY);from.setDate(TODAY.getDate()-6);return d>=from;}
+  return true;
+}
+let moneyFilter="本月";
+let todoSub="list";
+let diarySel="R20260824";
+let diarySearch="";
+
+/* ============== Screens ============== */
+const screens={
+  "#/home":()=>{
+    const today=M.txns.filter(t=>t.date==="2026-08-24");
+    const expToday=today.filter(t=>t.type==="支出"&&t.tag==="正常").reduce((s,t)=>s+t.amount,0);
+    const avail=M.accounts.reduce((s,a)=>s+a.balance,0);
+    const rec=M.txns.filter(t=>t.tag==="应收");
+    const recSum=rec.reduce((s,t)=>s+t.amount,0);
+    const todoOpen=M.todos.filter(t=>!t.done);
+    const defer=M.todos.filter(t=>!t.done&&deferDays(t)>0).length;
+    const milkToday=M.baby.filter(b=>b.date==="2026-08-24"&&b.type==="泡奶");
+    const milkSum=milkToday.reduce((s,b)=>s+b.volume,0);
+    const recent=M.baby.filter(b=>b.date==="2026-08-24").slice(-3).reverse();
+    return `
+    <div class="quick">
+      ${[["记一笔","💰","openTxn()"],["泡奶","🍼","openBabyModal('泡奶')"],["拉臭臭","💩","openBabyModal('拉臭臭')"],["待办","✅","go('#/todo')"],["写日记","📝","go('#/diary')"]].map(([l,i,fn])=>`<button class="qbtn" onclick="${fn}"><span class="qi">${i}</span><span class="ql">${l}</span></button>`).join("")}
+    </div>
+    <div class="mt"><div class="hook">
+      <div class="chip"><div class="v">${fmt(expToday)}</div><div class="k">今日支出</div></div>
+      <div class="chip"><div class="v">${fmt(avail)}</div><div class="k">可用资金</div></div>
+      <div class="chip alert"><div class="v">${fmt(recSum)}<small> · ${rec.length}笔待回</small></div><div class="k">应收</div></div>
+      <div class="chip ${defer?'alert':''}"><div class="v">${todoOpen.length}项<small>${defer?' · '+defer+'顺延':''}</small></div><div class="k">待办</div></div>
+      <div class="chip"><div class="v">${milkToday.length?milkToday.length+'次':'未记'}</div><div class="k">今日泡奶</div></div>
+    </div></div>
+    <div class="section-title"><span class="bar"></span>今日带娃</div>
+    <div class="card"><div style="display:flex;align-items:center;gap:18px;flex-wrap:wrap">
+      <div><div class="milk-sum">${milkSum}<small>ml 今日总奶量</small></div></div>
+      <div class="row" style="flex:1;min-width:200px">
+        ${recent.map(b=>`<div class="tag ${b.type==='泡奶'?'normal':'rec'}" style="font-size:12px;padding:5px 10px">${b.type==='泡奶'?'🍼':'💩'} ${b.time}${b.volume?(' · '+b.volume+'ml'):''}</div>`).join("")||'<span class="ls">暂无记录</span>'}
+      </div><button class="mini-btn" onclick="go('#/baby')">奶量统计 →</button></div></div>
+    <div class="section-title"><span class="bar"></span>今日待办</div>
+    <div class="card">${todoList(M.todos.filter(t=>!t.done&&t.due==="2026-08-24"),true)}</div>
+    <div class="section-title"><span class="bar"></span>周期概览</div>
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap">
+        <div class="seg" id="periodSeg">${["日","周","月","季","年"].map((p,i)=>`<button class="${i===2?'on':''}" data-p="${p}" onclick="setPeriod('${p}',this)">${p}</button>`).join("")}</div>
+        <span class="ls" id="periodNote" style="font-size:12px;color:var(--muted)">2026-08 本月</span></div>
+      <div class="grid-5" id="periodTiles">${periodTiles("月")}</div>
+      <div class="mt" id="periodChart"><div class="ls" style="font-size:12px;color:var(--muted);margin-bottom:6px">收入 vs 支出（按月）</div>${barChart(periodSeries("月"),{showVal:false})}</div>
+    </div>`;
+  },
+
+  "#/money":()=>{
+    const f=M.txns.filter(t=>inRange(t.date,moneyFilter));
+    const inc=f.filter(t=>t.type==="收入"&&t.tag==="正常").reduce((s,t)=>s+t.amount,0);
+    const exp=f.filter(t=>t.type==="支出"&&t.tag==="正常").reduce((s,t)=>s+t.amount,0);
+    const rec=f.filter(t=>t.tag==="应收").reduce((s,t)=>s+t.amount,0);
+    const pay=f.filter(t=>t.tag==="应付").reduce((s,t)=>s+t.amount,0);
+    const avail=M.accounts.reduce((s,a)=>s+a.balance,0);
+    const prefix=moneyFilter;
+    const projFin=M.projects.map(p=>{
+      const o=M.orders.filter(x=>x.project.split(",").includes(p.code));
+      const orderTotal=o.reduce((s,x)=>s+x.amount,0);
+      const pi=f.filter(x=>x.project.split(",").includes(p.code)&&x.type==="收入"&&x.tag==="正常").reduce((s,x)=>s+x.amount,0);
+      const pe=f.filter(x=>x.project.split(",").includes(p.code)&&x.type==="支出"&&x.tag==="正常").reduce((s,x)=>s+x.amount,0);
+      const ma=f.filter(x=>x.project.split(",").includes(p.code)&&x.tag==="应收").reduce((s,x)=>s+x.amount,0);
+      const mp=f.filter(x=>x.project.split(",").includes(p.code)&&x.tag==="应付").reduce((s,x)=>s+x.amount,0);
+      const gross=pi-pe, net=pi-pe+ma-mp;
+      return {p,orderTotal,pi,pe,ma,mp,gross,net};
+    });
+    const txns=f.slice().reverse();
+    return `
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap">
+      <div class="seg" id="moneyTopSeg">${["本周","本月","本季","本年"].map(r=>`<button class="${r===moneyFilter?'on':''}" onclick="setMoneyFilter('${r}',this)">${r}</button>`).join("")}</div>
+      <span class="ls" style="font-size:12px;color:var(--muted)">顶部卡片随筛选变更（当前：${moneyFilter}）</span>
+    </div>
+    <div class="grid-5 mb">
+      ${[[prefix+"收入",inc,"inc"],[prefix+"支出",exp,"exp"],["可用资金",avail,""],[prefix+"应收",rec,"rec"],[prefix+"应付",pay,"pay"]].map(([k,v,c])=>`<div class="tile ${c}"><div class="k">${k}</div><div class="v">${fmt(v)}</div><div class="sub">${k==='可用资金'?'各账户余额之和':(k===''+prefix+'应收'||k===prefix+'应收'||k===''+prefix+'应付'||k===prefix+'应付')?'单列不计入可用':(moneyFilter)}</div></div>`).join("")}
+    </div>
+    <div class="card mb">
+      <h3>项目收支 <span class="hint">一行一个项目 · 各数据框等大小（仅含 ${moneyFilter} 范围内数据）</span></h3>
+      <div style="overflow-x:auto"><table class="pf-tbl">
+        <thead><tr><th>项目</th><th>订单总额</th><th>收入</th><th>支出</th><th>毛利</th><th>应收</th><th>应付</th><th>净利</th></tr></thead>
+        <tbody>${projFin.map(({p,orderTotal,pi,pe,ma,mp,gross,net})=>`<tr>
+          <td><div class="pn">${p.name}</div><div class="ls" style="font-size:11px;color:var(--muted)"><span class="code">${p.code}</span></div></td>
+          <td><span class="pf-cell">${fmt(orderTotal)}</span></td>
+          <td><span class="pf-cell pos">${fmt(pi)}</span></td>
+          <td><span class="pf-cell neg">${fmt(pe)}</span></td>
+          <td><span class="pf-cell ${gross>=0?'pos':'neg'}">${fmt(gross)}</span></td>
+          <td><span class="pf-cell" style="color:var(--receivable)">${fmt(ma)}</span></td>
+          <td><span class="pf-cell" style="color:var(--payable)">${fmt(mp)}</span></td>
+          <td><span class="pf-cell ${net>=0?'pos':'neg'}"><b>${fmt(net)}</b></span></td>
+        </tr>`).join("")}</tbody>
+      </table></div>
+    </div>
+    <div class="card mb">
+      <h3>资金流水 <span class="hint">${moneyFilter} · 标签默认正常，手动改应收/应付</span>
+        <span style="margin-left:auto;display:flex;gap:8px;align-items:center">
+          <button class="mini-btn" onclick="openTxn()">+ 记一笔</button></span></h3>
+      <div style="overflow-x:auto"><table class="tbl">
+        <thead><tr><th>流水号</th><th>日期</th><th>类型</th><th>分类</th><th>账户</th><th>关联项目</th><th>标签</th><th>摘要</th><th style="text-align:right">金额</th></tr></thead>
+        <tbody>${txns.map(t=>{const a=M.accounts.find(x=>x.code===t.from);return `<tr>
+          <td><span class="code">${t.code}</span></td><td>${t.date.slice(5)}</td><td>${t.type}</td><td>${esc(t.category)}</td>
+          <td>${a?a.name:'—'}</td><td>${t.project?`<span class="tag proj">${projName(t.project)}</span>`:'<span class="ls">—</span>'}</td>
+          <td><span class="tag ${t.tag==='正常'?'normal':t.tag==='应收'?'rec':'pay'}">${t.tag}</span></td>
+          <td>${esc(t.note)}</td><td style="text-align:right" class="amount ${t.type==='收入'?'inc':'exp'}">${t.type==='收入'?'+':'-'}${fmt(t.amount)}</td></tr>`}).join("")||'<tr><td colspan="9"><div class="empty">该周期暂无流水</div></td></tr>'}</tbody>
+      </table></div>
+    </div>
+    <div class="grid-2">
+      <div class="card"><h3>账户 <span class="hint">点击管理</span></h3>${M.accounts.map(a=>`<div class="litem"><div class="lmain"><div class="lt">${a.name}</div><div class="ls">${a.type} · <span class="code">${a.code}</span></div></div><div class="amount">${fmt(a.balance)}</div></div>`).join("")}</div>
+      <div class="card"><h3>收支分类 <span class="hint">可自定义</span></h3>${[...new Set(M.txns.map(t=>t.category))].map(c=>`<div class="litem"><div class="lmain"><div class="lt">${esc(c)}</div></div><span class="tag">${M.txns.find(t=>t.category===c).type}</span></div>`).join("")}<button class="mini-btn mt-s" onclick="toast('设置中可增删改分类')">+ 新增分类</button></div>
+    </div>`;
+  },
+
+  "#/biz":()=>{
+    const groups={"规划":[],"进行":[],"结束":[]};
+    M.projects.forEach(p=>groups[p.status].push(p));
+    const f=bizFilter;
+
+    /* 项目大盘 */
+    const dash=`
+    <div style="display:flex;align-items:center;margin-bottom:12px">
+      <div class="section-title" style="margin:0"><span class="bar"></span>项目大盘</div>
+      <button class="mini-btn" style="margin-left:auto" onclick="openProject()">+ 新建项目</button>
+    </div>
+    <div class="proj-cols">
+      ${["规划","进行","结束"].map(st=>`<div class="proj-col"><div class="col-h"><span class="status-pill st-${st==='规划'?'plan':st==='进行'?'doing':'done'}">${st}</span> ${groups[st].length} 个</div>
+        ${groups[st].map(p=>`<div class="proj-card" onclick="toast('打开 ${p.name} 详情')">
+          <div class="pn">${p.name}</div><div class="ls" style="font-size:11px;color:var(--muted);margin-top:3px">${esc(p.desc)} · <span class="code">${p.code}</span></div>
+          <div class="stats"><div><div class="n">${M.orders.filter(o=>o.project.split(",").includes(p.code)).length}</div><div class="l">订单</div></div>
+          <div><div class="n" style="color:var(--income)">${fmt(M.orders.filter(o=>o.project.split(",").includes(p.code)).reduce((s,o)=>s+o.amount,0))}</div><div class="l">金额</div></div>
+          <div><div class="n">${p.progress}%</div><div class="l">进度</div></div></div></div>`).join("")||'<div class="ls" style="font-size:12px;color:var(--muted);padding:6px 0">暂无</div>'}
+      </div>`).join("")}
+    </div>`;
+
+    /* 搜索 / 筛选模块（输入/选择即自动过滤，不整屏重渲染，不丢焦点） */
+    const projOpts=M.projects.map(p=>`<option value="${p.code}" ${f.proj===p.code?'selected':''}>${projName(p.code)}</option>`).join("");
+    const search=`
+    <div class="card mb search-mod">
+      <div class="section-title" style="margin:0 0 10px"><span class="bar"></span>筛选 <span style="font-weight:400;color:var(--muted);font-size:12px">按客户 / 项目 / 订单编号 / 金额检索订单、客户、回款（输入或选择即筛选）</span></div>
+      <div class="search-grid">
+        <div class="field" style="margin:0"><label>客户名称</label><input id="sfCust" value="${esc(f.cust)}" placeholder="如 张" oninput="applyBizFilter()"></div>
+        <div class="field" style="margin:0"><label>项目标签</label><select id="sfProj" onchange="applyBizFilter()"><option value="">全部项目</option>${projOpts}</select></div>
+        <div class="field" style="margin:0"><label>订单编号</label><input id="sfOrder" value="${esc(f.order)}" placeholder="如 D2026" oninput="applyBizFilter()"></div>
+        <div class="field" style="margin:0"><label>金额区间（元）</label><div style="display:flex;gap:6px"><input id="sfAmtMin" type="number" value="${esc(f.amtMin)}" placeholder="最小" style="width:50%" oninput="applyBizFilter()"><input id="sfAmtMax" type="number" value="${esc(f.amtMax)}" placeholder="最大" style="width:50%" oninput="applyBizFilter()"></div></div>
+      </div>
+      <div class="btn-row" style="margin-top:12px"><button class="btn btn-ghost" onclick="resetBizFilter()">重置</button></div>
+    </div>`;
+
+    return dash+search
+      +`<div id="custSection">${bizCustSection()}</div>`
+      +`<div id="ordSection">${bizOrdSection()}</div>`
+      +`<div id="recvSection">${bizRecvSection()}</div>`;
+  },
+
+  "#/baby":()=>{
+    const all=M.baby.slice().sort((a,b)=>b.date.localeCompare(a.date)||b.time.localeCompare(a.time));
+    const today=M.baby.filter(b=>b.date==="2026-08-24");
+    const milkToday=today.filter(b=>b.type==="泡奶");
+    const milkSum=milkToday.reduce((s,b)=>s+b.volume,0);
+    const weekDays=["周一","周二","周三","周四","周五","周六","周日"];
+    const weekData=[450,460,380,440,500,420,450].map((v,i)=>({x:weekDays[i],v,color:"linear-gradient(180deg,#7fb0ff,#2f6fed)"}));
+    const tPages=Math.max(1,Math.ceil(today.length/babySize));const tPage=Math.min(babyTodayPage,tPages);
+    const todayRows=today.slice().reverse().slice((tPage-1)*babySize,tPage*babySize);
+    return `
+    <div class="grid-2 mb"><div class="tile"><div class="k">今日总奶量</div><div class="v">${milkSum}<span class="u"> ml</span></div><div class="sub">${milkToday.length} 次泡奶</div></div>
+      <div class="tile"><div class="k">今日事件</div><div class="v">${today.length}<span class="u"> 次</span></div><div class="sub">含拉臭臭 ${today.filter(b=>b.type==='拉臭臭').length} 次</div></div></div>
+    <div class="baby-2col" style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+      <div class="card"><h3>今日记录 <span class="hint">点按钮自动记时间戳</span>
+        <span style="margin-left:auto;display:flex;gap:8px"><button class="mini-btn" onclick="openBabyModal('泡奶')">🍼 泡奶</button><button class="mini-btn" onclick="openBabyModal('拉臭臭')">💩 拉臭臭</button></span></h3>
+        ${todayRows.length?todayRows.map(b=>`<div class="litem"><div class="lmain"><div class="lt">${b.type==='泡奶'?'🍼 泡奶':'💩 拉臭臭'} ${b.volume?('· '+b.volume+'ml'):''}</div><div class="ls">${b.time} · <span class="code">${b.code}</span>${b.note?' · '+esc(b.note):''}</div></div></div>`).join(""):'<div class="empty"><div class="eb">🍼</div>今天还没记录</div>'}
+        ${babyPager(today.length,"today")}
+      </div>
+      <div class="card"><h3>奶量统计 · 本周每天</h3>${barChart(weekData,{showVal:true})}</div>
+    </div>
+    <div class="section-title"><span class="bar"></span>历史带娃记录 <span style="font-weight:400;color:var(--muted);font-size:12px">（登记全部历史带娃记录，按日期降序）</span>
+      <button class="mini-btn" style="margin-left:auto" onclick="openBabyModal()">+ 登记记录</button></div>
+    <div class="card mb">${all.length?all.map(b=>`<div class="litem"><div class="lmain"><div class="lt">${b.type==='泡奶'?'🍼 泡奶':'💩 拉臭臭'} ${b.volume?('· '+b.volume+'ml'):''}</div><div class="ls">${b.date} ${b.time} · <span class="code">${b.code}</span>${b.note?' · '+esc(b.note):''}</div></div><div class="pd"><button class="iconbtn" title="删除" onclick="delBaby('${b.code}')">🗑</button></div></div>`).join(""):'<div class="empty">暂无历史记录</div>'}
+      ${babyPager(all.length,"hist")}
+    </div>`;
+  },
+
+  "#/todo":()=>{
+    return `
+    <div class="todo-quick">
+      <input type="text" id="qTitle" placeholder="快速录入待办，输入内容…" onkeydown="if(event.key==='Enter')quickAddTodo()">
+      <input type="date" id="qDate" value="2026-08-24">
+      <button class="btn btn-primary" style="flex:0 0 auto" onclick="quickAddTodo()">+ 新建</button>
+    </div>
+    <div class="todo-topseg">
+      <button data-sub="list" class="${todoSub==='list'?'on':''}" onclick="setTodoSub('list',this)">任务列表</button>
+      <button data-sub="today" class="${todoSub==='today'?'on':''}" onclick="setTodoSub('today',this)">今日时间线</button>
+      <button data-sub="cal" class="${todoSub==='cal'?'on':''}" onclick="setTodoSub('cal',this)">月度日历</button>
+    </div>
+    <div id="todoSub">${todoSubview(todoSub)}</div>`;
+  },
+
+  "#/diary":()=>{
+    const e=M.diaries.find(x=>x.code===diarySel)||M.diaries[0];
+    const cls=["今日小事","收获新知","感恩时刻","优化改进"];
+    const ic={今日小事:"📌",收获新知:"💡",感恩时刻:"🙏",优化改进:"🔧"};
+    return `
+    <div class="diary-top">
+      <div class="field" style="flex:1;min-width:200px"><label>选择日记（每天一篇）</label><select id="dSel" onchange="setDiarySel(this.value)">${M.diaries.map(d=>`<option value="${d.code}" ${d.code===e.code?'selected':''}>${d.date} · ${esc(d.title||'未命名')}</option>`).join("")}<option value="__new__">＋ 新建一篇</option></select></div>
+      <div class="field dsearch-box" style="flex:1.3;min-width:220px"><label>搜索日记（关键词精准查询过往内容）</label><input id="dSearch" value="${esc(diarySearch)}" placeholder="输入关键词，如「复盘」「带娃」…" oninput="setDiarySearch(this.value)"></div>
+    </div>
+    <div id="dSearchResults"></div>
+    <div class="card mb">
+      <h3>${esc(e.title||'未命名')} <span class="hint">📅 ${e.date} · 自动纲要由原始内容提炼 · 唯一需录入：原始内容</span></h3>
+      <div class="field"><label>原始内容（文字录入）</label><textarea id="dRaw" style="width:100%;min-height:110px;border:1px solid var(--line-strong);border-radius:10px;padding:10px;font-family:inherit;font-size:13px;resize:vertical">${esc(e.raw)}</textarea></div>
+      <div class="btn-row"><button class="btn btn-ghost" onclick="saveDiaryEntry()">保存</button><button class="btn btn-primary" onclick="aiSummarizeDiary('${e.code}')">AI 工具：提炼四类</button></div>
+      <div class="grid-4" style="margin-top:14px">
+        ${cls.map(c=>`<div class="qcard"><div class="qh">${ic[c]} ${c}</div>${e.summary&&e.summary[c]&&e.summary[c].length?e.summary[c].map(x=>`<div class="qi">${esc(x)}</div>`).join(""):'<div class="qempty">—</div>'}</div>`).join("")}
+      </div>
+    </div>
+    <div class="card"><h3>日记归档 <span class="hint">按月折叠</span></h3>
+      ${diaryArchive()}
+    </div>`;
+  },
+
+  "#/idea":()=>{
+    const open=M.ideas.filter(i=>!i.archived);
+    const arch=M.ideas.filter(i=>i.archived);
+    // 归档按项目分组，归档时间降序，折叠内容
+    const groups={};
+    arch.forEach(i=>{const key=i.project||"";(groups[key]=groups[key]||[]).push(i);});
+    const ordered=Object.entries(groups).sort((a,b)=>{
+      const ta=a[1][0].archivedAt||"", tb=b[1][0].archivedAt||"";return tb.localeCompare(ta);
+    });
+    return `
+    <div class="card mb"><h3>灵感箱 <span class="hint">默认不挂钩项目，可手动关联</span>
+      <button class="mini-btn" style="margin-left:auto" onclick="openIdea()">+ 速记</button></h3>
+      ${open.map(i=>`<div class="litem"><div class="lmain"><div class="lt">${esc(i.text)}</div><div class="ls"><span class="code">${i.code}</span>${i.project?` · <span class="tag proj">📎 ${projName(i.project)}</span>`:' · 未关联项目'}</div></div>
+        <div class="pd"><button class="mini-btn" onclick="archiveIdea('${i.code}')">归档</button><button class="iconbtn" onclick="toast('已删除')">🗑</button></div></div>`).join("")||'<div class="empty">暂无灵感</div>'}
+    </div>
+    <div class="card"><h3>已归档 <span class="hint">按项目归档 · 时间降序 · 折叠内容</span></h3>
+      ${ordered.length?ordered.map(([proj,items])=>`<div class="param-group">
+        <div class="pg-head" onclick="this.parentElement.classList.toggle('open')">📁 ${proj?projName(proj):'未关联项目'} <span style="margin-left:8px;color:var(--muted);font-weight:500;font-size:11px">${items.length} 条 · ${items[0].archivedAt}</span><span class="caret">›</span></div>
+        <div class="pg-body">${items.map(i=>`<div class="litem"><div class="lmain"><div class="lt">${esc(i.text)}</div><div class="ls"><span class="code">${i.code}</span> · 归档 ${i.archivedAt||'—'}</div></div><button class="iconbtn" onclick="toast('已删除')">🗑</button></div>`).join("")}</div>
+      </div>`).join(""):'<div class="empty">暂无归档</div>'}
+    </div>`;
+  },
+
+  "#/review":()=>{
+    const cats=["工资收入","投资收入","经营成本回款","生活开销","经营成本"];
+    const incomeByCat=cats.map(c=>({name:c,v:M.txns.filter(t=>t.type==="收入"&&t.category===c).reduce((s,t)=>s+t.amount,0)})).filter(d=>d.v>0);
+    const expByCat=[...new Set(M.txns.filter(t=>t.type==="支出").map(t=>t.category))].map(c=>({x:c,v:M.txns.filter(t=>t.type==="支出"&&t.category===c).reduce((s,t)=>s+t.amount,0)}));
+    const rec=M.txns.filter(t=>t.tag==="应收").reduce((s,t)=>s+t.amount,0);
+    const pay=M.txns.filter(t=>t.tag==="应付").reduce((s,t)=>s+t.amount,0);
+    const normal=M.txns.filter(t=>t.tag==="正常").reduce((s,t)=>s+(t.type==="收入"?t.amount:-t.amount),0);
+    const byDate={};M.txns.forEach(t=>{if(!byDate[t.date])byDate[t.date]=0;byDate[t.date]+=t.type==="收入"?t.amount:-t.amount;});
+    const dates=Object.keys(byDate).sort();let cum=0;const flow=dates.map(d=>{cum+=byDate[d];return{x:d.slice(5),v:cum};});
+    return `
+    <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap"><div class="seg">${["周","月","季","年"].map((p,i)=>`<button class="${i===1?'on':''}">${p}</button>`).join("")}</div><span class="ls" style="font-size:12px;color:var(--muted);align-self:center">本月复盘</span></div>
+    <div class="section-title"><span class="bar"></span>资金复盘</div>
+    <div class="grid-2">
+      <div class="card"><h3>收入来源分布</h3>${donut(incomeByCat.map((d,i)=>({name:d.name,v:d.v,color:["#2f6fed","#1f9d6b","#e0913a","#7fb0ff","#8a6fd1"][i%5]})),{v:fmt(incomeByCat.reduce((s,d)=>s+d.v,0)),l:"总收入"})}</div>
+      <div class="card"><h3>支出类型分布</h3>${barChart(expByCat,{showVal:false})}</div>
+      <div class="card"><h3>应收 / 应付占比</h3>${donut([{name:"应收",v:rec,color:"#e0913a"},{name:"应付",v:pay,color:"#8a6fd1"},{name:"正常净额",v:Math.max(1,normal),color:"#2f6fed"}],{v:fmt(rec+pay),l:"应收+应付"})}</div>
+      <div class="card"><h3>现金流进账图（累计）</h3>${barChart(flow,{showVal:false})}<div class="ls mt-s" style="font-size:11px;color:var(--muted)">柱状高度=截至该日累计净现金流</div></div>
+    </div>
+    <div class="section-title"><span class="bar"></span>经营复盘</div>
+    <div class="grid-2">
+      <div class="card"><h3>各项目净收支对比</h3>${barChart(M.projects.map(p=>{const o=M.orders.filter(x=>x.project.split(",").includes(p.code));const net=o.reduce((s,x)=>s+(x.amount-x.received),0);return{x:p.name,v:net};}),{showVal:false})}</div>
+      <div class="card"><h3>项目收款率</h3>${M.projects.map(p=>{const o=M.orders.filter(x=>x.project.split(",").includes(p.code));const rate=o.length?Math.round(o.reduce((s,x)=>s+x.received,0)/o.reduce((s,x)=>s+x.amount,0)*100):0;return `<div class="litem"><div class="lmain"><div class="lt">${p.name} <span class="code">${p.code}</span></div></div><div class="amount inc">${o.length?rate+'%':'—'}</div></div>`;}).join("")}</div>
+      <div class="card"><h3>客户成交排行</h3>${[...M.customers].sort((a,b)=>b.累计成交-a.累计成交).map(c=>`<div class="litem"><div class="lmain"><div class="lt">${c.name}</div></div><div class="amount inc">${fmt(c.累计成交)}</div></div>`).join("")}</div>
+      <div class="card"><h3>订单回款总览</h3><div class="litem"><div class="lmain"><div class="lt">应收笔数</div></div><div class="amount exp">${M.customers.filter(c=>c.应收>0).length} 笔</div></div><div class="litem"><div class="lmain"><div class="lt">待回款</div></div><div class="amount exp">${fmt(rec)}</div></div></div>
+    </div>`;
+  },
+
+  "#/settings":()=>{
+    return `
+    <div class="card mb"><h3>数据备份 <span class="hint">把数据留在自己设备上</span></h3>
+      <div class="row">
+        <button class="btn btn-primary" onclick="exportBackup()">⬇ 导出备份</button>
+        <button class="btn btn-ghost" onclick="$('#importFile').click()">⬆ 导入备份</button>
+      </div>
+      <div class="ls mt-s" style="font-size:11px;color:var(--muted)">导出：下载当前全部数据为 JSON 文件；导入：选择备份文件恢复数据（覆盖当前）。</div>
+  </div>
+  <div class="card mb"><h3>数据管理 <span class="hint">清空当前全部业务示例数据</span></h3>
+    <div class="row">
+      <button class="btn btn-danger" onclick="delAllDemo()">🗑 删除全部示例数据</button>
+    </div>
+    <div class="ls mt-s" style="font-size:11px;color:var(--muted)">将清空：客户、订单、回款流水、项目、带娃记录、待办、日记、灵感。保留：账户、全局参数、产品清单（属配置项）。此操作不可撤销。</div>
+  </div>
+  <div class="param-group open">
+      <div class="pg-head" onclick="this.parentElement.classList.toggle('open')">产品清单
+        <span style="margin-left:8px;color:var(--muted);font-weight:500;font-size:11px">${M.products.length} 项</span>
+        <button class="mini-btn" style="margin-left:10px" onclick="event.stopPropagation();openProduct()">+ 新增</button>
+        <span class="caret">›</span></div>
+      <div class="pg-body"><div class="ls" style="font-size:11px;color:var(--muted);margin-bottom:8px">建立后，新建订单时产品从清单选择，自动带出单价</div>
+      <div style="overflow-x:auto"><table class="tbl">
+        <thead><tr><th>产品编号</th><th>名称</th><th style="text-align:right">单价</th><th>关联项目</th><th></th></tr></thead>
+        <tbody>${M.products.map(p=>`<tr><td><span class="code">${p.code}</span></td><td>${esc(p.name)}</td><td style="text-align:right" class="amount">${fmt(p.price)}</td><td>${p.project?`<span class="tag proj">${projName(p.project)}</span>`:'—'}</td><td><div class="pd"><button class="iconbtn" onclick="toast('编辑产品')">✎</button><button class="iconbtn" onclick="delProduct('${p.code}')">🗑</button></div></td></tr>`).join("")||'<tr><td colspan="5"><div class="empty">暂无产品</div></td></tr>'}</tbody>
+      </table></div></div>
+    </div>
+    <div class="card mb"><h3>全局参数 <span class="hint">点击类别展开 · 被引用参数删除需保护/迁移</span>
+      <button class="mini-btn" style="margin-left:auto" onclick="toast('新增参数类别')">+ 新增类别</button></h3>
+      ${Object.entries(M.params).map(([cat,items],idx)=>`<div class="param-group ${idx===0?'open':''}">
+        <div class="pg-head" onclick="this.parentElement.classList.toggle('open')">${cat}<span style="margin-left:auto;color:var(--muted);font-weight:500;font-size:11px;margin-right:8px">${items.length} 项</span><span class="caret">›</span></div>
+        <div class="pg-body">${items.map(it=>`<div class="pg-row"><span class="pt">${esc(it)}</span><div class="pd"><button class="iconbtn" onclick="toast('编辑')">✎</button><button class="iconbtn" onclick="toast('删除（被引用时需迁移提示）')">🗑</button></div></div>`).join("")}<button class="mini-btn mt-s" onclick="toast('新增 ${cat} 项')">+ 新增</button></div>
+      </div>`).join("")}
+    </div>
+    <div class="card"><h3>AI 配置 <span class="hint">占位 · 界面完成后接 API</span></h3>
+      <div class="litem"><div class="lmain"><div class="lt">日记/复盘归纳模型</div><div class="ls">未接入（DeepSeek/通义 待选）</div></div><span class="tag rec">待接入</span></div>
+    </div>`;
+  }
+};
+
+/* ============== diary helpers ============== */
+function diaryTitleFromRaw(raw){
+  if(!raw)return "未命名";
+  const s=raw.replace(/今天|今日|昨天|明天|上午|下午|晚上|早上/g,"").replace(/\s+/g," ").trim();
+  if(!s)return "未命名";
+  return s.length>18?s.slice(0,18)+"…":s;
+}
+function setDiarySel(v){
+  if(v==="__new__"){
+    const d=new Date();const code="R"+d.getFullYear()+String(d.getMonth()+1).padStart(2,"0")+String(d.getDate()).padStart(2,"0");
+    M.diaries.unshift({code,date:"2026-08-24",title:"",raw:"",summary:{今日小事:[],收获新知:[],感恩时刻:[],优化改进:[]}});
+    diarySel=code;render();return;
+  }
+  diarySel=v;render();
+}
+function saveDiaryEntry(){
+  const e=M.diaries.find(x=>x.code===diarySel);if(!e)return;
+  e.raw=$("#dRaw").value;
+  e.title=diaryTitleFromRaw(e.raw);
+  toast("已保存日记 · 标题已根据内容自动提炼");
+}
+function setDiarySearch(v){
+  diarySearch=v;
+  clearTimeout(window._dSrchT);
+  window._dSrchT=setTimeout(()=>{
+    const kw=(diarySearch||"").trim();
+    const matched=kw?M.diaries.filter(d=>(d.raw||"").includes(kw)||JSON.stringify(d.summary||{}).includes(kw)):[];
+    const box=$("#dSearchResults");
+    if(!box)return;
+    if(!kw){box.outerHTML=`<div id="dSearchResults"></div>`;return;}
+    box.innerHTML=`<div class="card mb"><h3>搜索结果 <span class="hint">${matched.length} 篇含「${esc(kw)}」</span></h3>${matched.length?matched.map(d=>{const hit=(d.raw||"").split(/[。！？\n]/).find(s=>s.includes(kw))||"";return `<div class="litem"><div class="lmain"><div class="lt">${d.date} · ${esc(d.title||'未命名')}</div><div class="ls">…${esc(hit)}…</div></div><button class="mini-btn" onclick="diarySel='${d.code}';diarySearch='';render()">查看</button></div>`;}).join(""):'<div class="empty">无匹配日记</div>'}</div>`;
+  },180);
+}
+function aiSummarizeDiary(code){
+  const e=M.diaries.find(x=>x.code===code);if(!e)return;
+  const sum={今日小事:[],收获新知:[],感恩时刻:[],优化改进:[]};
+  const sentences=(e.raw||"").split(/[。！？\n]/).map(s=>s.trim()).filter(Boolean);
+  sentences.forEach(s=>{
+    if(/收获|学到|思路|认识|方法|启发|了解/.test(s))sum.收获新知.push(s);
+    else if(/感恩|感谢|谢谢|帮|支持/.test(s))sum.感恩时刻.push(s);
+    else if(/优化|改进|可以|后续|明天|再|提前|调整/.test(s))sum.优化改进.push(s);
+    else sum.今日小事.push(s);
+  });
+  e.summary=sum;toast("AI 已提炼四类（v1 关键词占位，真实模型待接）");render();
+}
+function diaryArchive(){
+  const groups={};M.diaries.forEach(d=>{const m=d.date.slice(0,7);(groups[m]=groups[m]||[]).push(d);});
+  const months=Object.keys(groups).sort().reverse();
+  if(!months.length)return '<div class="empty">暂无日记</div>';
+  return months.map(m=>{const items=groups[m].slice().reverse();
+    return `<div class="param-group open"><div class="pg-head" onclick="this.parentElement.classList.toggle('open')">📅 ${m}<span style="margin-left:8px;color:var(--muted);font-weight:500;font-size:11px">${items.length} 篇</span><span class="caret">›</span></div>
+      <div class="pg-body">${items.map(d=>{const cnt=Object.values(d.summary||{}).reduce((s,a)=>s+(a?a.length:0),0);
+        return `<div class="litem"><div class="lmain"><div class="lt">${d.date} · ${esc(d.title||'未命名')}</div><div class="ls"><span class="code">${d.code}</span> · ${cnt} 条提炼</div></div>
+          <div class="pd"><button class="mini-btn" onclick="diarySel='${d.code}';render()">查看/编辑</button></div></div>`;}).join("")}</div></div>`;
+  }).join("");
+}
+
+/* ============== todo list ============== */
+function todoList(list,showDefer){
+  if(!list.length)return '<div class="empty"><div class="eb">✅</div>无事项</div>';
+  return `<div class="list">${list.map(t=>{const dd=deferDays(t);const cont=t.repeat&&t.repeat!=="无"&&dd>0;return `<div class="litem">
+    <button class="iconbtn" onclick="toggleTodo('${t.code}')" style="${t.done?'background:var(--ok);color:#fff':''}">${t.done?'✓':'○'}</button>
+    <div class="lmain"><div class="lt" style="${t.done?'text-decoration:line-through;color:var(--muted)':''}">${esc(t.title)}</div>
+      <div class="ls"><span class="code">${t.code}</span> · 提醒 ${t.remind} · ${t.repeat} · 预计 ${t.due||'—'}${showDefer&&dd>0?` · <span class="tag defer">已顺延 ${dd} 天</span>`:''}${cont?` · <span class="tag defer">连续 ${dd} 天未完成</span>`:''}</div></div>
+  </div>`;}).join("")}</div>`;
+}
+function setTodoView(view,el){
+  document.querySelectorAll(".todo-tabs button").forEach(b=>b.classList.remove("on"));el.classList.add("on");
+  const list=view==="done"?M.todos.filter(t=>t.done):view==="open"?M.todos.filter(t=>!t.done):M.todos;
+  $("#todoView").innerHTML=todoList(list,true);
+}
+function quickAddTodo(){
+  const title=$("#qTitle").value.trim();const date=$("#qDate").value||"2026-08-24";
+  if(!title){toast("请输入待办内容");return;}
+  M.todos.push({code:"TD"+String(M.todos.length+1).padStart(4,"0"),title,remind:"—",repeat:"无",done:false,created:"2026-08-24",due:date});
+  $("#qTitle").value="";toast("已添加待办");render();updateTodoBadge();
+}
+function todoCalendar(){
+  const y=2026,m=7;const first=new Date(y,m,1).getDay();const lead=(first+6)%7;
+  const days=new Date(y,m+1,0).getDate();
+  let cells="";const wd=["一","二","三","四","五","六","日"];
+  cells+=wd.map(d=>`<div class="wd">${d}</div>`).join("");
+  for(let i=0;i<lead;i++)cells+='<div class="cal-cell empty"></div>';
+  for(let d=1;d<=days;d++){
+    const ds=`2026-08-${String(d).padStart(2,"0")}`;
+    const list=M.todos.filter(t=>t.due===ds);
+    const isToday=ds==="2026-08-24";
+    cells+=`<div class="cal-cell ${isToday?'today':''}"><div class="cd">${d}</div>${list.map(t=>`<div class="cal-dot ${t.done?'done':''}">${esc(t.title.length>6?t.title.slice(0,6)+'…':t.title)}</div>`).join("")}</div>`;
+  }
+  return `<div class="cal-grid">${cells}</div>`;
+}
+function todoSubview(sub){
+  if(sub==="today"){
+    const todayList=M.todos.filter(t=>t.due==="2026-08-24");
+    return `<div class="card"><h3>今日时间线 <span class="hint">预计完成日期为今天</span></h3>
+      ${todayList.length?todayList.map(t=>{const dd=deferDays(t);const cont=t.repeat&&t.repeat!=="无"&&dd>0;return `<div class="timeline-item">
+        <div class="tm">${t.remind!=="—"?t.remind:"—"}</div>
+        <div class="lmain"><div class="lt" style="${t.done?'text-decoration:line-through;color:var(--muted)':''}">${esc(t.title)}</div>
+          <div class="ls"><span class="code">${t.code}</span>${dd>0?` · <span class="tag defer">已顺延 ${dd} 天</span>`:''}${cont?` · <span class="tag defer">连续 ${dd} 天未完成</span>`:''}</div></div>
+        <button class="iconbtn" onclick="toggleTodo('${t.code}')" style="${t.done?'background:var(--ok);color:#fff':''}">${t.done?'✓':'○'}</button>
+      </div>`}).join(""):'<div class="empty"><div class="eb">🗓</div>今天暂无待办</div>'}
+    </div>`;
+  }
+  if(sub==="cal"){
+    return `<div class="card"><h3>月度日历 <span class="hint">2026-08 · 按预计完成日期</span></h3>${todoCalendar()}</div>`;
+  }
+  const open=M.todos.filter(t=>!t.done), done=M.todos.filter(t=>t.done);
+  return `<div class="card"><h3>任务列表
+      <span style="margin-left:auto;display:flex;gap:8px"><div class="todo-tabs"><button class="on" data-t="all" onclick="setTodoView('all',this)">全部</button><button data-t="open" onclick="setTodoView('open',this)">进行中</button><button data-t="done" onclick="setTodoView('done',this)">已完成</button></div></span></h3>
+    <div class="todo-stats">
+      <div class="s"><div class="n">${M.todos.length}</div><div class="l">任务数量</div></div>
+      <div class="s"><div class="n" style="color:var(--accent)">${open.length}</div><div class="l">进行中</div></div>
+      <div class="s"><div class="n" style="color:var(--ok)">${done.length}</div><div class="l">已完成</div></div>
+      <div class="s"><div class="n">${Math.round(done.length/M.todos.length*100)}%</div><div class="l">完成率</div></div>
+    </div>
+    <div id="todoView">${todoList(M.todos,true)}</div>
+  </div>`;
+}
+function setTodoSub(v,el){
+  todoSub=v;
+  document.querySelectorAll(".todo-topseg button").forEach(b=>b.classList.remove("on"));
+  el.classList.add("on");
+  $("#todoSub").innerHTML=todoSubview(v);
+}
+
+/* ============== period ============== */
+function periodTiles(p){
+  const data={日:{收入:0,支出:186,应收:4400,应付:800,可用:M.accounts.reduce((s,a)=>s+a.balance,0)},
+    周:{收入:14800,支出:4106,应收:4400,应付:800,可用:M.accounts.reduce((s,a)=>s+a.balance,0)},
+    月:{收入:16000,支出:4106,应收:4400,应付:800,可用:M.accounts.reduce((s,a)=>s+a.balance,0)},
+    季:{收入:42000,支出:12000,应收:4400,应付:800,可用:M.accounts.reduce((s,a)=>s+a.balance,0)},
+    年:{收入:160000,支出:48000,应收:4400,应付:800,可用:M.accounts.reduce((s,a)=>s+a.balance,0)}}[p];
+  const tiles=[["收入","inc",data.收入],["支出","exp",data.支出],["可用资金","",data.可用],["应收","rec",data.应收],["应付","pay",data.应付]];
+  return tiles.map(([k,c,v])=>`<div class="tile ${c}"><div class="k">${k}</div><div class="v">${fmt(v)}</div></div>`).join("");
+}
+function periodSeries(p){
+  const base={日:[[9,18],[12,30],[15,22],[18,26]],周:[380,460,440,500,420,450,480],
+    月:[...Array(24)].map((_,i)=>[i+1,[0,150,310,460,300,450,600,290,440,0,150,300,450,0,150,300,150,300,450,300,150,460,440,450][i]||0]),
+    季:[["4月",12000],["5月",14000],["6月",16000]],年:[["2023",90000],["2024",130000],["2025",160000]]}[p];
+  return base.map(([x,v])=>({x,v}));
+}
+function setPeriod(p,el){
+  document.querySelectorAll("#periodSeg button").forEach(b=>b.classList.remove("on"));el.classList.add("on");
+  $("#periodTiles").innerHTML=periodTiles(p);
+  $("#periodChart").innerHTML=`<div class="ls" style="font-size:12px;color:var(--muted);margin-bottom:6px">收入 vs 支出（${p}）</div>`+barChart(periodSeries(p),{showVal:false});
+  animateBars($("#periodChart"));
+}
+function setMoneyFilter(r,el){
+  moneyFilter=r;
+  document.querySelectorAll("#view .seg button").forEach(b=>b.classList.remove("on"));el.classList.add("on");
+  render();
+}
+
+/* ============== Router ============== */
+const TITLES={"#/home":"首页","#/money":"资金","#/biz":"经营","#/baby":"带娃","#/diary":"日记","#/idea":"灵感","#/todo":"待办","#/review":"复盘","#/settings":"设置"};
+/* ===== 经营模块：筛选 + 分页状态 ===== */
+let bizFilter={cust:"",proj:"",order:"",amtMin:"",amtMax:""};
+let bizPage={cust:1,order:1,recv:1};
+let bizSize={cust:10,order:10,recv:10};
+let babyPage=1,babySize=10,babyTodayPage=1;
+let _txnProjAll="";
+function bizAmtRange(){const mn=bizFilter.amtMin?parseFloat(bizFilter.amtMin):null;const mx=bizFilter.amtMax?parseFloat(bizFilter.amtMax):null;return {mn,mx};}
+function bizFilteredCustomers(){
+  let arr=M.customers.slice();
+  if(bizFilter.cust)arr=arr.filter(c=>c.name.includes(bizFilter.cust));
+  if(bizFilter.proj)arr=arr.filter(c=>(c.projects||[]).includes(bizFilter.proj));
+  return arr;
+}
+function bizFilteredOrders(){
+  let arr=M.orders.slice().reverse();
+  if(bizFilter.cust)arr=arr.filter(o=>{const c=M.customers.find(x=>x.code===o.customer);return c&&c.name.includes(bizFilter.cust);});
+  if(bizFilter.proj)arr=arr.filter(o=>o.project.split(",").includes(bizFilter.proj));
+  if(bizFilter.order)arr=arr.filter(o=>o.code.includes(bizFilter.order));
+  const {mn,mx}=bizAmtRange();
+  if(mn!=null||mx!=null)arr=arr.filter(o=>o.amount>=(mn==null?0:mn)&&o.amount<=(mx==null?Infinity:mx));
+  return arr;
+}
+function bizFilteredRecv(){
+  let arr=M.txns.filter(t=>t.order&&t.type==="收入").slice().sort((a,b)=>b.date.localeCompare(a.date)||(b.code||"").localeCompare(a.code||""));
+  if(bizFilter.cust)arr=arr.filter(t=>{const o=M.orders.find(x=>x.code===t.order);const c=o?M.customers.find(x=>x.code===o.customer):(t.customer?M.customers.find(x=>x.code===t.customer):null);return c&&c.name.includes(bizFilter.cust);});
+  if(bizFilter.proj)arr=arr.filter(t=>{const o=M.orders.find(x=>x.code===t.order);return o&&o.project.split(",").includes(bizFilter.proj);});
+  if(bizFilter.order)arr=arr.filter(t=>t.order.includes(bizFilter.order));
+  const {mn,mx}=bizAmtRange();
+  if(mn!=null||mx!=null)arr=arr.filter(t=>t.amount>=(mn==null?0:mn)&&t.amount<=(mx==null?Infinity:mx));
+  return arr;
+}
+function pageSlice(arr,key){const size=bizSize[key];const pages=Math.max(1,Math.ceil(arr.length/size));const page=Math.min(bizPage[key],pages);return arr.slice((page-1)*size,page*size);}
+function pgWindow(cur,pages){const out=[];const add=p=>out.push(p);if(pages<=7){for(let i=1;i<=pages;i++)add(i);return out;}add(1);if(cur>3)add("...");for(let i=Math.max(2,cur-1);i<=Math.min(pages-1,cur+1);i++)add(i);if(cur<pages-2)add("...");add(pages);return out;}
+function pager(total,key){
+  const size=bizSize[key];const pages=Math.max(1,Math.ceil(total/size));const cur=Math.min(bizPage[key],pages);
+  const btns=[];
+  btns.push(`<button class="pg" ${cur<=1?'disabled':''} onclick="setBizPage('${key}',${cur-1})">‹</button>`);
+  pgWindow(cur,pages).forEach(p=>btns.push(p==="..."?`<span class="pg-ell">…</span>`:`<button class="pg ${p===cur?'on':''}" onclick="setBizPage('${key}',${p})">${p}</button>`));
+  btns.push(`<button class="pg" ${cur>=pages?'disabled':''} onclick="setBizPage('${key}',${cur+1})">›</button>`);
+  return `<div class="pager"><span class="pg-info">共 ${total} 条 · 第 ${cur}/${pages} 页</span><div class="pg-btns">${btns.join("")}</div>
+    <select class="pg-size" onchange="setBizSize('${key}',this.value)">${[10,30,50,100].map(s=>`<option value="${s}" ${bizSize[key]===s?'selected':''}>${s} 条/页</option>`).join("")}</select></div>`;
+}
+function setBizPage(key,p){if(p<1)return;bizPage[key]=p;renderBiz();}
+function setBizSize(key,s){bizSize[key]=parseInt(s)||10;bizPage[key]=1;renderBiz();}
+/* 带娃分页：today / hist 各用独立页码，size 共用 */
+function babyPager(total,key){
+  const size=babySize;const pages=Math.max(1,Math.ceil(total/size));const cur=Math.min((key==="today"?babyTodayPage:babyPage),pages);
+  const btns=[];
+  btns.push(`<button class="pg" ${cur<=1?'disabled':''} onclick="setBabyPage('${key}',${cur-1})">‹</button>`);
+  pgWindow(cur,pages).forEach(p=>btns.push(p==="..."?`<span class="pg-ell">…</span>`:`<button class="pg ${p===cur?'on':''}" onclick="setBabyPage('${key}',${p})">${p}</button>`));
+  btns.push(`<button class="pg" ${cur>=pages?'disabled':''} onclick="setBabyPage('${key}',${cur+1})">›</button>`);
+  return `<div class="pager"><span class="pg-info">共 ${total} 条 · 第 ${cur}/${pages} 页</span><div class="pg-btns">${btns.join("")}</div>
+    <select class="pg-size" onchange="setBabySize(this.value)">${[10,30,50,100].map(s=>`<option value="${s}" ${babySize===s?'selected':''}>${s} 条/页</option>`).join("")}</select></div>`;
+}
+function setBabyPage(key,p){if(p<1)return;if(key==="today")babyTodayPage=p;else babyPage=p;if(location.hash==="#/baby")render();}
+function setBabySize(s){babySize=parseInt(s)||10;babyPage=1;babyTodayPage=1;if(location.hash==="#/baby")render();}
+function applyBizFilter(){
+  bizFilter={cust:($("#sfCust").value||"").trim(),proj:$("#sfProj").value,order:($("#sfOrder").value||"").trim(),amtMin:($("#sfAmtMin").value||"").trim(),amtMax:($("#sfAmtMax").value||"").trim()};
+  bizPage={cust:1,order:1,recv:1};
+  // 仅局部刷新三张表，不重渲染搜索框本身 → 输入不丢焦点
+  const cs=$("#custSection"),os=$("#ordSection"),rs=$("#recvSection");
+  if(cs)cs.innerHTML=bizCustSection();
+  if(os)os.innerHTML=bizOrdSection();
+  if(rs)rs.innerHTML=bizRecvSection();
+}
+function bizCustSection(){
+  const f=bizFilter;
+  const dedupCust=new Set(M.orders.map(o=>o.customer)).size;
+  const all=bizFilteredCustomers();const rows=pageSlice(all,"cust");
+  return `
+  <div class="section-title"><span class="bar"></span>客户列表 <span style="font-weight:400;color:var(--muted);font-size:12px">（去重客户总数：${dedupCust}${f.cust||f.proj?` · 筛选后 ${all.length}`:''}）</span>
+    <button class="mini-btn" style="margin-left:auto" onclick="openCustomer()">+ 新建客户</button></div>
+  <div class="card">
+    <div class="tbl-wrap"><table class="tbl biz-tbl">
+      <thead><tr><th>客户编号</th><th>姓名</th><th>来源</th><th>类型</th><th style="text-align:right">累计成交</th><th style="text-align:right">应收</th><th>上次成交</th><th>间隔</th><th>频次</th><th style="text-align:right">操作</th></tr></thead>
+      <tbody>${rows.length?rows.map(c=>`<tr><td data-label="客户编号"><span class="code">${c.code}</span></td><td data-label="姓名"><span class="clickable" onclick="openCustomerDetail('${c.code}')">${c.name}</span></td><td data-label="来源">${c.source}</td><td data-label="类型">${c.type}</td>
+        <td data-label="累计成交" style="text-align:right" class="amount inc">${fmt(c.累计成交)}</td><td data-label="应收" style="text-align:right" class="amount ${c.应收>0?'exp':''}">${c.应收?fmt(c.应收):'—'}</td>
+        <td data-label="上次成交">${c.上次成交}</td><td data-label="间隔">${c.间隔?c.间隔+'天':'—'}</td><td data-label="频次">${c.频次}</td>
+        <td data-label="操作" class="op-col"><div class="op-actions"><button class="iconbtn" title="查看" onclick="openCustomerDetail('${c.code}')">👁</button><button class="iconbtn" title="编辑" onclick="editCustomer('${c.code}')">✎</button><button class="iconbtn" title="删除" onclick="delCustomer('${c.code}')">🗑</button></div></td>
+        </tr>`).join(""):'<tr><td colspan="10"><div class="empty">暂无客户</div></td></tr>'}</tbody>
+    </table></div>
+    ${pager(all.length,"cust")}
+  </div>`;
+}
+function bizOrdSection(){
+  const f=bizFilter;
+  const all=bizFilteredOrders();const rows=pageSlice(all,"order");
+  return `
+  <div class="section-title"><span class="bar"></span>订单 <span style="font-weight:400;color:var(--muted);font-size:12px">（一行一单 · 订单收付款并入资金流水${f.cust||f.proj||f.order||f.amtMin||f.amtMax?` · 筛选后 ${all.length}`:''}）</span>
+    <button class="mini-btn" style="margin-left:auto" onclick="openOrder()">+ 新建订单</button></div>
+  <div class="card">
+    <div class="tbl-wrap"><table class="tbl biz-tbl tbl-fixed">
+      <colgroup><col style="width:116px"><col style="width:92px"><col style="width:150px"><col style="width:210px"><col style="width:88px"><col style="width:104px"><col style="width:120px"><col style="width:80px"><col style="width:96px"></colgroup>
+      <thead><tr><th>订单编号</th><th>客户</th><th>项目</th><th>产品</th><th>日期</th><th style="text-align:right">金额</th><th style="text-align:right">已收/应收</th><th>状态</th><th style="text-align:right">操作</th></tr></thead>
+      <tbody>${rows.length?rows.map(o=>{const c=M.customers.find(x=>x.code===o.customer);const due=Math.max(0,o.amount-(o.received||0));const status=due>0?'待回款':'已结清';return `<tr>
+        <td data-label="订单编号" class="ellipsis"><span class="code clickable" onclick="openOrderDetail('${o.code}')">${o.code}</span></td>
+        <td data-label="客户" class="ellipsis">${c?`<span class="clickable" onclick="openCustomerDetail('${c.code}')">${esc(c.name)}</span>`:'—'}</td>
+        <td data-label="项目" class="proj-cell">${o.project?o.project.split(",").filter(Boolean).map(cc=>`<div class="proj-line"><span class="tag proj">📎 ${projName(cc)}</span></div>`).join(""):'—'}</td>
+        <td data-label="产品" class="prod-cell">${(o.items&&o.items.length)?o.items.map(it=>`<div class="prod-line"><span class="pn-q">${esc(it.name)}</span><span class="pn-x">×${it.qty}</span>${it.disc<100?`<span class="pn-d">${it.disc}%</span>`:''}<span class="pn-amount">${fmt(it.sub||0)}</span></div>`).join(""):`<div class="prod-line"><span class="pn-q">${esc(o.products)}</span></div>`}</td>
+        <td data-label="日期">${o.date}</td>
+        <td data-label="金额" style="text-align:right" class="amount inc">${fmt(o.amount)}</td>
+        <td data-label="已收/应收" style="text-align:right">${fmt(o.received||0)}/${fmt(o.amount)}</td>
+        <td data-label="状态"><span class="tag ${due>0?'defer':'normal'}">${status}</span></td>
+        <td data-label="操作" class="op-col"><div class="op-actions"><button class="iconbtn" title="查看" onclick="openOrderDetail('${o.code}')">👁</button><button class="iconbtn" title="编辑" onclick="editOrder('${o.code}')">✎</button><button class="iconbtn" title="删除" onclick="delOrder('${o.code}')">🗑</button></div></td>
+      </tr>`;}).join(""):'<tr><td colspan="9"><div class="empty">暂无订单</div></td></tr>'}</tbody>
+    </table></div>
+    ${pager(all.length,"order")}
+  </div>`;
+}
+function bizRecvSection(){
+  const f=bizFilter;
+  const all=bizFilteredRecv();const rows=pageSlice(all,"recv");
+  const recvSum=all.reduce((s,t)=>s+t.amount,0);
+  const recvByOrder={};all.forEach(t=>{(recvByOrder[t.order]=recvByOrder[t.order]||[]).push(t);});
+  const recvOrderList=Object.entries(recvByOrder).map(([k,arr])=>({order:k,sum:arr.reduce((s,t)=>s+t.amount,0),count:arr.length}));
+  return `
+  <div class="section-title"><span class="bar"></span>回款明细 <span style="font-weight:400;color:var(--muted);font-size:12px">（登记每一笔订单的回款流水，汇总至资金，复盘/项目数据可按订单聚合同步呈现${f.cust||f.proj||f.order||f.amtMin||f.amtMax?` · 筛选后 ${all.length}`:''}）</span>
+    <button class="mini-btn" style="margin-left:auto" onclick="openTxn({defaultType:'收入',defaultTag:'正常',fromReceived:true})">+ 登记回款</button></div>
+  <div class="card mb">
+    <div class="row" style="margin-bottom:12px">
+      <div class="tile" style="flex:1;min-width:160px"><div class="k">总回款笔数</div><div class="v">${all.length}<span class="u"> 笔</span></div></div>
+      <div class="tile inc" style="flex:1;min-width:160px"><div class="k">总回款金额</div><div class="v">${fmt(recvSum)}</div></div>
+      <div class="tile" style="flex:1;min-width:160px"><div class="k">涉及订单</div><div class="v">${recvOrderList.length}<span class="u"> 单</span></div></div>
+    </div>
+    ${recvOrderList.length?`<div class="mb" style="display:flex;gap:8px;flex-wrap:wrap">${recvOrderList.map(x=>{const o=M.orders.find(y=>y.code===x.order);const due=o?Math.max(0,o.amount-(o.received||0)):0;return `<span class="tag ${due>0?'defer':'normal'}" style="font-size:12px;padding:6px 10px"><span class="code">${x.order}</span> · ${fmt(x.sum)} · ${due>0?`待 ${fmt(due)}`:'已结清'}</span>`;}).join("")}</div>`:''}
+    <div class="tbl-wrap"><table class="tbl biz-tbl">
+      <thead><tr><th>日期</th><th>订单</th><th>客户</th><th>项目</th><th style="text-align:right">金额</th><th>账户</th><th>标签</th><th>摘要</th><th style="text-align:right">操作</th></tr></thead>
+      <tbody>${rows.length?rows.map(t=>{const o=M.orders.find(x=>x.code===t.order);const c=o?M.customers.find(x=>x.code===o.customer):(t.customer?M.customers.find(x=>x.code===t.customer):null);const a=M.accounts.find(x=>x.code===t.from);return `<tr>
+        <td data-label="日期">${t.date}</td>
+        <td data-label="订单">${t.order?`<span class="code clickable" onclick="openOrderDetail('${t.order}')">${t.order}</span>`:'—'}</td>
+        <td data-label="客户">${c?`<span class="clickable" onclick="openCustomerDetail('${c.code}')">${c.name}</span>`:'—'}</td>
+        <td data-label="项目" class="proj-cell">${(o&&o.project)?o.project.split(",").filter(Boolean).map(cc=>`<div class="proj-line"><span class="tag proj">📎 ${projName(cc)}</span></div>`).join(""):'—'}</td>
+        <td data-label="金额" style="text-align:right" class="amount inc">+${fmt(t.amount)}</td>
+        <td data-label="账户">${a?a.name:'—'}</td>
+        <td data-label="标签"><span class="tag ${t.tag==='正常'?'normal':t.tag==='应收'?'rec':'pay'}">${t.tag}</span></td>
+        <td data-label="摘要">${esc(t.note)||''}</td>
+        <td data-label="操作" class="op-col"><div class="op-actions"><button class="iconbtn" title="查看订单" onclick="openOrderDetail('${t.order}')">👁</button><button class="iconbtn" title="删除回款" onclick="delReceived('${t.code}')">🗑</button></div></td>
+      </tr>`;}).join(""):'<tr><td colspan="9"><div class="empty">暂无回款流水 · 可通过「资金·记一笔」关联订单或在订单里点编辑</div></td></tr>'}</tbody>
+    </table></div>
+    ${pager(all.length,"recv")}
+  </div>`;
+}
+function resetBizFilter(){bizFilter={cust:"",proj:"",order:"",amtMin:"",amtMax:""};bizPage={cust:1,order:1,recv:1};renderBiz();}
+function renderBiz(){if(location.hash==="#/biz"){$("#view").innerHTML=screens["#/biz"]();}}
+/* 自定义确认弹窗（替代原生 confirm，避免沙箱环境被拦截导致删除无法生效） */
+function confirmModal(title,msg,onYes){
+  $("#modal").innerHTML=`<h2>${esc(title)}</h2><div class="cf-msg">${String(msg).split("\n").map(l=>esc(l)).join("<br>")}</div>
+    <div class="btn-row"><button class="btn btn-ghost" onclick="closeModal()">取消</button><button class="btn btn-danger" id="cfYes">确认删除</button></div>`;
+  showModal();
+  const yes=$("#cfYes");if(yes)yes.onclick=()=>{closeModal();onYes();};
+}
+function render(){
+  const r=location.hash||"#/home";
+  if(!screens[r])location.hash="#/home";
+  $("#view").innerHTML=screens[r]?screens[r]():"";
+  $("#pageTitle").textContent=TITLES[r]||"首页";
+  document.querySelectorAll("[data-route]").forEach(a=>a.classList.toggle("active",a.getAttribute("data-route")===r));
+  if(r==="#/home"){const c=$("#periodChart");if(c)animateBars(c);}
+  if(r==="#/diary"&&diarySearch){setDiarySearch(diarySearch);}
+  window.scrollTo(0,0);
+}
+function go(h){location.hash=h;}
+window.addEventListener("hashchange",render);
+
+/* ============== Modals ============== */
+function showModal(){$("#overlay").classList.add("show");}
+function closeModal(){$("#overlay").classList.remove("show");}
+$("#overlay").addEventListener("click",e=>{if(e.target===$("#overlay"))closeModal();});
+
+function openTxn(opts={}){
+  _txnProjAll="";
+  $("#modal").innerHTML=`
+    <h2>${opts.fromReceived?'登记回款':'记一笔'}${opts.fromReceived?'<span style="font-size:12px;color:var(--muted);font-weight:400;margin-left:8px">选择订单后自动带出项目/客户</span>':''}</h2>
+    <div class="field"><label>类型</label><div class="radios" id="txType">${["支出","收入","转账"].map((t,i)=>`<label><input type="radio" name="tt" value="${t}" ${(opts.defaultType===t)||(!opts.defaultType&&i===0)?'checked':''}><span>${t}</span></label>`).join("")}</div></div>
+    <div class="field"><label>金额</label><input id="txAmt" type="number" placeholder="0.00" inputmode="decimal"></div>
+    <div class="field" id="catField"><label>分类</label><select id="txCat">${M.params["收支类型"].map(c=>`<option ${opts.defaultType==='收入'&&c==='经营成本回款'?'selected':''}>${c}</option>`).join("")}</select></div>
+    <div class="field"><label>账户</label><select id="txAcc">${M.accounts.map(a=>`<option value="${a.code}">${a.name}</option>`).join("")}</select></div>
+    <div class="transfer-fields" id="txTransfer"><div class="field" style="flex:1"><label>转入账户</label><select id="txTo">${M.accounts.map(a=>`<option value="${a.code}">${a.name}</option>`).join("")}</select></div></div>
+    <div class="field"><label>关联项目（可选；选择订单后自动带出该订单全部关联项目）</label>
+      <select id="txProj"><option value="">不挂钩</option>${M.projects.map(p=>`<option value="${p.code}">${p.name}</option>`).join("")}</select>
+      <div id="txProjTags" class="proj-auto" style="display:none"></div></div>
+    <div class="field"><label>关联订单（回款登记专用；选客户后仅列出该客户名下「未款齐」订单，选择后自动带出客户/项目）</label><select id="txOrder"><option value="">不挂钩</option></select></div>
+    <div class="field"><label>关联客户（自动从订单带出，可手动改）</label><select id="txCust"><option value="">不挂钩</option>${M.customers.map(c=>`<option value="${c.code}">${c.name}</option>`).join("")}</select></div>
+    <div class="field"><label>标签（默认正常，手动改应收/应付）</label><div class="radios" id="txTag">${["正常","应收","应付"].map((t,i)=>`<label><input type="radio" name="tg" value="${t}" ${(opts.defaultTag===t)||(!opts.defaultTag&&i===0)?'checked':''}><span>${t}</span></label>`).join("")}</div></div>
+    <div class="field"><label>摘要</label><input id="txNote" placeholder="可选"></div>
+    <div class="btn-row"><button class="btn btn-ghost" onclick="closeModal()">取消</button><button class="btn btn-primary" onclick="saveTxn()">保存</button></div>`;
+  const updProjFromOrder=()=>{
+    const code=$("#txOrder").value;
+    const sel=$("#txProj"),tags=$("#txProjTags");
+    if(!code){sel.style.display="";tags.style.display="none";_txnProjAll="";return;}
+    const o=M.orders.find(x=>x.code===code);if(!o)return;
+    // 自动带出客户并联动订单下拉
+      if(o.customer){const cEl=$("#txCust");if(cEl)cEl.value=o.customer;renderTxnOrderOptions();}
+      // 自动带出该订单全部关联项目（逗号分隔），确保各项目收支均能取到
+      if(o.project){
+        _txnProjAll=o.project;
+        sel.style.display="none";tags.style.display="flex";
+        tags.innerHTML=o.project.split(",").filter(Boolean).map(cc=>`<span class="tag proj">📎 ${projName(cc)}</span>`).join("")+`<span class="ls" style="font-size:11px;color:var(--muted)">（回款计入全部关联项目）</span>`;
+      }else{_txnProjAll="";sel.style.display="";tags.style.display="none";}
+    };
+    // 物理重建订单下拉：仅保留「该客户名下 + 未款齐」的订单（禁用项仍会出现在原生下拉里，故改为重建）
+    const renderTxnOrderOptions=()=>{
+      const oEl=$("#txOrder");if(!oEl)return;
+      const cust=$("#txCust").value;
+      const list=M.orders.filter(o=>{
+        const due=Math.max(0,o.amount-(o.received||0));
+        if(due<=0)return false;
+        if(cust&&o.customer!==cust)return false;
+        return true;
+      });
+      const cur=oEl.value;
+      oEl.innerHTML=`<option value="">不挂钩</option>`+list.map(o=>{const c=M.customers.find(x=>x.code===o.customer);const due=Math.max(0,o.amount-(o.received||0));return `<option value="${o.code}">${o.code} · ${c?c.name:'?'} · ${fmt(o.received||0)}/${fmt(o.amount)}${due>0?' · 待 '+fmt(due):''}</option>`;}).join("");
+      if(cur&&list.some(o=>o.code===cur))oEl.value=cur;else if(cur)oEl.value="";
+    };
+    $("#txType").addEventListener("change",e=>{const t=e.target.value,isT=t==="转账";$("#catField").style.display=isT?"none":"block";$("#txTransfer").classList.toggle("show",isT);});
+    $("#txOrder").addEventListener("change",updProjFromOrder);
+    $("#txCust").addEventListener("change",renderTxnOrderOptions);
+    renderTxnOrderOptions();showModal();
+  }
+function saveTxn(){
+  const type=document.querySelector('input[name=tt]:checked').value;
+  const amt=parseFloat($("#txAmt").value)||0;if(!amt){toast("请输入金额");return;}
+  const tag=document.querySelector('input[name=tg]:checked').value;
+  const seq=String(M.txns.length+1).padStart(4,"0");
+  const proj=$("#txProj").value;
+  const order=$("#txOrder").value;
+  const cust=$("#txCust").value;
+  // 关联订单时自动同步关联客户/项目（项目取订单全部，确保各项目收支均能取到）
+  let finalProj=proj,finalCust=cust;
+  if(order){
+    const o=M.orders.find(x=>x.code===order);if(o){
+      if(!finalCust)finalCust=o.customer||"";
+      if(!finalProj)finalProj=_txnProjAll||o.project||"";
+      // 同步订单已收款 + 客户应收
+      if(type==="收入"){
+        o.received=(o.received||0)+amt;
+        if(tag==="应收"&&finalCust){const c=M.customers.find(x=>x.code===finalCust);if(c)c.应收=(c.应收||0)+amt;}
+      }
+    }
+  }
+  M.txns.push({code:"T20260824"+seq,date:"2026-08-24",type:type==="转账"?"支出":type,amount:amt,category:type==="转账"?"转账":$("#txCat").value,from:$("#txAcc").value,tag:type==="转账"?"正常":tag,note:$("#txNote").value||(type==="转账"?"A→B 转账":"")||"",project:finalProj,order,customer:finalCust});
+  closeModal();toast("已保存 · "+type+" "+fmt(amt)+(order?` · 订单 ${order} 已自动收款`:""));
+  if(["#/money","#/home","#/biz"].includes(location.hash))render();
+}
+
+/* 客户：身份证自动算年龄/性别/生日/地区 */
+const REGION={"440305":"广东省深圳市南山区","310115":"上海市浦东新区","330106":"浙江省杭州市西湖区"};
+function parseID(id){
+  if(!id||id.length<18)return null;
+  const y=+id.substr(6,4),m=id.substr(10,2),d=id.substr(12,2);
+  const age=2026-y;const gender=(+id[16])%2===1?"男":"女";const birthday=`${y}-${m}-${d}`;
+  const region=REGION[id.substr(0,6)]||"未知地区";
+  return {age,gender,birthday,region};
+}
+function openCustomer(code){
+  const c=code?M.customers.find(x=>x.code===code):null;
+  $("#modal").innerHTML=`
+    <h2>${c?'编辑客户':'新建客户'}</h2>
+    <input type="hidden" id="cCode" value="${c?c.code:''}">
+    <div class="field"><label>姓名</label><input id="cName" placeholder="客户名称" value="${c?esc(c.name):''}"></div>
+    <div class="field"><label>联系方式</label><input id="cContact" placeholder="电话/微信" value="${c?esc(c.contact):''}"></div>
+    <div class="field"><label>来源</label><select id="cSource">${M.params["客户来源"].map(s=>`<option ${c&&c.source===s?'selected':''}>${s}</option>`).join("")}</select></div>
+    <div class="field"><label>类型</label><select id="cType">${M.params["客户类型"].map(s=>`<option ${c&&c.type===s?'selected':''}>${s}</option>`).join("")}</select></div>
+    <div class="field"><label>身份证号（自动算年龄/性别/生日/地区）</label><input id="cID" maxlength="18" placeholder="18 位身份证" value="${c?esc(c.id_card||''):''}"></div>
+    <div class="field"><label>自动派生</label><div class="ro" id="cDerived">${c?(c.age?`年龄 ${c.age} · ${c.gender} · 生日 ${c.birthday} · ${c.region}`:'—'):'填写身份证后自动显示'}</div></div>
+    <div class="btn-row"><button class="btn btn-ghost" onclick="closeModal()">取消</button><button class="btn btn-primary" onclick="saveCustomer()">保存</button></div>`;
+  $("#cID").addEventListener("input",()=>{const r=parseID($("#cID").value);$("#cDerived").textContent=r?`年龄 ${r.age} · ${r.gender} · 生日 ${r.birthday} · ${r.region}`:"填写身份证后自动显示";});
+  showModal();
+}
+function editCustomer(code){
+  if(!M.customers.find(x=>x.code===code)){toast("客户不存在");return;}
+  openCustomer(code);
+}
+function saveCustomer(){
+  const code=$("#cCode").value;
+  const name=$("#cName").value.trim();if(!name){toast("请输入姓名");return;}
+  const id=$("#cID").value.trim();const r=parseID(id);
+  if(code){
+    const c=M.customers.find(x=>x.code===code);if(!c)return toast("客户不存在");
+    c.name=name;c.contact=$("#cContact").value||"—";c.source=$("#cSource").value;c.type=$("#cType").value;c.id_card=id;
+    if(r){c.age=r.age;c.gender=r.gender;c.birthday=r.birthday;c.region=r.region;}
+    closeModal();toast("已更新客户 "+name);render();
+  }else{
+    const newCode="K"+String(M.customers.length+1).padStart(4,"0");
+    M.customers.push({code:newCode,name,contact:$("#cContact").value||"—",source:$("#cSource").value,type:$("#cType").value,id_card:id,累计成交:0,应收:0,上次成交:"—",间隔:0,频次:0,projects:[],...(r?{age:r.age,gender:r.gender,birthday:r.birthday,region:r.region}:{})});
+    closeModal();toast("已新建客户 "+name+(r?`（${r.age}岁/${r.gender}）`:""));render();
+  }
+}
+function delCustomer(code,fromDetail){
+  const c=M.customers.find(x=>x.code===code);if(!c)return toast("客户不存在");
+  const refOrders=M.orders.filter(o=>o.customer===code);
+  const refTxns=M.txns.filter(t=>t.customer===code);
+  let extra="";
+  if(refOrders.length)extra+=`\n· 关联 ${refOrders.length} 个订单（删除后引用将清空）`;
+  if(refTxns.length)extra+=`\n· 关联 ${refTxns.length} 条资金流水（引用将清空）`;
+  confirmModal("删除客户",`确认删除客户「${c.name}」？${extra?'该客户被引用：'+extra:''}`,()=>{
+    M.customers=M.customers.filter(x=>x.code!==code);
+    refOrders.forEach(o=>{o.customer="";});
+    refTxns.forEach(t=>{t.customer="";});
+    toast("已删除客户"+(refOrders.length?`（清除了 ${refOrders.length} 个订单的引用）`:""));
+    renderBiz();
+  });
+}
+function openCustomerDetail(code){
+  const c=M.customers.find(x=>x.code===code);if(!c)return;
+  const orders=M.orders.filter(o=>o.customer===code);
+  const txns=M.txns.filter(t=>(t.customer===code)||orders.some(o=>o.code===t.order));
+  const projTags=(c.projects||[]).map(p=>`<span class="tag proj">${projName(p)}</span>`).join(" ")||'<span class="ls">—</span>';
+  $("#view").innerHTML=`
+    <div class="cust-head"><div class="av">${esc(c.name.slice(0,1))}</div><div><div class="page-title" style="font-size:18px">${esc(c.name)}</div><div class="crumb"><span class="code">${c.code}</span> · ${c.type} · ${c.source}</div></div>
+      <div style="margin-left:auto;display:flex;gap:8px"><button class="mini-btn" onclick="editCustomer('${c.code}')">✎ 编辑</button><button class="mini-btn" onclick="delCustomer('${c.code}',true)">🗑 删除</button><button class="mini-btn" onclick="render()">← 返回经营</button></div></div>
+    <div class="grid-2">
+      <div class="card"><h3>基础信息</h3><div class="kv">
+        <div class="kv-row"><span class="k">联系方式</span><span class="v">${esc(c.contact)}</span></div>
+        <div class="kv-row"><span class="k">来源渠道</span><span class="v">${esc(c.source)}</span></div>
+        <div class="kv-row"><span class="k">客户类型</span><span class="v">${esc(c.type)}</span></div>
+        <div class="kv-row"><span class="k">身份证</span><span class="v">${esc(c.id_card||'—')}</span></div>
+        <div class="kv-row"><span class="k">年龄</span><span class="v">${c.age!=null?c.age+' 岁':'—'}</span></div>
+        <div class="kv-row"><span class="k">性别</span><span class="v">${c.gender||'—'}</span></div>
+        <div class="kv-row"><span class="k">出生年月</span><span class="v">${c.birthday||'—'}</span></div>
+        <div class="kv-row"><span class="k">地区</span><span class="v">${esc(c.region||'—')}</span></div>
+      </div><div class="mt"><div class="ls" style="font-size:12px;color:var(--muted);margin-bottom:6px">关联项目</div>${projTags}</div></div>
+      <div class="card"><h3>历史消费</h3><div class="kv">
+        <div class="kv-row"><span class="k">累计成交</span><span class="v amount inc">${fmt(c.累计成交)}</span></div>
+        <div class="kv-row"><span class="k">应收</span><span class="v amount ${c.应收>0?'exp':''}">${c.应收?fmt(c.应收):'—'}</span></div>
+        <div class="kv-row"><span class="k">首次成交</span><span class="v">${orders.length?orders[orders.length-1].date:'—'}</span></div>
+        <div class="kv-row"><span class="k">上次成交</span><span class="v">${c.上次成交}</span></div>
+        <div class="kv-row"><span class="k">间隔天数</span><span class="v">${c.间隔?c.间隔+' 天':'—'}</span></div>
+        <div class="kv-row"><span class="k">消费频次</span><span class="v">${c.频次} 次</span></div>
+      </div></div>
+    </div>
+    <div class="section-title"><span class="bar"></span>关联订单（${orders.length}）</div>
+    <div class="card">${orders.length?orders.slice().reverse().map(o=>{const items=(o.items&&o.items.length)?o.items.map(it=>`${it.name}×${it.qty}`).join('；'):o.products;return `<div class="order-card"><div class="ot"><span class="clickable" onclick="openOrderDetail('${o.code}')">${esc(items)}</span> <span class="code clickable" onclick="openOrderDetail('${o.code}')">${o.code}</span></div><div class="om">项目 ${projName(o.project)} · ${o.date} · 收款 ${fmt(o.received)}/${fmt(o.amount)}</div></div>`;}).join(""):'<div class="empty">暂无订单</div>'}</div>
+    <div class="section-title"><span class="bar"></span>相关资金流水</div>
+    <div class="card"><div style="overflow-x:auto"><table class="tbl"><thead><tr><th>日期</th><th>类型</th><th>标签</th><th>摘要</th><th style="text-align:right">金额</th></tr></thead><tbody>${txns.length?txns.slice().reverse().map(t=>`<tr><td>${t.date.slice(5)}</td><td>${t.type}</td><td><span class="tag ${t.tag==='正常'?'normal':t.tag==='应收'?'rec':'pay'}">${t.tag}</span></td><td>${esc(t.note)}</td><td style="text-align:right" class="amount ${t.type==='收入'?'inc':'exp'}">${t.type==='收入'?'+':'-'}${fmt(t.amount)}</td></tr>`).join(""):'<tr><td colspan="5"><div class="empty">暂无关联流水</div></td></tr>'}</tbody></table></div></div>`;
+}
+
+/* 订单：引用客户 + 关联项目 + 收付款，支持一个订单多产品明细行 */
+let _order={rows:[],render(){},recalc(){}};
+function openOrder(code){
+  const editing=code?M.orders.find(x=>x.code===code):null;
+  const rows=editing&&editing.items&&editing.items.length?editing.items.map(it=>({product:it.product||(M.products.find(p=>p.name===it.name)||{}).code||M.products[0].code,qty:it.qty,disc:it.disc})):[{product:M.products[0].code,qty:1,disc:100}];
+  const projectSet=()=>{const s=new Set();rows.forEach(r=>{const p=M.products.find(x=>x.code===r.product);if(p&&p.project)s.add(p.project);});return [...s];};
+  const recalc=()=>{const total=rows.reduce((s,r)=>{const p=M.products.find(x=>x.code===r.product)||M.products[0];return s+p.price*r.qty*(r.disc/100);},0);const e=$("#oEst");if(e)e.textContent=fmt(total);};
+  const renderProj=()=>{const ps=projectSet();const box=$("#oProjAuto");if(box)box.innerHTML=ps.length?ps.map(c=>`<span class="tag proj">${projName(c)}</span>`).join(" "):'<span class="ls">不关联</span>';};
+  const rowSub=i=>{const r=rows[i];const p=M.products.find(x=>x.code===r.product)||M.products[0];return p.price*r.qty*(r.disc/100);};
+  const renderRows=()=>{
+    const box=$("#oItems");if(!box)return;
+    const GC="display:grid;grid-template-columns:1.6fr .8fr 1fr 1.1fr auto;gap:8px;align-items:end";
+    const head=`<div style="${GC};margin-bottom:4px"><div class="oi-h">商品</div><div class="oi-h">数量</div><div class="oi-h">折扣(%)</div><div class="oi-h" style="text-align:right">小计</div><div class="oi-h"></div></div>`;
+    const body=rows.map((r,i)=>{
+      const sub=p=>p.price*r.qty*(r.disc/100);
+      return `<div style="${GC};margin-bottom:8px">
+        <select data-i="${i}" class="oip" style="width:100%;padding:10px 8px;border:1px solid var(--line-strong);border-radius:10px;font-size:13px;background:var(--surface)">${M.products.map(pp=>`<option value="${pp.code}" ${pp.code===r.product?'selected':''}>${pp.name} · ${fmt(pp.price)}</option>`).join("")}</select>
+        <input data-i="${i}" class="oipq" type="number" value="${r.qty}" min="1" step="1" style="width:100%;padding:10px 8px;border:1px solid var(--line-strong);border-radius:10px;font-size:13px">
+        <input data-i="${i}" class="oipd" type="number" value="${r.disc}" min="0" max="100" step="any" style="width:100%;padding:10px 8px;border:1px solid var(--line-strong);border-radius:10px;font-size:13px">
+        <div data-sub="${i}" style="text-align:right;font-weight:700;color:var(--accent-deep);padding:10px 8px">${fmt(rowSub(i))}</div>
+        <button class="iconbtn" onclick="delOrderRow(${i})" ${rows.length<=1?'disabled style="opacity:.4;cursor:default"':''}>🗑</button>
+      </div>`;
+    }).join("");
+    box.innerHTML=head+body;
+    box.querySelectorAll(".oip").forEach(s=>s.onchange=e=>{rows[+e.target.dataset.i].product=e.target.value;renderRows();renderProj();});
+    box.querySelectorAll(".oipq").forEach(s=>s.oninput=e=>{let v=parseInt(e.target.value);if(isNaN(v)||v<1)v=1;rows[+e.target.dataset.i].qty=v;const el=box.querySelector('[data-sub="'+e.target.dataset.i+'"]');if(el)el.textContent=fmt(rowSub(+e.target.dataset.i));recalc();});
+    box.querySelectorAll(".oipd").forEach(s=>s.oninput=e=>{let v=parseFloat(e.target.value);if(isNaN(v))v=0;v=Math.max(0,Math.min(100,v));rows[+e.target.dataset.i].disc=v;const el=box.querySelector('[data-sub="'+e.target.dataset.i+'"]');if(el)el.textContent=fmt(rowSub(+e.target.dataset.i));recalc();});
+    recalc();renderProj();
+  };
+  _order={rows,render:renderRows,recalc,editing};
+  $("#modal").innerHTML=`
+    <h2>${editing?'编辑订单':'新建订单'}</h2>
+    <input type="hidden" id="oCode" value="${editing?editing.code:''}">
+    <div class="field"><label>客户</label><select id="oCustomer">${M.customers.map(c=>`<option value="${c.code}" ${editing&&editing.customer===c.code?'selected':''}>${c.name}</option>`).join("")}</select></div>
+    <div class="field"><label>关联项目 <span style="font-weight:400;color:var(--muted);font-size:11px">根据所选产品自动填充（可跨多项目）</span></label><div id="oProjAuto" class="proj-auto"></div></div>
+    <div class="field"><label>产品明细 <span style="font-weight:400;color:var(--muted);font-size:11px">一行一个产品，可添加多行（小计 = 单价 × 数量 × 折扣%，折扣默认 100% 不打折）</span>
+      <button class="mini-btn" style="margin-left:8px" onclick="addOrderRow()">+ 添加产品</button></label>
+      <div id="oItems"></div></div>
+    <div class="field"><label>订单金额（自动计算 = 各产品小计之和）</label><div class="est" id="oEst">¥0</div></div>
+    <div class="field"><label>已收款 <span style="font-weight:400;color:var(--muted);font-size:11px">改单不影响历史回款流水；如需调整请到「回款明细」或「资金流水」</span></label><input id="oReceived" type="number" placeholder="0.00" value="${editing?editing.received||0:''}"></div>
+    <div class="btn-row"><button class="btn btn-ghost" onclick="closeModal()">取消</button><button class="btn btn-primary" onclick="saveOrder()">保存</button></div>`;
+  renderRows();
+  showModal();
+}
+function addOrderRow(){if(_order.rows)_order.rows.push({product:M.products[0].code,qty:1,disc:100});_order.render();}
+function delOrderRow(i){if(_order.rows&&_order.rows.length>1)_order.rows.splice(i,1);_order.render();}
+function saveOrder(){
+  if(!_order.rows||!_order.rows.length){toast("请添加产品");return;}
+  const items=_order.rows.map(r=>{const p=M.products.find(x=>x.code===r.product)||M.products[0];return{product:p.code,name:p.name,price:p.price,qty:r.qty,disc:r.disc,sub:p.price*r.qty*(r.disc/100)};});
+  const amount=items.reduce((s,it)=>s+it.sub,0);
+  const received=parseFloat($("#oReceived").value)||0;
+  const cust=$("#oCustomer").value;
+  const projSet=new Set();_order.rows.forEach(r=>{const p=M.products.find(x=>x.code===r.product);if(p&&p.project)projSet.add(p.project);});
+  const proj=[...projSet].join(",");
+  const productsTxt=items.map(it=>`${it.name}×${it.qty}${it.disc<100?(' ('+(100-it.disc)+'% off)'):''}`).join("；");
+  const editingCode=$("#oCode").value;
+  if(editingCode){
+    const o=M.orders.find(x=>x.code===editingCode);if(!o){toast("订单不存在");return;}
+    o.customer=cust;o.project=proj;o.products=productsTxt;o.items=items;o.amount=amount;
+    // 已收款字段：只在差异时提示
+    if(Math.abs((o.received||0)-received)>0.01)toast(`订单 ${editingCode} 已收款字段变更不影响历史回款流水`);
+    o.received=received;
+    // 同步客户关联项目
+    const c=M.customers.find(x=>x.code===cust);
+    if(c&&proj)proj.split(",").forEach(pc=>{if(!c.projects.includes(pc))c.projects.push(pc);});
+    closeModal();toast("已更新订单 "+editingCode);render();
+  }else{
+    const code="D20260824"+String(M.orders.length+1).padStart(4,"0");
+    M.orders.push({code,customer:cust,project:proj,products:productsTxt,items,amount,received,date:"2026-08-24"});
+    const c=M.customers.find(x=>x.code===cust);
+    if(c&&proj)proj.split(",").forEach(pc=>{if(!c.projects.includes(pc))c.projects.push(pc);});
+    closeModal();toast("已新建订单 "+code);render();
+  }
+}
+function editOrder(code){
+  if(!M.orders.find(x=>x.code===code)){toast("订单不存在");return;}
+  openOrder(code);
+}
+function delOrder(code,fromDetail){
+  const o=M.orders.find(x=>x.code===code);if(!o)return toast("订单不存在");
+  const refTxns=M.txns.filter(t=>t.order===code);
+  let extra="";
+  if(refTxns.length)extra+=`\n· 关联 ${refTxns.length} 条回款流水（将一并删除，账户余额/项目收支同步回滚）`;
+  confirmModal("删除订单",`确认删除订单「${o.code}」？金额 ¥${Math.round(o.amount).toLocaleString("zh-CN")}${extra?'\n该订单被引用：'+extra:''}`,()=>{
+    // 同步回滚：删除回款流水 + 回滚账户 + 回滚客户应收
+    refTxns.forEach(t=>{
+      const acc=M.accounts.find(a=>a.code===t.from);
+      if(acc)acc.balance-=t.type==="收入"?t.amount:-t.amount;
+      const c=M.customers.find(x=>x.code===t.customer);
+      if(c&&t.tag==="应收")c.应收=Math.max(0,(c.应收||0)-t.amount);
+    });
+    M.txns=M.txns.filter(t=>t.order!==code);
+    M.orders=M.orders.filter(x=>x.code!==code);
+    toast("已删除订单"+(refTxns.length?`（回滚了 ${refTxns.length} 条回款流水）`:""));
+    renderBiz();
+  });
+}
+/* 单条删除回款流水 · 同步回滚账户余额、订单已收、客户应收 */
+function delReceived(code){
+  const t=M.txns.find(x=>x.code===code);if(!t)return toast("回款记录不存在");
+  if(!t.order)return toast("该流水未关联订单");
+  confirmModal("删除回款",`确认删除该回款记录？金额 ¥${Math.round(t.amount).toLocaleString("zh-CN")}\n将同步回滚账户余额、订单已收、客户应收`,()=>{
+    // 回滚账户
+    const acc=M.accounts.find(a=>a.code===t.from);
+    if(acc)acc.balance-=t.type==="收入"?t.amount:-t.amount;
+    // 回滚订单 received
+    if(t.order){const o=M.orders.find(x=>x.code===t.order);if(o)o.received=Math.max(0,(o.received||0)-t.amount);}
+    // 回滚客户应收
+    if(t.tag==="应收"&&t.customer){const c=M.customers.find(x=>x.code===t.customer);if(c)c.应收=Math.max(0,(c.应收||0)-t.amount);}
+    M.txns=M.txns.filter(x=>x.code!==code);
+    toast("已删除回款记录");renderBiz();
+  });
+}
+
+/* 订单详情 */
+function openOrderDetail(code){
+  const o=M.orders.find(x=>x.code===code);if(!o)return;
+  const c=M.customers.find(x=>x.code===o.customer);
+  const items=o.items||[{name:o.products,price:o.amount,qty:1,disc:0,sub:o.amount}];
+  const txns=M.txns.filter(t=>t.order===code);
+  const recvd=o.received||0;const due=Math.max(0,o.amount-recvd);
+  const rate=o.amount?Math.round(recvd/o.amount*100):0;
+  $("#view").innerHTML=`
+    <div class="cust-head"><div class="av">📄</div><div><div class="page-title" style="font-size:18px">订单 ${o.code}</div><div class="crumb">${o.date} · 客户 ${c?c.name:'—'}</div></div>
+      <div style="margin-left:auto;display:flex;gap:8px"><button class="mini-btn" onclick="editOrder('${o.code}')">✎ 编辑</button><button class="mini-btn" onclick="delOrder('${o.code}',true)">🗑 删除</button><button class="mini-btn" onclick="render()">← 返回经营</button></div></div>
+    <div class="grid-2">
+      <div class="card"><h3>订单信息</h3><div class="kv">
+        <div class="kv-row"><span class="k">客户</span><span class="v">${c?`<span class="clickable" onclick="openCustomerDetail('${c.code}')">${esc(c.name)}</span>`:'—'}</span></div>
+        <div class="kv-row"><span class="k">关联项目</span><span class="v">${o.project?projName(o.project):'—'}</span></div>
+        <div class="kv-row"><span class="k">订单日期</span><span class="v">${o.date}</span></div>
+        <div class="kv-row"><span class="k">订单金额</span><span class="v amount inc">${fmt(o.amount)}</span></div>
+        <div class="kv-row"><span class="k">已收款</span><span class="v amount inc">${fmt(recvd)}</span></div>
+        <div class="kv-row"><span class="k">待收款</span><span class="v amount ${due>0?'exp':''}">${fmt(due)}</span></div>
+        <div class="kv-row"><span class="k">收款进度</span><span class="v">${o.amount?rate+'%':'—'}</span></div>
+      </div></div>
+      <div class="card"><h3>产品明细（${items.length} 项）</h3>
+        <table class="tbl biz-tbl">
+          <thead><tr><th>产品</th><th style="text-align:right">单价</th><th style="text-align:right">数量</th><th style="text-align:right">折扣</th><th style="text-align:right">小计</th></tr></thead>
+          <tbody>${items.map(it=>`<tr><td data-label="产品">${esc(it.name)}</td><td data-label="单价" style="text-align:right" class="amount">${fmt(it.price)}</td><td data-label="数量" style="text-align:right">${it.qty}</td><td data-label="折扣" style="text-align:right">${it.disc||0}%</td><td data-label="小计" style="text-align:right" class="amount inc">${fmt(it.sub)}</td></tr>`).join("")}</tbody>
+        </table>
+      </div>
+    </div>
+    <div class="section-title"><span class="bar"></span>回款流水（${txns.length}）</div>
+    <div class="card"><table class="tbl biz-tbl">
+      <thead><tr><th>日期</th><th>类型</th><th>标签</th><th>摘要</th><th style="text-align:right">金额</th></tr></thead>
+      <tbody>${txns.length?txns.slice().reverse().map(t=>`<tr><td data-label="日期">${t.date.slice(5)}</td><td data-label="类型">${t.type}</td><td data-label="标签"><span class="tag ${t.tag==='正常'?'normal':t.tag==='应收'?'rec':'pay'}">${t.tag}</span></td><td data-label="摘要">${esc(t.note)}</td><td data-label="金额" style="text-align:right" class="amount ${t.type==='收入'?'inc':'exp'}">${t.type==='收入'?'+':'-'}${fmt(t.amount)}</td></tr>`).join(""):'<tr><td colspan="5"><div class="empty">暂无回款记录</div></td></tr>'}</tbody>
+    </table></div>`;
+}
+
+/* 项目 */
+function openProject(){
+  $("#modal").innerHTML=`
+    <h2>新建项目</h2>
+    <div class="field"><label>项目名称</label><input id="pName" placeholder="如：官网改版"></div>
+    <div class="field"><label>状态</label><select id="pStatus">${["规划","进行","结束"].map(s=>`<option>${s}</option>`).join("")}</select></div>
+    <div class="field"><label>说明</label><textarea id="pDesc" placeholder="项目描述"></textarea></div>
+    <div class="field"><label>进度（%）</label><input id="pProgress" type="number" value="0"></div>
+    <div class="btn-row"><button class="btn btn-ghost" onclick="closeModal()">取消</button><button class="btn btn-primary" onclick="saveProject()">保存</button></div>`;
+  showModal();
+}
+function saveProject(){
+  const name=$("#pName").value.trim();if(!name){toast("请输入项目名称");return;}
+  const code="P"+String(M.projects.length+1).padStart(4,"0");
+  M.projects.push({code,name,status:$("#pStatus").value,desc:$("#pDesc").value||"",progress:parseInt($("#pProgress").value)||0});
+  closeModal();toast("已新建项目 "+name);render();
+}
+
+/* 带娃：快捷按钮自动记当天时间戳；无参则打开历史登记表单 */
+function openBabyModal(type){
+  const time=()=>{const n=new Date();return String(n.getHours()).padStart(2,"0")+":"+String(n.getMinutes()).padStart(2,"0");};
+  if(type){
+    if(type==="泡奶"){M.baby.push({code:"B20260824"+String(M.baby.length+1).padStart(3,"0"),type:"泡奶",time:time(),volume:150,date:"2026-08-24"});toast("已记录：泡奶 150ml "+time());}
+    else{M.baby.push({code:"B20260824"+String(M.baby.length+1).padStart(3,"0"),type:"拉臭臭",time:time(),volume:0,note:"",date:"2026-08-24"});toast("已记录：拉臭臭 "+time());}
+    if(["#/baby","#/home"].includes(location.hash))render();
+    return;
+  }
+  const now=time();
+  $("#modal").innerHTML=`
+    <h2>登记带娃记录</h2>
+    <div class="field"><label>日期</label><input id="bDate" type="date" value="2026-08-24"></div>
+    <div class="field"><label>类型</label><select id="bType">${["泡奶","拉臭臭"].map(t=>`<option>${t}</option>`).join("")}</select></div>
+    <div class="field"><label>时间</label><input id="bTime" type="time" value="${now}"></div>
+    <div class="field"><label>奶量（泡奶，ml）</label><input id="bVol" type="number" value="150" min="0"></div>
+    <div class="field"><label>备注</label><input id="bNote" placeholder="可选"></div>
+    <div class="btn-row"><button class="btn btn-ghost" onclick="closeModal()">取消</button><button class="btn btn-primary" onclick="saveBaby()">保存</button></div>`;
+  showModal();
+}
+function saveBaby(){
+  const date=$("#bDate").value||"2026-08-24";
+  const type=$("#bType").value;
+  const t=$("#bTime").value||"00:00";
+  const volume=type==="泡奶"?(parseInt($("#bVol").value)||0):0;
+  const note=$("#bNote").value.trim();
+  const code="B"+date.replace(/-/g,"")+String(M.baby.length+1).padStart(3,"0");
+  M.baby.push({code,type,time:t,volume,note,date});
+  closeModal();toast("已登记带娃记录 · "+date+" "+t);if(location.hash==="#/baby")render();
+}
+function delBaby(code){
+  const i=M.baby.findIndex(x=>x.code===code);if(i<0)return;
+  confirmModal("删除带娃记录","确认删除该带娃记录？",()=>{M.baby.splice(i,1);toast("已删除带娃记录");if(location.hash==="#/baby")render();});
+}
+function toggleTodo(code){const t=M.todos.find(x=>x.code===code);if(!t)return;t.done=!t.done;render();updateTodoBadge();}
+
+/* 灵感 */
+function openIdea(){
+  $("#modal").innerHTML=`
+    <h2>速记灵感</h2>
+    <div class="field"><label>想法</label><textarea id="idText" placeholder="零碎的想法…" style="min-height:90px"></textarea></div>
+    <div class="field"><label>关联项目（可选，归档后按项目分类）</label><select id="idProj"><option value="">不挂钩</option>${M.projects.map(p=>`<option value="${p.code}">${p.name}</option>`).join("")}</select></div>
+    <div class="btn-row"><button class="btn btn-ghost" onclick="closeModal()">取消</button><button class="btn btn-primary" onclick="saveIdea()">保存</button></div>`;
+  showModal();
+}
+function saveIdea(){
+  const t=$("#idText").value.trim();if(!t){toast("请输入内容");return;}
+  M.ideas.push({code:"I"+String(M.ideas.length+1).padStart(4,"0"),text:t,archived:false,project:$("#idProj").value,archivedAt:""});
+  closeModal();toast("已记录灵感");if(location.hash==="#/idea")render();
+}
+function archiveIdea(code){
+  const i=M.ideas.find(x=>x.code===code);if(!i)return;
+  i.archived=true;i.archivedAt=nowStamp();
+  toast("已归档");if(location.hash==="#/idea")render();
+}
+function nowStamp(){const n=new Date();const p=x=>String(x).padStart(2,"0");return `2026-08-24 ${p(n.getHours())}:${p(n.getMinutes())}`;}
+
+/* 产品清单 */
+function openProduct(){
+  $("#modal").innerHTML=`
+    <h2>新增产品</h2>
+    <div class="field"><label>产品名称</label><input id="prName" placeholder="如：官网改版第三期"></div>
+    <div class="field"><label>单价</label><input id="prPrice" type="number" placeholder="0.00"></div>
+    <div class="field"><label>关联项目</label><select id="prProj"><option value="">不关联</option>${M.projects.map(p=>`<option value="${p.code}">${p.name}</option>`).join("")}</select></div>
+    <div class="btn-row"><button class="btn btn-ghost" onclick="closeModal()">取消</button><button class="btn btn-primary" onclick="saveProduct()">保存</button></div>`;
+  showModal();
+}
+function saveProduct(){
+  const name=$("#prName").value.trim();const price=parseFloat($("#prPrice").value)||0;
+  if(!name){toast("请输入产品名称");return;}
+  const code="PR"+String(M.products.length+1).padStart(4,"0");
+  M.products.push({code,name,price,project:$("#prProj").value});
+  closeModal();toast("已新增产品 "+name);if(location.hash==="#/settings")render();
+}
+function delProduct(code){
+  M.products=M.products.filter(p=>p.code!==code);toast("已删除产品");if(location.hash==="#/settings")render();
+}
+/* 清空全部业务示例数据（保留账户/参数/产品等配置项） */
+function delAllDemo(){
+  confirmModal("删除全部示例数据","确认清空全部业务示例数据？\n\n将清空：客户、订单、回款流水、项目、带娃记录、待办、日记、灵感。\n保留：账户、全局参数、产品清单。\n\n此操作不可撤销。",()=>{
+    M.customers=[];M.orders=[];M.txns=[];M.projects=[];M.baby=[];M.todos=[];M.diaries=[];M.ideas=[];
+    diarySel="";babyPage=1;babyTodayPage=1;
+    toast("已清空全部示例数据");if(["#/settings","#/baby","#/biz"].includes(location.hash))render();
+  });
+}
+
+/* ============== 导出 / 导入 备份 ============== */
+function exportBackup(){
+  const data=JSON.stringify(M,null,2);
+  const blob=new Blob([data],{type:"application/json"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");a.href=url;a.download="工作台备份_2026-08-24.json";a.click();
+  URL.revokeObjectURL(url);toast("已导出备份文件");
+}
+function importBackup(file){
+  const reader=new FileReader();
+  reader.onload=e=>{try{const d=JSON.parse(e.target.result);if(!d.accounts)throw 0;Object.assign(M,d);closeModal();toast("已从备份恢复数据");render();updateTodoBadge();}catch(err){toast("备份文件格式不正确");}};
+  reader.readAsText(file);
+}
+$("#importFile").addEventListener("change",e=>{if(e.target.files[0])importBackup(e.target.files[0]);e.target.value="";});
+
+function updateTodoBadge(){
+  const n=M.todos.filter(t=>!t.done).length;
+  ["nav-todo","tab-todo"].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=n;});
+}
+
+/* ============== Boot ============== */
+render();updateTodoBadge();
+</script>
+</body>
+</html>
