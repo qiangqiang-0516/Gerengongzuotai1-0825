@@ -127,13 +127,24 @@ a{color:inherit;text-decoration:none}
 
 .milk-sum{font-size:30px;font-weight:800;color:var(--accent)}
 .milk-sum small{font-size:14px;color:var(--muted);font-weight:500;margin-left:4px}
+.baby-tbl td .ls{font-size:12px}
+.diary-text{font-size:14px;color:var(--ink);background:#fafbfd;border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.cat8{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.cat8-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 8px;border:1px solid var(--line-strong);border-radius:12px;background:#fff;cursor:pointer;font-size:13px;font-weight:600;color:var(--ink);transition:.15s;width:100%}
+.cat8-btn:hover{border-color:var(--accent);color:var(--accent);background:#f3f7ff}
+.cat8-btn.today-new{border-color:var(--accent);color:var(--accent);background:#eef3ff;box-shadow:0 0 0 2px rgba(47,111,237,.12)}
+.cat8-btn.dim{opacity:.45;cursor:default;background:#fafbfc}
+.cat8-btn .dot{width:7px;height:7px;border-radius:50%;background:#ff7a45}
+.cat8-btn .c8n{font-size:11px;background:var(--accent);color:#fff;border-radius:10px;padding:1px 7px;font-weight:700}
+@media(max-width:560px){.cat8{grid-template-columns:repeat(2,1fr)}}
 
-.barchart{display:flex;align-items:flex-end;gap:8px;height:160px;padding:8px 2px 0}
-.barchart .bc{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0}
-.barchart .barwrap{flex:1;width:100%;display:flex;align-items:flex-end;justify-content:center}
-.barchart .bar{width:min(70%,34px);border-radius:6px 6px 0 0;background:linear-gradient(180deg,#5b8ff7,#2f6fed);position:relative;transition:height .6s cubic-bezier(.2,.7,.3,1)}
+.barchart{display:flex;gap:8px;height:160px;padding:8px 2px 0}
+.barchart .bc{flex:1;height:100%;display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0}
+.barchart .barwrap{flex:1 1 0;width:100%;min-height:0;display:flex;align-items:flex-end;justify-content:center}
+.barchart .bar{width:min(70%,34px);border-radius:6px 6px 0 0;background:linear-gradient(180deg,#5b8ff7,#2f6fed);position:relative;transition:height .6s cubic-bezier(.2,.7,.3,1);min-height:2px}
 .barchart .bar small{position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:11px;font-weight:700;color:var(--ink-soft);white-space:nowrap}
-.barchart .xlab{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.barchart .xlab{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;text-align:center;line-height:1.2}
+.barchart .xlab .sub{display:block;font-size:10px;color:var(--muted);opacity:.75;margin-top:1px}
 
 /* donut */
 .donut{width:120px;height:120px;border-radius:50%;position:relative;flex:0 0 120px}
@@ -166,19 +177,19 @@ a{color:inherit;text-decoration:none}
 
 /* project finance table */
 .pf-tbl{width:100%;border-collapse:collapse;font-size:12.5px}
-.pf-tbl th{text-align:right;font-size:11px;color:var(--muted);font-weight:600;padding:9px 8px;border-bottom:1px solid var(--line-strong);white-space:nowrap}
-.pf-tbl th:first-child{text-align:left}
-.pf-tbl td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
-.pf-tbl td:first-child{text-align:left}
+.pf-tbl th{text-align:center;font-size:11px;color:var(--muted);font-weight:600;padding:9px 8px;border-bottom:1px solid var(--line-strong);white-space:nowrap}
+.pf-tbl th:first-child{text-align:center}
+.pf-tbl td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:center;white-space:nowrap;font-variant-numeric:tabular-nums}
+.pf-tbl td:first-child{text-align:center}
 .pf-tbl tr:hover td{background:var(--surface-2)}
 .pf-tbl .pn{font-weight:700;font-size:13px}
 .pf-tbl .pos{color:var(--income)} .pf-tbl .neg{color:var(--expense)}
 .pf-cell{display:inline-block;min-width:64px}
 
 .tbl{width:100%;border-collapse:collapse;font-size:13px}
-.tbl th{text-align:left;font-size:11px;color:var(--muted);font-weight:600;padding:8px 10px;border-bottom:1px solid var(--line-strong);white-space:nowrap}
-.tbl td{padding:9px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
-.num-r{text-align:right}
+.tbl th{text-align:center;font-size:11px;color:var(--muted);font-weight:600;padding:8px 10px;border-bottom:1px solid var(--line-strong);white-space:nowrap}
+.tbl td{padding:9px 10px;border-bottom:1px solid var(--line);white-space:nowrap;text-align:center}
+.num-r{text-align:center}
 .cat-tbl .pct{color:var(--muted);font-variant-numeric:tabular-nums}
 .tbl.acct-tbl.compact th{padding:5px 6px;font-size:11px}
 .tbl.acct-tbl.compact td{padding:6px 7px;font-size:12px}
@@ -223,7 +234,7 @@ a{color:inherit;text-decoration:none}
 .transfer-fields{display:none;gap:10px;margin-bottom:14px}
 .transfer-fields.show{display:flex}
 
-.oi-h{font-size:11px;color:var(--muted);font-weight:600}
+.oi-h{font-size:11px;color:var(--muted);font-weight:600;text-align:center}
 .todo-topseg{display:flex;width:100%;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:3px;gap:2px;margin-bottom:14px}
 .todo-topseg button{flex:1;padding:11px 0;border-radius:8px;font-size:14px;font-weight:600;color:var(--ink-soft);text-align:center}
 .todo-topseg button.on{background:var(--surface);color:var(--accent-deep);box-shadow:var(--shadow)}
@@ -237,7 +248,7 @@ a{color:inherit;text-decoration:none}
 .pn-amount{font-weight:700;color:var(--accent-deep);white-space:nowrap;font-size:12px}
 .proj-cell{white-space:normal;line-height:1.5;vertical-align:top;max-width:220px;min-width:160px}
 .proj-cell .proj-line{display:block;padding:2px 0}
-.op-col{text-align:right;white-space:nowrap}
+.op-col{text-align:center;white-space:nowrap}
 .op-col .iconbtn{margin-left:4px}
 .proj-auto{display:flex;flex-wrap:wrap;gap:6px;padding:4px 0;min-height:24px}
 
@@ -343,6 +354,20 @@ a{color:inherit;text-decoration:none}
   .biz-tbl td.op-col{justify-content:flex-end}
   .biz-tbl td.proj-cell,.biz-tbl td.prod-cell{max-width:none}
 }
+/* 记一笔模板按钮 & 带娃事项标签 */
+.tpl-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:2px 0 12px}
+.tpl-label{font-size:12px;color:var(--muted);font-weight:600}
+.tpl-btn{font-size:12px;font-weight:600;color:var(--accent);padding:6px 12px;border-radius:20px;background:var(--accent-soft);border:1px solid var(--line-strong);cursor:pointer}
+.tpl-btn:hover{background:var(--accent);color:#fff}
+.tagwrap{display:flex;flex-wrap:wrap;gap:8px}
+.tag{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;padding:5px 10px;border-radius:8px;background:var(--accent-soft);color:var(--accent)}
+.tag .x{margin-left:2px;border:none;background:transparent;color:var(--accent);font-size:14px;line-height:1;cursor:pointer;padding:0 2px}
+.tag .x:hover{color:#e5484d}
+/* 操作列横向排版 & 序号列 */
+.tbl .op-actions,.tbl .pd{display:inline-flex;gap:6px;justify-content:center}
+.tbl td.seq,.tbl th.seq{width:52px;color:var(--muted);font-variant-numeric:tabular-nums;font-weight:600}
+.tpl-filter{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.mini-btn.active{background:var(--accent);color:#fff}
 </style>
 </head>
 <body>
@@ -391,6 +416,7 @@ a{color:inherit;text-decoration:none}
 <script>
 /* ============== Mock data ============== */
 const TODAY=new Date("2026-08-24");
+const TODAY_DATE=isoDate(TODAY);
 const M = {
   accounts:[
     {code:"A0001",name:"招商银行卡",type:"银行卡",balance:8420,opening:8420},
@@ -452,12 +478,12 @@ const M = {
     {code:"TD0006",title:"读完《纳瓦尔宝典》第三章",remind:"—",repeat:"无",done:false,created:"2026-08-20",due:"2026-08-26"}
   ],
   diaries:[
-    {code:"R20260824",date:"2026-08-24",title:"推进官网改版与尾款、聊私域思路",raw:"今天推进了官网改版评审，和陈先生确认了尾款。中午和同事聚餐聊到私域运营的新思路，很有收获。感恩家人今天帮忙带娃，让我能专注工作。明天可以把咨询方案再优化一下结构。",
-      summary:{今日小事:["推进官网改版评审，与陈先生确认尾款"],收获新知:["聚餐聊到私域运营新思路"],感恩时刻:["家人帮忙带娃，得以专注工作"],优化改进:["咨询方案可再优化结构"]}},
-    {code:"R20260820",date:"2026-08-20",title:"云图私域初稿、用户分层方法",raw:"上午处理了云图科技的私域方案初稿。学到了不少关于用户分层的方法。感谢同事帮忙校对。后续可以把模板再优化。",
-      summary:{今日小事:["处理云图科技私域方案初稿"],收获新知:["学到用户分层方法"],感恩时刻:["同事帮忙校对"],优化改进:["模板可再优化"]}},
-    {code:"R20260715",date:"2026-07-15",title:"月度复盘、现金流新认识",raw:"月度复盘完成。收获了对现金流的新认识。感恩团队配合。可以提前规划下月预算。",
-      summary:{今日小事:["月度复盘完成"],收获新知:["对现金流的新认识"],感恩时刻:["团队配合"],优化改进:["提前规划下月预算"]}}
+    {code:"R20260824",date:"2026-08-24",title:"推进官网改版与尾款、聊私域思路",diary:"今天推进了官网改版评审，和陈先生确认了尾款。中午和同事聚餐聊到私域运营的新思路，很有收获。感恩家人今天帮忙带娃，让我能专注工作。明天可以把咨询方案再优化一下结构。",
+      summary:{今日小事:["推进官网改版评审，与陈先生确认尾款"],收获新知:["聚餐聊到私域运营新思路"],感恩时刻:["家人帮忙带娃，得以专注工作"],优化改进:["咨询方案可再优化结构"]},cats:[{cat:"工作事业",text:"推进官网改版评审，与陈先生确认尾款；咨询方案计划再优化结构",date:"2026-08-24"},{cat:"学习成长",text:"和同事聚餐聊到私域运营的新思路，很有收获",date:"2026-08-24"},{cat:"家庭亲情",text:"感恩家人今天帮忙带娃，让我能专注工作",date:"2026-08-24"}]},
+    {code:"R20260820",date:"2026-08-20",title:"云图私域初稿、用户分层方法",diary:"上午处理了云图科技的私域方案初稿。学到了不少关于用户分层的方法。感谢同事帮忙校对。后续可以把模板再优化。",
+      summary:{今日小事:["处理云图科技私域方案初稿"],收获新知:["学到用户分层方法"],感恩时刻:["同事帮忙校对"],优化改进:["模板可再优化"]},cats:[{cat:"工作事业",text:"处理云图科技私域方案初稿",date:"2026-08-20"},{cat:"学习成长",text:"学到用户分层方法；后续可把模板再优化",date:"2026-08-20"},{cat:"人际关系",text:"感谢同事帮忙校对",date:"2026-08-20"}]},
+    {code:"R20260715",date:"2026-07-15",title:"月度复盘、现金流新认识",diary:"月度复盘完成。收获了对现金流的新认识。感恩团队配合。可以提前规划下月预算。",
+      summary:{今日小事:["月度复盘完成"],收获新知:["对现金流的新认识"],感恩时刻:["团队配合"],优化改进:["提前规划下月预算"]},cats:[{cat:"工作事业",text:"月度复盘完成；可提前规划下月预算",date:"2026-07-15"},{cat:"学习成长",text:"收获对现金流的新认识",date:"2026-07-15"},{cat:"人际关系",text:"感恩团队配合",date:"2026-07-15"}]}
   ],
   ideas:[
     {code:"I0001",text:"用 Notion 数据库统一管理客户跟进时间线",archived:false,project:"",archivedAt:""},
@@ -471,7 +497,10 @@ const M = {
     "客户类型":["个人","企业","代理"],
     "账户类型":["现金","银行卡","微信","支付宝","信用"],
     "提醒方式":["应用内","短信","无"]
-  }
+  },
+  templates:[],
+  babyEvents:["泡奶","拉臭臭"],
+  material:[]
 };
 
 /* ============== Helpers ============== */
@@ -487,7 +516,15 @@ function deferDays(t){if(t.done)return 0;const c=new Date(t.created);return Math
 /* ============== Charts ============== */
 function barChart(data,opts={}){
   const max=Math.max(1,...data.map(d=>d.v));
-  return `<div class="barchart">${data.map(d=>`<div class="bc"><div class="barwrap"><div class="bar" data-h="${(d.v/max*100)}" style="height:0;background:${d.color||'linear-gradient(180deg,#5b8ff7,#2f6fed)'}">${opts.showVal?`<small>${typeof d.v==='number'&&Math.abs(d.v)>=1000?fmt(d.v):d.v}</small>`:""}</div></div><div class="xlab">${esc(d.x)}</div></div>`).join("")}</div>`;
+  return `<div class="barchart">${data.map(d=>{
+    const pct=d.v/max*100;
+    const bg=d.color||'linear-gradient(180deg,#5b8ff7,#2f6fed)';
+    const showN=opts.showVal?`<small>${typeof d.v==='number'&&Math.abs(d.v)>=1000?fmt(d.v):d.v}</small>`:"";
+    // 直接用 style.height 内联百分比 + min-height 保底，柱子渲染即见，不依赖任何 CSS 变量
+    const pctRounded=Math.round(pct*10)/10;
+    const fs=(pct>0?(pct<3?'min-height:4px;':'')+`height:${pctRounded}%;`:`height:6px;min-height:6px;`);
+    return `<div class="bc"><div class="barwrap"><div class="bar" data-h="${pctRounded}" style="${fs}background:${bg}">${showN}</div></div><div class="xlab">${esc(d.x)}${d.sub?`<span class="sub">${esc(d.sub)}</span>`:""}</div></div>`;
+  }).join("")}</div>`;
 }
 function donut(segments,center){
   const total=Math.max(1,segments.reduce((s,x)=>s+x.v,0));
@@ -496,7 +533,19 @@ function donut(segments,center){
   const legend=segments.map(s=>{const pct=Math.round(s.v/total*100);return `<div class="dl"><span class="sw" style="background:${s.color}"></span><span class="nm">${esc(s.name||"")}</span><span class="am">${fmt(s.v)}</span><span class="pc">${pct}%</span></div>`;}).join("");
   return `<div class="donut-wrap"><div class="donut" style="background:conic-gradient(${conic.slice(0,-1)})"><div class="hole"><div><div class="hv">${center.v}</div><div class="hl">${center.l}</div></div></div></div><div class="donut-legend">${legend}</div></div>`;
 }
-function animateBars(root){root.querySelectorAll(".bar").forEach((b,i)=>{const h=b.getAttribute("data-h");setTimeout(()=>b.style.height=h+"%",40+i*40);});}
+function animateBars(root){
+  if(!root||!root.querySelectorAll)return;
+  root.querySelectorAll(".bar").forEach((b,i)=>{
+    const h=parseFloat(b.getAttribute("data-h"));
+    if(!isFinite(h)||h<=0)return;
+    // 先把内联 height 清掉让柱子归零，再 setTimeout 设回 pct%，触发过渡动画
+    b.style.height="0";b.style.minHeight="0";
+    setTimeout(()=>{
+      b.style.height=(h<3?4:h)+"%";
+      b.style.minHeight="";
+    },40+i*40);
+  });
+}
 
 /* ============== Date range filter ============== */
 function inRange(dateStr,range){
@@ -525,12 +574,12 @@ function catCard(type,title){
   const map={};f.forEach(t=>{map[t.category]=(map[t.category]||0)+t.amount;});
   const arr=Object.keys(map).map(c=>({c,v:map[c]})).sort((a,b)=>b.v-a.v);
   const total=arr.reduce((s,x)=>s+x.v,0);
-  const rows=arr.length?arr.map(({c,v})=>`<tr><td>${esc(c)}</td><td class="num-r ${type==='收入'?'pos':'neg'}">${type==='收入'?'+':'-'}${fmt(v)}</td><td class="num-r pct">${total?Math.round(v/total*100):0}%</td></tr>`).join(""):'<tr><td colspan="3"><div class="empty">该周期暂无'+type+'流水</div></td></tr>';
+  const rows=arr.length?arr.map(({c,v},i)=>`<tr><td class="seq">${i+1}</td><td>${esc(c)}</td><td class="num-r ${type==='收入'?'pos':'neg'}">${type==='收入'?'+':'-'}${fmt(v)}</td><td class="num-r pct">${total?Math.round(v/total*100):0}%</td></tr>`).join(""):'<tr><td colspan="4"><div class="empty">该周期暂无'+type+'流水</div></td></tr>';
   return `<div class="card"><h3>${title} <span class="hint">${moneyFilter} · 按金额降序 · 占比=占${type}总额</span></h3>
       <div style="overflow-x:auto"><table class="tbl cat-tbl">
-        <thead><tr><th>分类</th><th class="num-r">金额</th><th class="num-r">占比</th></tr></thead>
+        <thead><tr><th class="seq">序号</th><th>分类</th><th class="num-r">金额</th><th class="num-r">占比</th></tr></thead>
         <tbody>${rows}
-        <tr class="acct-tot"><td><b>合计</b></td><td class="num-r ${type==='收入'?'pos':'neg'}"><b>${type==='收入'?'+':'-'}${fmt(total)}</b></td><td class="num-r"><b>${total?100:0}%</b></td></tr>
+        <tr class="acct-tot"><td class="seq"></td><td><b>合计</b></td><td class="num-r ${type==='收入'?'pos':'neg'}"><b>${type==='收入'?'+':'-'}${fmt(total)}</b></td><td class="num-r"><b>${total?100:0}%</b></td></tr>
         </tbody></table></div></div>`;
 }
 let moneyFilter="本月";
@@ -610,9 +659,9 @@ const screens={
     <div class="card mb">
       <h3>项目收支 <span class="hint">一行一个项目 · 各数据框等大小（仅含 ${moneyFilter} 范围内数据）</span></h3>
       <div style="overflow-x:auto"><table class="pf-tbl">
-        <thead><tr><th>项目</th><th>订单总额</th><th>收入</th><th>支出</th><th>毛利</th><th>应收</th><th>应付</th><th>净利</th></tr></thead>
-        <tbody>${projFin.map(({p,orderTotal,pi,pe,ma,mp,gross,net})=>`<tr>
-          <td><div class="pn">${p.name}</div><div class="ls" style="font-size:11px;color:var(--muted)"><span class="code">${p.code}</span></div></td>
+        <thead><tr><th class="seq">序号</th><th>项目</th><th>订单总额</th><th>收入</th><th>支出</th><th>毛利</th><th>应收</th><th>应付</th><th>净利</th></tr></thead>
+        <tbody>${projFin.map(({p,orderTotal,pi,pe,ma,mp,gross,net},i)=>`<tr>
+          <td class="seq">${i+1}</td><td><div class="pn">${p.name}</div><div class="ls" style="font-size:11px;color:var(--muted)"><span class="code">${p.code}</span></div></td>
           <td><span class="pf-cell">${fmt(orderTotal)}</span></td>
           <td><span class="pf-cell pos">${fmt(pi)}</span></td>
           <td><span class="pf-cell neg">${fmt(pe)}</span></td>
@@ -628,28 +677,28 @@ const screens={
         <span style="margin-left:auto;display:flex;gap:8px;align-items:center">
           <button class="mini-btn" onclick="openTxn()">+ 记一笔</button></span></h3>
       <div style="overflow-x:auto"><table class="tbl">
-        <thead><tr><th>流水号</th><th>日期</th><th>类型</th><th>分类</th><th>账户</th><th>关联项目</th><th>标签</th><th>摘要</th><th style="text-align:right">金额</th></tr></thead>
-        <tbody>${txns.map(t=>{const a=M.accounts.find(x=>x.code===t.from);return `<tr>
-          <td><span class="code link" title="点击编辑该笔流水" onclick="editTxn('${t.code}')" style="cursor:pointer;color:var(--accent);text-decoration:underline">${t.code}</span></td><td>${t.date.slice(5)}</td><td>${t.type}</td><td>${esc(t.category)}</td>
+        <thead><tr><th class="seq">序号</th><th>流水号</th><th>日期</th><th>类型</th><th>分类</th><th>账户</th><th>关联项目</th><th>标签</th><th>摘要</th><th style="text-align:center">金额</th></tr></thead>
+        <tbody>${txns.map((t,i)=>{const a=M.accounts.find(x=>x.code===t.from);return `<tr>
+          <td class="seq">${i+1}</td><td><span class="code link" title="点击编辑该笔流水" onclick="editTxn('${t.code}')" style="cursor:pointer;color:var(--accent);text-decoration:underline">${t.code}</span></td><td>${t.date.slice(5)}</td><td>${t.type}</td><td>${esc(t.category)}</td>
           <td>${a?a.name:'—'}</td><td>${t.project?`<span class="tag proj">${projName(t.project)}</span>`:'<span class="ls">—</span>'}</td>
           <td><span class="tag ${t.tag==='正常'?'normal':t.tag==='应收'?'rec':'pay'}">${t.tag}</span></td>
-          <td>${esc(t.note)}</td><td style="text-align:right" class="amount ${t.type==='收入'?'inc':'exp'}">${t.type==='收入'?'+':'-'}${fmt(t.amount)}</td></tr>`}).join("")||'<tr><td colspan="9"><div class="empty">该周期暂无流水</div></td></tr>'}</tbody>
+          <td>${esc(t.note)}</td><td style="text-align:center" class="amount ${t.type==='收入'?'inc':'exp'}">${t.type==='收入'?'+':'-'}${fmt(t.amount)}</td></tr>`;}).join("")||'<tr><td colspan="10"><div class="empty">该周期暂无流水</div></td></tr>'}</tbody>
       </table></div>
     </div>
     <div class="card mb">
       <h3>账户资金总览 <span class="hint">期初可编辑·期末=期初+收支（${moneyFilter}）</span></h3>
       <div style="overflow-x:auto"><table class="tbl acct-tbl">
-        <thead><tr><th>账户</th><th>期初余额</th><th>收入</th><th>支出</th><th>期末余额</th></tr></thead>
+        <thead><tr><th class="seq">序号</th><th>账户</th><th>期初余额</th><th>收入</th><th>支出</th><th>期末余额</th></tr></thead>
         <tbody>
-        ${M.accounts.map(a=>{const inc=accountInc(a.code),exp=accountExp(a.code),end=a.opening+inc-exp;return `<tr>
-          <td><div class="pn">${a.name}</div><div class="ls" style="font-size:11px;color:var(--muted)"><span class="code">${a.code}</span> · ${a.type}</div></td>
+        ${M.accounts.map((a,i)=>{const inc=accountInc(a.code),exp=accountExp(a.code),end=a.opening+inc-exp;return `<tr>
+          <td class="seq">${i+1}</td><td><div class="pn">${a.name}</div><div class="ls" style="font-size:11px;color:var(--muted)"><span class="code">${a.code}</span> · ${a.type}</div></td>
           <td><input type="number" value="${a.opening}" oninput="setAccountOpening('${a.code}',this.value)" style="width:96px;padding:6px 8px;border:1px solid var(--line-strong);border-radius:8px;font-size:13px;font-family:inherit"></td>
           <td class="pos">+${fmt(inc)}</td>
           <td class="neg">-${fmt(exp)}</td>
           <td><b id="end-${a.code}">${fmt(end)}</b></td>
         </tr>`;}).join("")}
         <tr class="acct-tot">
-          <td><b>合计</b></td>
+          <td class="seq"></td><td><b>合计</b></td>
           <td id="tot-open"><b>${fmt(M.accounts.reduce((s,a)=>s+a.opening,0))}</b></td>
           <td id="tot-inc" class="pos"><b>+${fmt(M.accounts.reduce((s,a)=>s+accountInc(a.code),0))}</b></td>
           <td id="tot-exp" class="neg"><b>-${fmt(M.accounts.reduce((s,a)=>s+accountExp(a.code),0))}</b></td>
@@ -707,27 +756,47 @@ const screens={
 
   "#/baby":()=>{
     const all=M.baby.slice().sort((a,b)=>b.date.localeCompare(a.date)||b.time.localeCompare(a.time));
-    const today=M.baby.filter(b=>b.date==="2026-08-24");
+    const today=M.baby.filter(b=>b.date===TODAY_DATE);
     const milkToday=today.filter(b=>b.type==="泡奶");
     const milkSum=milkToday.reduce((s,b)=>s+b.volume,0);
-    const weekDays=["周一","周二","周三","周四","周五","周六","周日"];
-    const weekData=[450,460,380,440,500,420,450].map((v,i)=>({x:weekDays[i],v,color:"linear-gradient(180deg,#7fb0ff,#2f6fed)"}));
+    const weekData=milkWeekData();
     const tPages=Math.max(1,Math.ceil(today.length/babySize));const tPage=Math.min(babyTodayPage,tPages);
     const todayRows=today.slice().reverse().slice((tPage-1)*babySize,tPage*babySize);
+    const hPages=Math.max(1,Math.ceil(all.length/babySize));const hPage=Math.min(babyPage,hPages);
+    const histRows=all.slice((hPage-1)*babySize,hPage*babySize);
+    const monthData=milkMonthData(milkMonth);
+    const evBtn=ev=>`<button class="mini-btn" type="button" onclick="openBabyModal('${esc(ev)}')">${ev==='泡奶'?'🍼 ':''}${ev==='拉臭臭'?'💩 ':''}${esc(ev)}</button>`;
     return `
     <div class="grid-2 mb"><div class="tile"><div class="k">今日总奶量</div><div class="v">${milkSum}<span class="u"> ml</span></div><div class="sub">${milkToday.length} 次泡奶</div></div>
       <div class="tile"><div class="k">今日事件</div><div class="v">${today.length}<span class="u"> 次</span></div><div class="sub">含拉臭臭 ${today.filter(b=>b.type==='拉臭臭').length} 次</div></div></div>
-    <div class="baby-2col" style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-      <div class="card"><h3>今日记录 <span class="hint">点按钮自动记时间戳</span>
-        <span style="margin-left:auto;display:flex;gap:8px"><button class="mini-btn" onclick="openBabyModal('泡奶')">🍼 泡奶</button><button class="mini-btn" onclick="openBabyModal('拉臭臭')">💩 拉臭臭</button></span></h3>
-        ${todayRows.length?todayRows.map(b=>`<div class="litem"><div class="lmain"><div class="lt">${b.type==='泡奶'?'🍼 泡奶':'💩 拉臭臭'} ${b.volume?('· '+b.volume+'ml'):''}</div><div class="ls">${b.time} · <span class="code">${b.code}</span>${b.note?' · '+esc(b.note):''}</div></div></div>`).join(""):'<div class="empty"><div class="eb">🍼</div>今天还没记录</div>'}
+    <div class="card mb"><h3>今日记录 <span class="hint">点 ID 可修改时间 / 奶量</span>
+        <span style="margin-left:auto;display:flex;gap:8px;flex-wrap:wrap">${M.babyEvents.map(evBtn).join("")}</span></h3>
+        <div style="overflow-x:auto"><table class="tbl baby-tbl">
+          <thead><tr><th class="seq">序号</th><th>ID</th><th>时间</th><th>事项&奶量</th><th>备注</th></tr></thead>
+          <tbody>${todayRows.length?todayRows.map((b,i)=>`<tr>
+            <td class="seq">${i+1}</td><td><span class="code link" title="点击修改" onclick="editBaby('${b.code}')" style="cursor:pointer;color:var(--accent);text-decoration:underline">${b.code}</span></td>
+            <td>${b.time}</td>
+            <td>${b.type==='泡奶'?'🍼 泡奶'+(b.volume?(' · '+b.volume+'ml'):'') : (b.type==='拉臭臭'?'💩 拉臭臭':esc(b.type))}</td>
+            <td class="ls">${b.note?esc(b.note):'—'}</td></tr>`).join(""):'<tr><td colspan="5"><div class="empty">今天还没记录</div></td></tr>'}
+          </tbody>
+        </table></div>
         ${babyPager(today.length,"today")}
       </div>
-      <div class="card"><h3>奶量统计 · 本周每天</h3>${barChart(weekData,{showVal:true})}</div>
-    </div>
-    <div class="section-title"><span class="bar"></span>历史带娃记录 <span style="font-weight:400;color:var(--muted);font-size:12px">（登记全部历史带娃记录，按日期降序）</span>
+    <div class="card mb"><h3>奶量统计 · 近 7 天（按实际奶量）</h3>${barChart(weekData,{showVal:true})}</div>
+    <div class="card mb"><h3>奶量统计 · 月度 <span class="hint">切换月份查看当月每天奶量</span>
+        <span style="margin-left:auto;display:flex;gap:8px;align-items:center"><button class="mini-btn" type="button" onclick="setMilkMonth(-1)">‹ 上月</button><b>${milkMonth}</b><button class="mini-btn" type="button" onclick="setMilkMonth(1)">下月 ›</button></span></h3>${barChart(monthData,{showVal:true})}</div>
+    <div class="section-title"><span class="bar"></span>历史带娃记录 <span style="font-weight:400;color:var(--muted);font-size:12px">（按日期降序 · 点 ID 可修改）</span>
       <button class="mini-btn" style="margin-left:auto" onclick="openBabyModal()">+ 登记记录</button></div>
-    <div class="card mb">${all.length?all.map(b=>`<div class="litem"><div class="lmain"><div class="lt">${b.type==='泡奶'?'🍼 泡奶':'💩 拉臭臭'} ${b.volume?('· '+b.volume+'ml'):''}</div><div class="ls">${b.date} ${b.time} · <span class="code">${b.code}</span>${b.note?' · '+esc(b.note):''}</div></div><div class="pd"><button class="iconbtn" title="删除" onclick="delBaby('${b.code}')">🗑</button></div></div>`).join(""):'<div class="empty">暂无历史记录</div>'}
+    <div class="card mb"><div style="overflow-x:auto"><table class="tbl baby-tbl">
+      <thead><tr><th class="seq">序号</th><th>ID</th><th>日期</th><th>时间</th><th>事项&奶量</th><th>备注</th><th></th></tr></thead>
+      <tbody>${histRows.length?histRows.map((b,i)=>`<tr>
+        <td class="seq">${i+1}</td><td><span class="code link" title="点击修改" onclick="editBaby('${b.code}')" style="cursor:pointer;color:var(--accent);text-decoration:underline">${b.code}</span></td>
+        <td>${b.date}</td><td>${b.time}</td>
+        <td>${b.type==='泡奶'?'🍼 泡奶'+(b.volume?(' · '+b.volume+'ml'):'') : (b.type==='拉臭臭'?'💩 拉臭臭':esc(b.type))}</td>
+        <td class="ls">${b.note?esc(b.note):'—'}</td>
+        <td><button class="iconbtn" title="删除" onclick="delBaby('${b.code}')">🗑</button></td></tr>`).join(""):'<tr><td colspan="7"><div class="empty">暂无历史记录</div></td></tr>'}
+      </tbody>
+    </table></div>
       ${babyPager(all.length,"hist")}
     </div>`;
   },
@@ -750,8 +819,9 @@ const screens={
   "#/diary":()=>{
     const e=M.diaries.find(x=>x.code===diarySel)||M.diaries[0];
     if(!e)return `<div class="card"><div class="empty"><div class="eb">📝</div>暂无日记</div><div style="margin-top:12px"><button class="mini-btn" onclick="setDiarySel('__new__')">＋ 新建一篇</button></div></div>`;
-    const cls=["今日小事","收获新知","感恩时刻","优化改进"];
-    const ic={今日小事:"📌",收获新知:"💡",感恩时刻:"🙏",优化改进:"🔧"};
+    const cat8=["工作事业","学习成长","生活日常","人际关系","情绪感悟","健康身体","兴趣爱好","家庭亲情"];
+    const mats=M.material.filter(m=>m.date===e.date);
+    const eCats=(e.cats||[]);
     return `
     <div class="diary-top">
       <div class="field" style="flex:1;min-width:200px"><label>选择日记（每天一篇）</label><select id="dSel" onchange="setDiarySel(this.value)">${M.diaries.map(d=>`<option value="${d.code}" ${d.code===e.code?'selected':''}>${d.date} · ${esc(d.title||'未命名')}</option>`).join("")}<option value="__new__">＋ 新建一篇</option></select></div>
@@ -759,12 +829,23 @@ const screens={
     </div>
     <div id="dSearchResults"></div>
     <div class="card mb">
-      <h3>${esc(e.title||'未命名')} <span class="hint">📅 ${e.date} · 自动纲要由原始内容提炼 · 唯一需录入：原始内容</span></h3>
-      <div class="field"><label>原始内容（文字录入）</label><textarea id="dRaw" style="width:100%;min-height:110px;border:1px solid var(--line-strong);border-radius:10px;padding:10px;font-family:inherit;font-size:13px;resize:vertical">${esc(e.raw)}</textarea></div>
-      <div class="btn-row"><button class="btn btn-ghost" onclick="saveDiaryEntry()">保存</button><button class="btn btn-primary" onclick="aiSummarizeDiary('${e.code}')">AI 工具：提炼四类</button></div>
-      <div class="grid-4" style="margin-top:14px">
-        ${cls.map(c=>`<div class="qcard"><div class="qh">${ic[c]} ${c}</div>${e.summary&&e.summary[c]&&e.summary[c].length?e.summary[c].map(x=>`<div class="qi">${esc(x)}</div>`).join(""):'<div class="qempty">—</div>'}</div>`).join("")}
+      <h3>今日素材 <span class="hint">口语化、无条理的碎片；填内容即记录，转化时自动整理成今日日记</span></h3>
+      <div class="row" style="align-items:flex-end">
+        <div class="field" style="flex:1"><label>内容（想到啥写啥，回车即记录）</label><input id="mText" placeholder="例如：下午娃睡了，我摸鱼刷了会手机…" onkeydown="if(event.key==='Enter')addMaterial()"></div>
+        <button class="btn btn-primary" style="flex:0 0 auto" onclick="addMaterial()">+ 记录</button>
       </div>
+      <div class="mt-s">${mats.length?(mats.slice().reverse().slice((materialPage-1)*materialSize,materialPage*materialSize).map(m=>`<div class="litem"><div class="lmain"><div class="lt">${esc(m.text)}</div><div class="ls">${m.time||""}</div></div><button class="iconbtn" onclick="delMaterial('${m.id}')">🗑</button></div>`).join("")):'<div class="empty">今天还没有碎片化素材，上面随手记一条吧</div>'}</div>
+      ${mats.length?materialPager(mats.length):""}
+      <div class="btn-row" style="margin-top:12px"><button class="btn btn-primary" onclick="convertMaterial()">⚡ 转化（生成今日日记标题+内容 + 分类）</button><span class="ls" style="font-size:11px;color:var(--muted)">本地整理草稿，AI 工具接入后自动润色</span></div>
+    </div>
+    <div class="card mb">
+      <h3>${esc(e.title||'未命名')} <span class="hint">📅 ${e.date} · 转化后保存到这里</span></h3>
+      <div class="field"><label>今日日记（原始素材 → 转化后的日记）</label><textarea id="dDiary" style="width:100%;min-height:120px;border:1px solid var(--line-strong);border-radius:10px;padding:10px;font-family:inherit;font-size:13px;resize:vertical">${esc(e.diary||e.raw||"")}</textarea></div>
+      <div class="btn-row"><button class="btn btn-ghost" onclick="saveDiaryEntry()">保存日记</button></div>
+    </div>
+    <div class="card mb">
+      <h3>今日分类 <span class="hint">8 类 4×2 排布 · 今日有新增的分类高亮 · 点分类下钻看历史（标注源自哪天日记）</span></h3>
+      <div class="cat8">${cat8.map(c=>{const items=eCats.filter(x=>x.cat===c);const n=items.length;const isToday=items.some(x=>x.date===TODAY_DATE);const cls=n?("cat8-btn"+(isToday?" today-new":"")):"cat8-btn dim";const act=n?`onclick="openCatDrill('${c}')"`:"";return `<button class="${cls}" ${act}>${isToday?'<span class="dot"></span>':''}<span class="c8t">${c}</span>${n?`<span class="c8n">${n}</span>`:''}</button>`;}).join("")}</div>
     </div>
     <div class="card"><h3>日记归档 <span class="hint">按月折叠</span></h3>
       ${diaryArchive()}
@@ -836,6 +917,22 @@ const screens={
     </div>
     <div class="ls mt-s" style="font-size:11px;color:var(--muted)">将清空：客户、订单、回款流水、项目、带娃记录、待办、日记、灵感。保留：账户、全局参数、产品清单（属配置项）。此操作不可撤销。</div>
   </div>
+  <div class="card mb"><h3>收支模板 <span class="hint">新建时选择类型，记一笔时一键套用</span>
+    <button class="mini-btn" style="margin-left:auto" onclick="openTemplateModal('','')">+ 新增模板</button></h3>
+    <div class="tpl-filter">
+      <button class="mini-btn ${tplFilter==='全部'?'active':''}" onclick="setTplFilter('全部')">全部</button>
+      <button class="mini-btn ${tplFilter==='收入'?'active':''}" onclick="setTplFilter('收入')">收入模板</button>
+      <button class="mini-btn ${tplFilter==='支出'?'active':''}" onclick="setTplFilter('支出')">支出模板</button>
+    </div>
+    <div style="overflow-x:auto"><table class="tbl">
+      <thead><tr><th class="seq">序号</th><th>类型</th><th>模板名</th><th style="text-align:center">金额</th><th>分类</th><th>账户</th><th></th></tr></thead>
+      <tbody>${M.templates.filter(t=>tplFilter==='全部'||tplTypeOf(t)===tplFilter).map((t,i)=>`<tr><td class="seq">${i+1}</td><td><span class="tag ${tplTypeOf(t)==='收入'?'rec':'pay'}">${tplTypeOf(t)}</span></td><td>${esc(t.name)}</td><td style="text-align:center" class="amount">${t.amount?fmt(t.amount):'—'}</td><td>${esc(t.category||'—')}</td><td>${esc((M.accounts.find(a=>a.code===t.account)||{}).name||'—')}</td><td><div class="pd"><button class="iconbtn" onclick="openTemplateModal('${t.code}')">✎</button><button class="iconbtn" onclick="delTemplate('${t.code}')">🗑</button></div></td></tr>`).join("")||'<tr><td colspan="7"><div class="empty">暂无模板，点「+ 新增模板」创建第一个</div></td></tr>'}</tbody>
+    </table></div>
+  </div>
+  <div class="card mb"><h3>带娃事项 <span class="hint">创建后，在带娃「今日记录」生成快捷按钮（如泡奶、拉臭臭）</span>
+    <button class="mini-btn" style="margin-left:auto" onclick="addBabyEvent()">+ 新增事项</button></h3>
+    <div class="tagwrap">${M.babyEvents.length?M.babyEvents.map(ev=>`<span class="tag">${esc(ev)}<button class="x" type="button" onclick="delBabyEvent('${esc(ev)}')">×</button></span>`).join(""):'<span class="ls">暂无，默认含 泡奶 / 拉臭臭</span>'}</div>
+  </div>
   <div class="param-group open">
       <div class="pg-head" onclick="this.parentElement.classList.toggle('open')">产品清单
         <span style="margin-left:8px;color:var(--muted);font-weight:500;font-size:11px">${M.products.length} 项</span>
@@ -843,8 +940,8 @@ const screens={
         <span class="caret">›</span></div>
       <div class="pg-body"><div class="ls" style="font-size:11px;color:var(--muted);margin-bottom:8px">建立后，新建订单时产品从清单选择，自动带出单价</div>
       <div style="overflow-x:auto"><table class="tbl">
-        <thead><tr><th>产品编号</th><th>名称</th><th style="text-align:right">单价</th><th>关联项目</th><th></th></tr></thead>
-        <tbody>${M.products.map(p=>`<tr><td><span class="code">${p.code}</span></td><td>${esc(p.name)}</td><td style="text-align:right" class="amount">${fmt(p.price)}</td><td>${p.project?`<span class="tag proj">${projName(p.project)}</span>`:'—'}</td><td><div class="pd"><button class="iconbtn" onclick="toast('编辑产品')">✎</button><button class="iconbtn" onclick="delProduct('${p.code}')">🗑</button></div></td></tr>`).join("")||'<tr><td colspan="5"><div class="empty">暂无产品</div></td></tr>'}</tbody>
+        <thead><tr><th class="seq">序号</th><th>产品编号</th><th>名称</th><th style="text-align:center">单价</th><th>关联项目</th><th></th></tr></thead>
+        <tbody>${M.products.map((p,i)=>`<tr><td class="seq">${i+1}</td><td><span class="code">${p.code}</span></td><td>${esc(p.name)}</td><td style="text-align:center" class="amount">${fmt(p.price)}</td><td>${p.project?`<span class="tag proj">${projName(p.project)}</span>`:'—'}</td><td><div class="pd"><button class="iconbtn" onclick="toast('编辑产品')">✎</button><button class="iconbtn" onclick="delProduct('${p.code}')">🗑</button></div></td></tr>`).join("")||'<tr><td colspan="6"><div class="empty">暂无产品</div></td></tr>'}</tbody>
       </table></div></div>
     </div>
     <div class="card mb"><h3>全局参数 <span class="hint">点击类别展开 · 被引用参数删除需保护/迁移</span>
@@ -870,15 +967,15 @@ function diaryTitleFromRaw(raw){
 function setDiarySel(v){
   if(v==="__new__"){
     const d=new Date();const code="R"+d.getFullYear()+String(d.getMonth()+1).padStart(2,"0")+String(d.getDate()).padStart(2,"0");
-    M.diaries.unshift({code,date:"2026-08-24",title:"",raw:"",summary:{今日小事:[],收获新知:[],感恩时刻:[],优化改进:[]}});
-    diarySel=code;render();return;
+    M.diaries.unshift({code,date:isoDate(d),title:"",diary:"",cats:[]});
+    diarySel=code;materialPage=1;render();return;
   }
-  diarySel=v;render();
+  diarySel=v;materialPage=1;render();
 }
 function saveDiaryEntry(){
   const e=M.diaries.find(x=>x.code===diarySel);if(!e)return;
-  e.raw=$("#dRaw").value;
-  e.title=diaryTitleFromRaw(e.raw);
+  e.diary=$("#dDiary").value;
+  e.title=diaryTitleFromRaw(e.diary);
   toast("已保存日记 · 标题已根据内容自动提炼");
 }
 function setDiarySearch(v){
@@ -886,17 +983,17 @@ function setDiarySearch(v){
   clearTimeout(window._dSrchT);
   window._dSrchT=setTimeout(()=>{
     const kw=(diarySearch||"").trim();
-    const matched=kw?M.diaries.filter(d=>(d.raw||"").includes(kw)||JSON.stringify(d.summary||{}).includes(kw)):[];
+    const matched=kw?M.diaries.filter(d=>(d.diary||d.raw||"").includes(kw)||JSON.stringify(d.summary||{}).includes(kw)):[];
     const box=$("#dSearchResults");
     if(!box)return;
     if(!kw){box.outerHTML=`<div id="dSearchResults"></div>`;return;}
-    box.innerHTML=`<div class="card mb"><h3>搜索结果 <span class="hint">${matched.length} 篇含「${esc(kw)}」</span></h3>${matched.length?matched.map(d=>{const hit=(d.raw||"").split(/[。！？\n]/).find(s=>s.includes(kw))||"";return `<div class="litem"><div class="lmain"><div class="lt">${d.date} · ${esc(d.title||'未命名')}</div><div class="ls">…${esc(hit)}…</div></div><button class="mini-btn" onclick="diarySel='${d.code}';diarySearch='';render()">查看</button></div>`;}).join(""):'<div class="empty">无匹配日记</div>'}</div>`;
+    box.innerHTML=`<div class="card mb"><h3>搜索结果 <span class="hint">${matched.length} 篇含「${esc(kw)}」</span></h3>${matched.length?matched.map(d=>{const hit=(d.diary||d.raw||"").split(/[。！？\n]/).find(s=>s.includes(kw))||"";return `<div class="litem"><div class="lmain"><div class="lt">${d.date} · ${esc(d.title||'未命名')}</div><div class="ls">…${esc(hit)}…</div></div><button class="mini-btn" onclick="diarySel='${d.code}';diarySearch='';render()">查看</button></div>`;}).join(""):'<div class="empty">无匹配日记</div>'}</div>`;
   },180);
 }
 function aiSummarizeDiary(code){
   const e=M.diaries.find(x=>x.code===code);if(!e)return;
   const sum={今日小事:[],收获新知:[],感恩时刻:[],优化改进:[]};
-  const sentences=(e.raw||"").split(/[。！？\n]/).map(s=>s.trim()).filter(Boolean);
+  const sentences=(e.diary||e.raw||"").split(/[。！？\n]/).map(s=>s.trim()).filter(Boolean);
   sentences.forEach(s=>{
     if(/收获|学到|思路|认识|方法|启发|了解/.test(s))sum.收获新知.push(s);
     else if(/感恩|感谢|谢谢|帮|支持/.test(s))sum.感恩时刻.push(s);
@@ -904,6 +1001,51 @@ function aiSummarizeDiary(code){
     else sum.今日小事.push(s);
   });
   e.summary=sum;toast("AI 已提炼四类（v1 关键词占位，真实模型待接）");render();
+}
+/* 今日素材：碎片化录入 + 转化 + 8 分类 */
+function addMaterial(){
+  const e=M.diaries.find(x=>x.code===diarySel);if(!e){toast("请先选择/新建一篇日记");return;}
+  const text=$("#mText").value.trim();if(!text){toast("请输入内容");return;}
+  const n=new Date();const time=String(n.getHours()).padStart(2,"0")+":"+String(n.getMinutes()).padStart(2,"0");
+  M.material.push({id:"M"+Date.now()+Math.floor(Math.random()*1000),date:e.date,text,time});
+  const inp=$("#mText");if(inp)inp.value="";toast("已自动记录到今日素材");if(location.hash==="#/diary")render();
+}
+function delMaterial(id){const i=M.material.findIndex(x=>x.id===id);if(i<0)return;M.material.splice(i,1);if(location.hash==="#/diary")render();}
+function classifyFragment(text){
+  const rules=[
+    ["工作事业",/客户|订单|项目|方案|报价|尾款|交付|会议|合作|业务|工作|官网|设计|咨询|复盘|预算|营收|收入|回款|成交/],
+    ["学习成长",/学到|收获|方法|认识|思路|启发|了解|读|课程|知识|技能|提升|成长/],
+    ["人际关系",/同事|朋友|家人|客户|陈先生|感谢|沟通|聚会|聚餐|聊天|配合|帮/],
+    ["家庭亲情",/家人|娃|孩子|父母|老公|老婆|家庭|带娃|亲情/],
+    ["健康身体",/身体|健康|运动|锻炼|病|头疼|腰|体重|体检|睡/],
+    ["兴趣爱好",/兴趣|爱好|游戏|书|影|音乐|画画|摄影|手工/],
+    ["情绪感悟",/情绪|心情|焦虑|开心|烦|累|平静|感悟|想法|内心|吐槽|遗憾/],
+    ["生活日常",/饭|吃|超市|买|家|日常|逛|快递|家务|洗澡|出门|摸鱼|手机/]
+  ];
+  for(const [c,re] of rules){if(re.test(text))return c;}
+  return "生活日常";
+}
+function convertMaterial(){
+  const e=M.diaries.find(x=>x.code===diarySel);if(!e){toast("请先选择日记");return;}
+  const mats=M.material.filter(m=>m.date===e.date);
+  if(!mats.length){toast("今日素材为空，先在上方录入碎片化素材再转化");return;}
+  let txt="【"+e.date+" 日记（本地草稿）】\n"+mats.map((m,i)=>(i+1)+". "+m.text).join("\n");
+  txt+="\n\n（以上为本地整理草稿：仅按录入顺序罗列你的今日素材。AI 工具接入后会将其润色为通顺的日记文本、提炼标题，并按关联程度归档到各分类，不编造未发生的事。）";
+  const map={};mats.forEach(m=>{const c=classifyFragment(m.text);(map[c]=map[c]||[]).push(m.text);});
+  const cats=Object.keys(map).map(c=>({cat:c,text:map[c].join("；"),date:e.date}));
+  e.diary=txt.trim();e.title=diaryTitleFromRaw(mats.map(m=>m.text).join(" "));e.cats=cats;
+  toast("已生成今日日记草稿（"+cats.length+" 个分类）");if(location.hash==="#/diary")render();
+}
+function openCatDrill(cat){
+  const items=[];
+  M.diaries.forEach(d=>{(d.cats||[]).forEach(x=>{if(x.cat===cat)items.push({text:x.text,date:d.date,title:d.title||"未命名"});});});
+  items.sort((a,b)=>b.date.localeCompare(a.date));
+  $("#modal").innerHTML=`
+    <h2>${cat} · 历史分类</h2>
+    <div class="ls" style="font-size:12px;color:var(--muted);margin-bottom:10px">共 ${items.length} 条 · 标注各自源自哪一天日记</div>
+    <div>${items.length?items.map(it=>`<div class="litem"><div class="lmain"><div class="lt">${esc(it.text)}</div><div class="ls">📅 源自 ${it.date} 日记 · ${esc(it.title)}</div></div></div>`).join(""):'<div class="empty">暂无该分类的历史内容</div>'}</div>
+    <div class="btn-row"><button class="btn btn-ghost" onclick="closeModal()">关闭</button></div>`;
+  showModal();
 }
 function diaryArchive(){
   const groups={};M.diaries.forEach(d=>{const m=d.date.slice(0,7);(groups[m]=groups[m]||[]).push(d);});
@@ -1028,6 +1170,35 @@ let bizFilter={cust:"",proj:"",order:"",amtMin:"",amtMax:""};
 let bizPage={cust:1,order:1,recv:1};
 let bizSize={cust:10,order:10,recv:10};
 let babyPage=1,babySize=10,babyTodayPage=1;
+let materialPage=1,materialSize=10;
+let milkMonth=isoDate(new Date()).slice(0,7);
+let tplFilter="全部";
+function setTplFilter(f){tplFilter=f;render();}
+let _editingBabyCode=null;
+function isoDate(d){const p=x=>String(x).padStart(2,"0");return d.getFullYear()+"-"+p(d.getMonth()+1)+"-"+p(d.getDate());}
+function milkWeekData(){
+  const wd=["周日","周一","周二","周三","周四","周五","周六"];
+  const out=[];
+  for(let i=6;i>=0;i--){const d=new Date(TODAY);d.setDate(TODAY.getDate()-i);const ds=isoDate(d);const vol=M.baby.filter(b=>b.date===ds&&b.type==="泡奶").reduce((s,b)=>s+b.volume,0);out.push({x:wd[d.getDay()],sub:(d.getMonth()+1)+"/"+d.getDate(),v:vol,color:"linear-gradient(180deg,#7fb0ff,#2f6fed)"});}
+  return out;
+}
+function milkMonthData(m){
+  const [y,mo]=m.split("-").map(Number);
+  const days=new Date(y,mo,0).getDate();
+  const out=[];
+  for(let d=1;d<=days;d++){
+    const ds=m+"-"+String(d).padStart(2,"0");
+    const vol=M.baby.filter(b=>b.date===ds&&b.type==="泡奶").reduce((s,b)=>s+b.volume,0);
+    out.push({x:String(d),v:vol,color:"linear-gradient(180deg,#7fb0ff,#2f6fed)"});
+  }
+  return out;
+}
+function setMilkMonth(delta){
+  const [y,mo]=milkMonth.split("-").map(Number);
+  const d=new Date(y,mo-1+delta,1);
+  milkMonth=isoDate(d).slice(0,7);
+  if(location.hash==="#/baby")render();
+}
 let _txnProjAll="";
 let _editingTxnCode=null;
 function renderTxnCatOptions(type,selected){
@@ -1071,7 +1242,7 @@ function pager(total,key){
   pgWindow(cur,pages).forEach(p=>btns.push(p==="..."?`<span class="pg-ell">…</span>`:`<button class="pg ${p===cur?'on':''}" onclick="setBizPage('${key}',${p})">${p}</button>`));
   btns.push(`<button class="pg" ${cur>=pages?'disabled':''} onclick="setBizPage('${key}',${cur+1})">›</button>`);
   return `<div class="pager"><span class="pg-info">共 ${total} 条 · 第 ${cur}/${pages} 页</span><div class="pg-btns">${btns.join("")}</div>
-    <select class="pg-size" onchange="setBizSize('${key}',this.value)">${[10,30,50,100].map(s=>`<option value="${s}" ${bizSize[key]===s?'selected':''}>${s} 条/页</option>`).join("")}</select></div>`;
+    <select class="pg-size" onchange="setBizSize('${key}',this.value)">${[5,10,30,50,100].map(s=>`<option value="${s}" ${bizSize[key]===s?'selected':''}>${s} 条/页</option>`).join("")}</select></div>`;
 }
 function setBizPage(key,p){if(p<1)return;bizPage[key]=p;renderBiz();}
 function setBizSize(key,s){bizSize[key]=parseInt(s)||10;bizPage[key]=1;renderBiz();}
@@ -1083,10 +1254,22 @@ function babyPager(total,key){
   pgWindow(cur,pages).forEach(p=>btns.push(p==="..."?`<span class="pg-ell">…</span>`:`<button class="pg ${p===cur?'on':''}" onclick="setBabyPage('${key}',${p})">${p}</button>`));
   btns.push(`<button class="pg" ${cur>=pages?'disabled':''} onclick="setBabyPage('${key}',${cur+1})">›</button>`);
   return `<div class="pager"><span class="pg-info">共 ${total} 条 · 第 ${cur}/${pages} 页</span><div class="pg-btns">${btns.join("")}</div>
-    <select class="pg-size" onchange="setBabySize(this.value)">${[10,30,50,100].map(s=>`<option value="${s}" ${babySize===s?'selected':''}>${s} 条/页</option>`).join("")}</select></div>`;
+    <select class="pg-size" onchange="setBabySize(this.value)">${[5,10,30,50,100].map(s=>`<option value="${s}" ${babySize===s?'selected':''}>${s} 条/页</option>`).join("")}</select></div>`;
 }
 function setBabyPage(key,p){if(p<1)return;if(key==="today")babyTodayPage=p;else babyPage=p;if(location.hash==="#/baby")render();}
 function setBabySize(s){babySize=parseInt(s)||10;babyPage=1;babyTodayPage=1;if(location.hash==="#/baby")render();}
+/* 今日素材分页 */
+function materialPager(total){
+  const size=materialSize;const pages=Math.max(1,Math.ceil(total/size));const cur=Math.min(materialPage,pages);
+  const btns=[];
+  btns.push(`<button class="pg" ${cur<=1?'disabled':''} onclick="setMaterialPage(${cur-1})">‹</button>`);
+  pgWindow(cur,pages).forEach(p=>btns.push(p==="..."?`<span class="pg-ell">…</span>`:`<button class="pg ${p===cur?'on':''}" onclick="setMaterialPage(${p})">${p}</button>`));
+  btns.push(`<button class="pg" ${cur>=pages?'disabled':''} onclick="setMaterialPage(${cur+1})">›</button>`);
+  return `<div class="pager"><span class="pg-info">共 ${total} 条 · 第 ${cur}/${pages} 页</span><div class="pg-btns">${btns.join("")}</div>
+    <select class="pg-size" onchange="setMaterialSize(this.value)">${[5,10,30,50,100].map(s=>`<option value="${s}" ${materialSize===s?'selected':''}>${s} 条/页</option>`).join("")}</select></div>`;
+}
+function setMaterialPage(p){if(p<1)return;materialPage=p;if(location.hash==="#/diary")render();}
+function setMaterialSize(s){materialSize=parseInt(s)||10;materialPage=1;if(location.hash==="#/diary")render();}
 function applyBizFilter(){
   bizFilter={cust:($("#sfCust").value||"").trim(),proj:$("#sfProj").value,order:($("#sfOrder").value||"").trim(),amtMin:($("#sfAmtMin").value||"").trim(),amtMax:($("#sfAmtMax").value||"").trim()};
   bizPage={cust:1,order:1,recv:1};
@@ -1105,12 +1288,12 @@ function bizCustSection(){
     <button class="mini-btn" style="margin-left:auto" onclick="openCustomer()">+ 新建客户</button></div>
   <div class="card">
     <div class="tbl-wrap"><table class="tbl biz-tbl">
-      <thead><tr><th>客户编号</th><th>姓名</th><th>来源</th><th>类型</th><th style="text-align:right">累计成交</th><th style="text-align:right">应收</th><th>上次成交</th><th>间隔</th><th>频次</th><th style="text-align:right">操作</th></tr></thead>
-      <tbody>${rows.length?rows.map(c=>`<tr><td data-label="客户编号"><span class="code">${c.code}</span></td><td data-label="姓名"><span class="clickable" onclick="openCustomerDetail('${c.code}')">${c.name}</span></td><td data-label="来源">${c.source}</td><td data-label="类型">${c.type}</td>
-        <td data-label="累计成交" style="text-align:right" class="amount inc">${fmt(c.累计成交)}</td><td data-label="应收" style="text-align:right" class="amount ${c.应收>0?'exp':''}">${c.应收?fmt(c.应收):'—'}</td>
+      <thead><tr><th class="seq">序号</th><th>客户编号</th><th>姓名</th><th>来源</th><th>类型</th><th style="text-align:center">累计成交</th><th style="text-align:center">应收</th><th>上次成交</th><th>间隔</th><th>频次</th><th style="text-align:center">操作</th></tr></thead>
+      <tbody>${rows.length?rows.map((c,i)=>`<tr><td class="seq">${i+1}</td><td data-label="客户编号"><span class="code">${c.code}</span></td><td data-label="姓名"><span class="clickable" onclick="openCustomerDetail('${c.code}')">${c.name}</span></td><td data-label="来源">${c.source}</td><td data-label="类型">${c.type}</td>
+        <td data-label="累计成交" style="text-align:center" class="amount inc">${fmt(c.累计成交)}</td><td data-label="应收" style="text-align:center" class="amount ${c.应收>0?'exp':''}">${c.应收?fmt(c.应收):'—'}</td>
         <td data-label="上次成交">${c.上次成交}</td><td data-label="间隔">${c.间隔?c.间隔+'天':'—'}</td><td data-label="频次">${c.频次}</td>
         <td data-label="操作" class="op-col"><div class="op-actions"><button class="iconbtn" title="查看" onclick="openCustomerDetail('${c.code}')">👁</button><button class="iconbtn" title="编辑" onclick="editCustomer('${c.code}')">✎</button><button class="iconbtn" title="删除" onclick="delCustomer('${c.code}')">🗑</button></div></td>
-        </tr>`).join(""):'<tr><td colspan="10"><div class="empty">暂无客户</div></td></tr>'}</tbody>
+        </tr>`).join(""):'<tr><td colspan="11"><div class="empty">暂无客户</div></td></tr>'}</tbody>
     </table></div>
     ${pager(all.length,"cust")}
   </div>`;
@@ -1123,19 +1306,19 @@ function bizOrdSection(){
     <button class="mini-btn" style="margin-left:auto" onclick="openOrder()">+ 新建订单</button></div>
   <div class="card">
     <div class="tbl-wrap"><table class="tbl biz-tbl tbl-fixed">
-      <colgroup><col style="width:116px"><col style="width:92px"><col style="width:150px"><col style="width:210px"><col style="width:88px"><col style="width:104px"><col style="width:120px"><col style="width:80px"><col style="width:96px"></colgroup>
-      <thead><tr><th>订单编号</th><th>客户</th><th>项目</th><th>产品</th><th>日期</th><th style="text-align:right">金额</th><th style="text-align:right">已收/应收</th><th>状态</th><th style="text-align:right">操作</th></tr></thead>
-      <tbody>${rows.length?rows.map(o=>{const c=M.customers.find(x=>x.code===o.customer);const due=Math.max(0,o.amount-(o.received||0));const status=due>0?'待回款':'已结清';return `<tr>
-        <td data-label="订单编号" class="ellipsis"><span class="code clickable" onclick="openOrderDetail('${o.code}')">${o.code}</span></td>
+      <colgroup><col style="width:44px"><col style="width:116px"><col style="width:92px"><col style="width:150px"><col style="width:210px"><col style="width:88px"><col style="width:104px"><col style="width:120px"><col style="width:80px"><col style="width:96px"></colgroup>
+      <thead><tr><th class="seq">序号</th><th>订单编号</th><th>客户</th><th>项目</th><th>产品</th><th>日期</th><th style="text-align:center">金额</th><th style="text-align:center">已收/应收</th><th>状态</th><th style="text-align:center">操作</th></tr></thead>
+      <tbody>${rows.length?rows.map((o,i)=>{const c=M.customers.find(x=>x.code===o.customer);const due=Math.max(0,o.amount-(o.received||0));const status=due>0?'待回款':'已结清';return `<tr>
+        <td class="seq">${i+1}</td><td data-label="订单编号" class="ellipsis"><span class="code clickable" onclick="openOrderDetail('${o.code}')">${o.code}</span></td>
         <td data-label="客户" class="ellipsis">${c?`<span class="clickable" onclick="openCustomerDetail('${c.code}')">${esc(c.name)}</span>`:'—'}</td>
         <td data-label="项目" class="proj-cell">${o.project?o.project.split(",").filter(Boolean).map(cc=>`<div class="proj-line"><span class="tag proj">📎 ${projName(cc)}</span></div>`).join(""):'—'}</td>
         <td data-label="产品" class="prod-cell">${(o.items&&o.items.length)?o.items.map(it=>`<div class="prod-line"><span class="pn-q">${esc(it.name)}</span><span class="pn-x">×${it.qty}</span>${it.disc<100?`<span class="pn-d">${it.disc}%</span>`:''}<span class="pn-amount">${fmt(it.sub||0)}</span></div>`).join(""):`<div class="prod-line"><span class="pn-q">${esc(o.products)}</span></div>`}</td>
         <td data-label="日期">${o.date}</td>
-        <td data-label="金额" style="text-align:right" class="amount inc">${fmt(o.amount)}</td>
-        <td data-label="已收/应收" style="text-align:right">${fmt(o.received||0)}/${fmt(o.amount)}</td>
+        <td data-label="金额" style="text-align:center" class="amount inc">${fmt(o.amount)}</td>
+        <td data-label="已收/应收" style="text-align:center">${fmt(o.received||0)}/${fmt(o.amount)}</td>
         <td data-label="状态"><span class="tag ${due>0?'defer':'normal'}">${status}</span></td>
         <td data-label="操作" class="op-col"><div class="op-actions"><button class="iconbtn" title="查看" onclick="openOrderDetail('${o.code}')">👁</button><button class="iconbtn" title="编辑" onclick="editOrder('${o.code}')">✎</button><button class="iconbtn" title="删除" onclick="delOrder('${o.code}')">🗑</button></div></td>
-      </tr>`;}).join(""):'<tr><td colspan="9"><div class="empty">暂无订单</div></td></tr>'}</tbody>
+      </tr>`;}).join(""):'<tr><td colspan="10"><div class="empty">暂无订单</div></td></tr>'}</tbody>
     </table></div>
     ${pager(all.length,"order")}
   </div>`;
@@ -1157,18 +1340,18 @@ function bizRecvSection(){
     </div>
     ${recvOrderList.length?`<div class="mb" style="display:flex;gap:8px;flex-wrap:wrap">${recvOrderList.map(x=>{const o=M.orders.find(y=>y.code===x.order);const due=o?Math.max(0,o.amount-(o.received||0)):0;return `<span class="tag ${due>0?'defer':'normal'}" style="font-size:12px;padding:6px 10px"><span class="code">${x.order}</span> · ${fmt(x.sum)} · ${due>0?`待 ${fmt(due)}`:'已结清'}</span>`;}).join("")}</div>`:''}
     <div class="tbl-wrap"><table class="tbl biz-tbl">
-      <thead><tr><th>日期</th><th>订单</th><th>客户</th><th>项目</th><th style="text-align:right">金额</th><th>账户</th><th>标签</th><th>摘要</th><th style="text-align:right">操作</th></tr></thead>
-      <tbody>${rows.length?rows.map(t=>{const o=M.orders.find(x=>x.code===t.order);const c=o?M.customers.find(x=>x.code===o.customer):(t.customer?M.customers.find(x=>x.code===t.customer):null);const a=M.accounts.find(x=>x.code===t.from);return `<tr>
-        <td data-label="日期">${t.date}</td>
+      <thead><tr><th class="seq">序号</th><th>日期</th><th>订单</th><th>客户</th><th>项目</th><th style="text-align:center">金额</th><th>账户</th><th>标签</th><th>摘要</th><th style="text-align:center">操作</th></tr></thead>
+      <tbody>${rows.length?rows.map((t,i)=>{const o=M.orders.find(x=>x.code===t.order);const c=o?M.customers.find(x=>x.code===o.customer):(t.customer?M.customers.find(x=>x.code===t.customer):null);const a=M.accounts.find(x=>x.code===t.from);return `<tr>
+        <td class="seq">${i+1}</td><td data-label="日期">${t.date}</td>
         <td data-label="订单">${t.order?`<span class="code clickable" onclick="openOrderDetail('${t.order}')">${t.order}</span>`:'—'}</td>
         <td data-label="客户">${c?`<span class="clickable" onclick="openCustomerDetail('${c.code}')">${c.name}</span>`:'—'}</td>
         <td data-label="项目" class="proj-cell">${(o&&o.project)?o.project.split(",").filter(Boolean).map(cc=>`<div class="proj-line"><span class="tag proj">📎 ${projName(cc)}</span></div>`).join(""):'—'}</td>
-        <td data-label="金额" style="text-align:right" class="amount inc">+${fmt(t.amount)}</td>
+        <td data-label="金额" style="text-align:center" class="amount inc">+${fmt(t.amount)}</td>
         <td data-label="账户">${a?a.name:'—'}</td>
         <td data-label="标签"><span class="tag ${t.tag==='正常'?'normal':t.tag==='应收'?'rec':'pay'}">${t.tag}</span></td>
         <td data-label="摘要">${esc(t.note)||''}</td>
         <td data-label="操作" class="op-col"><div class="op-actions"><button class="iconbtn" title="查看订单" onclick="openOrderDetail('${t.order}')">👁</button><button class="iconbtn" title="删除回款" onclick="delReceived('${t.code}')">🗑</button></div></td>
-      </tr>`;}).join(""):'<tr><td colspan="9"><div class="empty">暂无回款流水 · 可通过「资金·记一笔」关联订单或在订单里点编辑</div></td></tr>'}</tbody>
+      </tr>`;}).join(""):'<tr><td colspan="10"><div class="empty">暂无回款流水 · 可通过「资金·记一笔」关联订单或在订单里点编辑</div></td></tr>'}</tbody>
     </table></div>
     ${pager(all.length,"recv")}
   </div>`;
@@ -1208,7 +1391,8 @@ function render(){
   $("#view").innerHTML=screens[r]?screens[r]():"";
   $("#pageTitle").textContent=TITLES[r]||"首页";
   document.querySelectorAll("[data-route]").forEach(a=>a.classList.toggle("active",a.getAttribute("data-route")===r));
-  if(r==="#/home"){const c=$("#periodChart");if(c)animateBars(c);}
+  // 统一触发当前页面所有柱状图动画（覆盖奶量/支出分布/现金流/项目对比等）
+  animateBars($("#view"));
   if(r==="#/diary"&&diarySearch){setDiarySearch(diarySearch);}
   window.scrollTo(0,0);
 }
@@ -1223,20 +1407,27 @@ $("#overlay").addEventListener("click",e=>{if(e.target===$("#overlay"))closeModa
 function openTxn(opts={}){
   _txnProjAll="";
   _editingTxnCode=opts.editCode||null;
+  const initDate=opts.defaultDate||isoDate(new Date());
+  const incT=M.templates.filter(t=>tplTypeOf(t)==="收入");
+  const expT=M.templates.filter(t=>tplTypeOf(t)==="支出");
+  const tplGroup=(arr,label)=>arr.length?`<div class="tpl-row"><span class="tpl-label">${label}：</span>${arr.map(t=>`<button class="tpl-btn" type="button" onclick="applyTemplate('${t.code}')">⚡ ${esc(t.name)}</button>`).join("")}</div>`:"";
+  const tplBtns=(incT.length||expT.length)?(tplGroup(incT,"收入模板")+tplGroup(expT,"支出模板")):"";
   $("#modal").innerHTML=`
     <h2>${opts.fromReceived?'登记回款':'记一笔'}${opts.fromReceived?'<span style="font-size:12px;color:var(--muted);font-weight:400;margin-left:8px">选择订单后自动带出项目/客户</span>':''}</h2>
+    ${tplBtns}
+    <div class="field"><label>日期（默认创建当天，可手动修正）</label><input id="txDate" type="date" value="${initDate}"></div>
     <div class="field"><label>类型</label><div class="radios" id="txType">${["支出","收入","转账"].map((t,i)=>`<label><input type="radio" name="tt" value="${t}" ${(opts.defaultType===t)||(!opts.defaultType&&i===0)?'checked':''}><span>${t}</span></label>`).join("")}</div></div>
-    <div class="field"><label>金额</label><input id="txAmt" type="number" placeholder="0.00" inputmode="decimal"></div>
     <div class="field" id="catField"><label>分类</label><select id="txCat"></select></div>
     <div class="field"><label>账户</label><select id="txAcc">${M.accounts.map(a=>`<option value="${a.code}">${a.name}</option>`).join("")}</select></div>
     <div class="transfer-fields" id="txTransfer"><div class="field" style="flex:1"><label>转入账户</label><select id="txTo">${M.accounts.map(a=>`<option value="${a.code}">${a.name}</option>`).join("")}</select></div></div>
+    <div class="field"><label>金额</label><input id="txAmt" type="number" placeholder="0.00" inputmode="decimal"></div>
+    <div class="field"><label>标签（默认正常，手动改应收/应付）</label><div class="radios" id="txTag">${["正常","应收","应付"].map((t,i)=>`<label><input type="radio" name="tg" value="${t}" ${(opts.defaultTag===t)||(!opts.defaultTag&&i===0)?'checked':''}><span>${t}</span></label>`).join("")}</div></div>
+    <div class="field"><label>摘要</label><input id="txNote" placeholder="可选"></div>
+    <div class="field"><label>关联客户（自动从订单带出，可手动改）</label><select id="txCust"><option value="">不挂钩</option>${M.customers.map(c=>`<option value="${c.code}">${c.name}</option>`).join("")}</select></div>
+    <div class="field"><label>关联订单（回款登记专用；选客户后仅列出该客户名下「未款齐」订单，选择后自动带出客户/项目）</label><select id="txOrder"><option value="">不挂钩</option></select></div>
     <div class="field"><label>关联项目（可选；选择订单后自动带出该订单全部关联项目）</label>
       <select id="txProj"><option value="">不挂钩</option>${M.projects.map(p=>`<option value="${p.code}">${p.name}</option>`).join("")}</select>
       <div id="txProjTags" class="proj-auto" style="display:none"></div></div>
-    <div class="field"><label>关联订单（回款登记专用；选客户后仅列出该客户名下「未款齐」订单，选择后自动带出客户/项目）</label><select id="txOrder"><option value="">不挂钩</option></select></div>
-    <div class="field"><label>关联客户（自动从订单带出，可手动改）</label><select id="txCust"><option value="">不挂钩</option>${M.customers.map(c=>`<option value="${c.code}">${c.name}</option>`).join("")}</select></div>
-    <div class="field"><label>标签（默认正常，手动改应收/应付）</label><div class="radios" id="txTag">${["正常","应收","应付"].map((t,i)=>`<label><input type="radio" name="tg" value="${t}" ${(opts.defaultTag===t)||(!opts.defaultTag&&i===0)?'checked':''}><span>${t}</span></label>`).join("")}</div></div>
-    <div class="field"><label>摘要</label><input id="txNote" placeholder="可选"></div>
     <div class="btn-row"><button class="btn btn-ghost" onclick="closeModal()">取消</button><button class="btn btn-primary" onclick="saveTxn()">保存</button></div>`;
   const updProjFromOrder=()=>{
     const code=$("#txOrder").value;
@@ -1276,6 +1467,7 @@ function openTxn(opts={}){
         const dispType=isTransfer?"转账":t.type;
         document.querySelectorAll('#txType input[name=tt]').forEach(r=>{r.checked=(r.value===dispType);});
         $("#txAmt").value=t.amount;
+        $("#txDate").value=t.date||initDate;
         $("#txAcc").value=t.from;
         $("#txProj").value=t.project||"";
         $("#txOrder").value=t.order||"";
@@ -1292,6 +1484,54 @@ function openTxn(opts={}){
     }
     renderTxnOrderOptions();showModal();
   }
+function tplTypeOf(t){return t.type||((M.params["收入类型"]||[]).includes(t.category)?"收入":"支出");}
+function applyTemplate(code){
+  const t=M.templates.find(x=>x.code===code);if(!t)return;
+  const type=tplTypeOf(t);
+  document.querySelectorAll('#txType input[name=tt]').forEach(r=>{r.checked=(r.value===type);});
+  $("#catField").style.display="block";
+  $("#txTransfer").classList.remove("show");
+  renderTxnCatOptions(type);
+  const sel=$("#txCat");if(sel&&t.category){const o=[...sel.options].find(o=>o.value===t.category);if(o)sel.value=t.category;}
+  if(t.account){const a=$("#txAcc");if(a)a.value=t.account;}
+  if(t.amount!=null&&t.amount!==""){$("#txAmt").value=t.amount;}
+  toast("已套用模板："+t.name);
+}
+function openTemplateModal(code,defaultType){
+  const ed=code?M.templates.find(x=>x.code===code):null;
+  const ttype0=ed?tplTypeOf(ed):(defaultType||"支出");
+  const cats=[...(M.params["收入类型"]||[]),...(M.params["支出类型"]||[])];
+  $("#modal").innerHTML=`
+    <h2>${ed?'编辑模板':'新增记一笔模板'}</h2>
+    <div class="field"><label>类型</label><div class="radios" id="tplType">${["收入","支出"].map(tp=>`<label><input type="radio" name="tpty" value="${tp}" ${tp===ttype0?'checked':''}><span>${tp}</span></label>`).join("")}</div></div>
+    <div class="field"><label>模板名</label><input id="tplName" placeholder="如：午饭、地铁通勤" value="${ed?esc(ed.name):''}"></div>
+    <div class="field"><label>金额</label><input id="tplAmt" type="number" placeholder="0.00" inputmode="decimal" value="${ed?ed.amount:''}"></div>
+    <div class="field"><label>分类</label><select id="tplCat">${cats.map(c=>`<option ${ed&&ed.category===c?'selected':''}>${c}</option>`).join("")}</select></div>
+    <div class="field"><label>账户</label><select id="tplAcc">${M.accounts.map(a=>`<option value="${a.code}" ${ed&&ed.account===a.code?'selected':''}>${a.name}</option>`).join("")}</select></div>
+    <div class="btn-row"><button class="btn btn-ghost" onclick="closeModal()">取消</button><button class="btn btn-primary" onclick="saveTemplate('${code||''}')">保存</button></div>`;
+  showModal();
+}
+function saveTemplate(code){
+  const name=$("#tplName").value.trim();if(!name){toast("请输入模板名");return;}
+  const amount=parseFloat($("#tplAmt").value)||0;
+  const category=$("#tplCat").value;
+  const account=$("#tplAcc").value;
+  const type=document.querySelector('#tplType input[name=tpty]').value;
+  if(code){const t=M.templates.find(x=>x.code===code);if(t){t.name=name;t.amount=amount;t.category=category;t.account=account;t.type=type;}}
+  else{M.templates.push({code:"TPL"+String(M.templates.length+1).padStart(3,"0"),name,amount,category,account,type});}
+  closeModal();toast("已保存模板");if(location.hash==="#/settings")render();
+}
+function delTemplate(code){
+  const i=M.templates.findIndex(x=>x.code===code);if(i<0)return;
+  confirmModal("删除模板","确认删除该模板？",()=>{M.templates.splice(i,1);toast("已删除模板");if(location.hash==="#/settings")render();});
+}
+function addBabyEvent(){
+  promptModal("新增带娃事项","",(v)=>{v=(v||"").trim();if(!v)return;if(M.babyEvents.includes(v)){toast("已存在该事项");return;}M.babyEvents.push(v);toast("已新增事项："+v);if(location.hash==="#/baby"||location.hash==="#/settings")render();},"输入事项名称，如：洗澡、哄睡、喂药");
+}
+function delBabyEvent(ev){
+  const i=M.babyEvents.indexOf(ev);if(i<0)return;
+  confirmModal("删除带娃事项","确认删除「"+ev+"」？删除后今日记录将不再显示该快捷按钮。",()=>{M.babyEvents.splice(i,1);toast("已删除事项："+ev);if(location.hash==="#/baby"||location.hash==="#/settings")render();});
+}
 function editTxn(code){
   const t=M.txns.find(x=>x.code===code);
   if(!t){toast("流水不存在");return;}
@@ -1300,6 +1540,7 @@ function editTxn(code){
 function saveTxn(){
   const type=document.querySelector('input[name=tt]:checked').value;
   const amt=parseFloat($("#txAmt").value)||0;if(!amt){toast("请输入金额");return;}
+  const txDate=($("#txDate")&&$("#txDate").value)?$("#txDate").value:isoDate(new Date());
   const tag=document.querySelector('input[name=tg]:checked').value;
   const proj=$("#txProj").value;
   const order=$("#txOrder").value;
@@ -1326,6 +1567,7 @@ function saveTxn(){
       t.from=$("#txAcc").value;
       t.tag=type==="转账"?"正常":tag;
       t.note=$("#txNote").value||(type==="转账"?"A→B 转账":"");
+      t.date=txDate;
       t.project=finalProj;
       t.order=order;
       t.customer=finalCust;
@@ -1336,7 +1578,7 @@ function saveTxn(){
     return;
   }
   const seq=String(M.txns.length+1).padStart(4,"0");
-  M.txns.push({code:"T20260824"+seq,date:"2026-08-24",type:type==="转账"?"支出":type,amount:amt,category:type==="转账"?"转账":$("#txCat").value,from:$("#txAcc").value,tag:type==="转账"?"正常":tag,note:$("#txNote").value||(type==="转账"?"A→B 转账":"")||"",project:finalProj,order,customer:finalCust});
+  M.txns.push({code:"T"+txDate.replace(/-/g,"")+seq,date:txDate,type:type==="转账"?"支出":type,amount:amt,category:type==="转账"?"转账":$("#txCat").value,from:$("#txAcc").value,tag:type==="转账"?"正常":tag,note:$("#txNote").value||(type==="转账"?"A→B 转账":"")||"",project:finalProj,order,customer:finalCust});
   closeModal();toast("已保存 · "+type+" "+fmt(amt)+(order?` · 订单 ${order} 已自动收款`:""));
   if(["#/money","#/home","#/biz"].includes(location.hash))render();
 }
@@ -1430,7 +1672,7 @@ function openCustomerDetail(code){
     <div class="section-title"><span class="bar"></span>关联订单（${orders.length}）</div>
     <div class="card">${orders.length?orders.slice().reverse().map(o=>{const items=(o.items&&o.items.length)?o.items.map(it=>`${it.name}×${it.qty}`).join('；'):o.products;return `<div class="order-card"><div class="ot"><span class="clickable" onclick="openOrderDetail('${o.code}')">${esc(items)}</span> <span class="code clickable" onclick="openOrderDetail('${o.code}')">${o.code}</span></div><div class="om">项目 ${projName(o.project)} · ${o.date} · 收款 ${fmt(o.received)}/${fmt(o.amount)}</div></div>`;}).join(""):'<div class="empty">暂无订单</div>'}</div>
     <div class="section-title"><span class="bar"></span>相关资金流水</div>
-    <div class="card"><div style="overflow-x:auto"><table class="tbl"><thead><tr><th>日期</th><th>类型</th><th>标签</th><th>摘要</th><th style="text-align:right">金额</th></tr></thead><tbody>${txns.length?txns.slice().reverse().map(t=>`<tr><td>${t.date.slice(5)}</td><td>${t.type}</td><td><span class="tag ${t.tag==='正常'?'normal':t.tag==='应收'?'rec':'pay'}">${t.tag}</span></td><td>${esc(t.note)}</td><td style="text-align:right" class="amount ${t.type==='收入'?'inc':'exp'}">${t.type==='收入'?'+':'-'}${fmt(t.amount)}</td></tr>`).join(""):'<tr><td colspan="5"><div class="empty">暂无关联流水</div></td></tr>'}</tbody></table></div></div>`;
+    <div class="card"><div style="overflow-x:auto"><table class="tbl"><thead><tr><th class="seq">序号</th><th>日期</th><th>类型</th><th>标签</th><th>摘要</th><th style="text-align:center">金额</th></tr></thead><tbody>${txns.length?txns.slice().reverse().map((t,i)=>`<tr><td class="seq">${i+1}</td><td>${t.date.slice(5)}</td><td>${t.type}</td><td><span class="tag ${t.tag==='正常'?'normal':t.tag==='应收'?'rec':'pay'}">${t.tag}</span></td><td>${esc(t.note)}</td><td style="text-align:center" class="amount ${t.type==='收入'?'inc':'exp'}">${t.type==='收入'?'+':'-'}${fmt(t.amount)}</td></tr>`).join(""):'<tr><td colspan="6"><div class="empty">暂无关联流水</div></td></tr>'}</tbody></table></div></div>`;
 }
 
 /* 订单：引用客户 + 关联项目 + 收付款，支持一个订单多产品明细行 */
@@ -1445,14 +1687,14 @@ function openOrder(code){
   const renderRows=()=>{
     const box=$("#oItems");if(!box)return;
     const GC="display:grid;grid-template-columns:1.6fr .8fr 1fr 1.1fr auto;gap:8px;align-items:end";
-    const head=`<div style="${GC};margin-bottom:4px"><div class="oi-h">商品</div><div class="oi-h">数量</div><div class="oi-h">折扣(%)</div><div class="oi-h" style="text-align:right">小计</div><div class="oi-h"></div></div>`;
+    const head=`<div style="${GC};margin-bottom:4px"><div class="oi-h">商品</div><div class="oi-h">数量</div><div class="oi-h">折扣(%)</div><div class="oi-h" style="text-align:center">小计</div><div class="oi-h"></div></div>`;
     const body=rows.map((r,i)=>{
       const sub=p=>p.price*r.qty*(r.disc/100);
       return `<div style="${GC};margin-bottom:8px">
         <select data-i="${i}" class="oip" style="width:100%;padding:10px 8px;border:1px solid var(--line-strong);border-radius:10px;font-size:13px;background:var(--surface)">${M.products.map(pp=>`<option value="${pp.code}" ${pp.code===r.product?'selected':''}>${pp.name} · ${fmt(pp.price)}</option>`).join("")}</select>
         <input data-i="${i}" class="oipq" type="number" value="${r.qty}" min="1" step="1" style="width:100%;padding:10px 8px;border:1px solid var(--line-strong);border-radius:10px;font-size:13px">
         <input data-i="${i}" class="oipd" type="number" value="${r.disc}" min="0" max="100" step="any" style="width:100%;padding:10px 8px;border:1px solid var(--line-strong);border-radius:10px;font-size:13px">
-        <div data-sub="${i}" style="text-align:right;font-weight:700;color:var(--accent-deep);padding:10px 8px">${fmt(rowSub(i))}</div>
+        <div data-sub="${i}" style="text-align:center;font-weight:700;color:var(--accent-deep);padding:10px 8px">${fmt(rowSub(i))}</div>
         <button class="iconbtn" onclick="delOrderRow(${i})" ${rows.length<=1?'disabled style="opacity:.4;cursor:default"':''}>🗑</button>
       </div>`;
     }).join("");
@@ -1570,15 +1812,15 @@ function openOrderDetail(code){
       </div></div>
       <div class="card"><h3>产品明细（${items.length} 项）</h3>
         <table class="tbl biz-tbl">
-          <thead><tr><th>产品</th><th style="text-align:right">单价</th><th style="text-align:right">数量</th><th style="text-align:right">折扣</th><th style="text-align:right">小计</th></tr></thead>
-          <tbody>${items.map(it=>`<tr><td data-label="产品">${esc(it.name)}</td><td data-label="单价" style="text-align:right" class="amount">${fmt(it.price)}</td><td data-label="数量" style="text-align:right">${it.qty}</td><td data-label="折扣" style="text-align:right">${it.disc||0}%</td><td data-label="小计" style="text-align:right" class="amount inc">${fmt(it.sub)}</td></tr>`).join("")}</tbody>
+          <thead><tr><th class="seq">序号</th><th>产品</th><th style="text-align:center">单价</th><th style="text-align:center">数量</th><th style="text-align:center">折扣</th><th style="text-align:center">小计</th></tr></thead>
+          <tbody>${items.map((it,i)=>`<tr><td class="seq">${i+1}</td><td data-label="产品">${esc(it.name)}</td><td data-label="单价" style="text-align:center" class="amount">${fmt(it.price)}</td><td data-label="数量" style="text-align:center">${it.qty}</td><td data-label="折扣" style="text-align:center">${it.disc||0}%</td><td data-label="小计" style="text-align:center" class="amount inc">${fmt(it.sub)}</td></tr>`).join("")}</tbody>
         </table>
       </div>
     </div>
     <div class="section-title"><span class="bar"></span>回款流水（${txns.length}）</div>
     <div class="card"><table class="tbl biz-tbl">
-      <thead><tr><th>日期</th><th>类型</th><th>标签</th><th>摘要</th><th style="text-align:right">金额</th></tr></thead>
-      <tbody>${txns.length?txns.slice().reverse().map(t=>`<tr><td data-label="日期">${t.date.slice(5)}</td><td data-label="类型">${t.type}</td><td data-label="标签"><span class="tag ${t.tag==='正常'?'normal':t.tag==='应收'?'rec':'pay'}">${t.tag}</span></td><td data-label="摘要">${esc(t.note)}</td><td data-label="金额" style="text-align:right" class="amount ${t.type==='收入'?'inc':'exp'}">${t.type==='收入'?'+':'-'}${fmt(t.amount)}</td></tr>`).join(""):'<tr><td colspan="5"><div class="empty">暂无回款记录</div></td></tr>'}</tbody>
+      <thead><tr><th class="seq">序号</th><th>日期</th><th>类型</th><th>标签</th><th>摘要</th><th style="text-align:center">金额</th></tr></thead>
+      <tbody>${txns.length?txns.slice().reverse().map((t,i)=>`<tr><td class="seq">${i+1}</td><td data-label="日期">${t.date.slice(5)}</td><td data-label="类型">${t.type}</td><td data-label="标签"><span class="tag ${t.tag==='正常'?'normal':t.tag==='应收'?'rec':'pay'}">${t.tag}</span></td><td data-label="摘要">${esc(t.note)}</td><td data-label="金额" style="text-align:center" class="amount ${t.type==='收入'?'inc':'exp'}">${t.type==='收入'?'+':'-'}${fmt(t.amount)}</td></tr>`).join(""):'<tr><td colspan="6"><div class="empty">暂无回款记录</div></td></tr>'}</tbody>
     </table></div>`;
 }
 
@@ -1601,31 +1843,39 @@ function saveProject(){
 }
 
 /* 带娃：快捷按钮自动记当天时间戳；无参则打开历史登记表单 */
-function openBabyModal(type){
-  const time=()=>{const n=new Date();return String(n.getHours()).padStart(2,"0")+":"+String(n.getMinutes()).padStart(2,"0");};
+function openBabyModal(type, code){
+  const timeNow=()=>{const n=new Date();return String(n.getHours()).padStart(2,"0")+":"+String(n.getMinutes()).padStart(2,"0");};
   if(type){
-    if(type==="泡奶"){M.baby.push({code:"B20260824"+String(M.baby.length+1).padStart(3,"0"),type:"泡奶",time:time(),volume:150,date:"2026-08-24"});toast("已记录：泡奶 150ml "+time());}
-    else{M.baby.push({code:"B20260824"+String(M.baby.length+1).padStart(3,"0"),type:"拉臭臭",time:time(),volume:0,note:"",date:"2026-08-24"});toast("已记录：拉臭臭 "+time());}
+    if(type==="泡奶"){M.baby.push({code:"B"+TODAY_DATE.replace(/-/g,"")+String(M.baby.length+1).padStart(3,"0"),type:"泡奶",time:timeNow(),volume:150,date:TODAY_DATE});toast("已记录：泡奶 150ml "+timeNow());}
+    else{M.baby.push({code:"B"+TODAY_DATE.replace(/-/g,"")+String(M.baby.length+1).padStart(3,"0"),type:type,time:timeNow(),volume:0,note:"",date:TODAY_DATE});toast("已记录："+type+" "+timeNow());}
     if(["#/baby","#/home"].includes(location.hash))render();
     return;
   }
-  const now=time();
+  const ed=code?M.baby.find(x=>x.code===code):null;
+  _editingBabyCode=code||null;
+  const now=ed?ed.time:timeNow();
   $("#modal").innerHTML=`
-    <h2>登记带娃记录</h2>
-    <div class="field"><label>日期</label><input id="bDate" type="date" value="2026-08-24"></div>
-    <div class="field"><label>类型</label><select id="bType">${["泡奶","拉臭臭"].map(t=>`<option>${t}</option>`).join("")}</select></div>
+    <h2>${ed?'修改带娃记录':'登记带娃记录'}</h2>
+    <div class="field"><label>日期</label><input id="bDate" type="date" value="${ed?ed.date:'2026-08-24'}"></div>
+    <div class="field"><label>类型</label><select id="bType">${["泡奶","拉臭臭"].map(t=>`<option ${ed&&ed.type===t?'selected':''}>${t}</option>`).join("")}</select></div>
     <div class="field"><label>时间</label><input id="bTime" type="time" value="${now}"></div>
-    <div class="field"><label>奶量（泡奶，ml）</label><input id="bVol" type="number" value="150" min="0"></div>
-    <div class="field"><label>备注</label><input id="bNote" placeholder="可选"></div>
+    <div class="field"><label>奶量（泡奶，ml）</label><input id="bVol" type="number" value="${ed?ed.volume:150}" min="0"></div>
+    <div class="field"><label>备注</label><input id="bNote" placeholder="可选" value="${ed?esc(ed.note||''):''}"></div>
     <div class="btn-row"><button class="btn btn-ghost" onclick="closeModal()">取消</button><button class="btn btn-primary" onclick="saveBaby()">保存</button></div>`;
   showModal();
 }
+function editBaby(code){const b=M.baby.find(x=>x.code===code);if(!b){toast("记录不存在");return;}openBabyModal(null,code);}
 function saveBaby(){
   const date=$("#bDate").value||"2026-08-24";
   const type=$("#bType").value;
   const t=$("#bTime").value||"00:00";
   const volume=type==="泡奶"?(parseInt($("#bVol").value)||0):0;
   const note=$("#bNote").value.trim();
+  if(_editingBabyCode){
+    const b=M.baby.find(x=>x.code===_editingBabyCode);
+    if(b){b.date=date;b.type=type;b.time=t;b.volume=volume;b.note=note;}
+    _editingBabyCode=null;closeModal();toast("已修改带娃记录");if(location.hash==="#/baby")render();return;
+  }
   const code="B"+date.replace(/-/g,"")+String(M.baby.length+1).padStart(3,"0");
   M.baby.push({code,type,time:t,volume,note,date});
   closeModal();toast("已登记带娃记录 · "+date+" "+t);if(location.hash==="#/baby")render();
@@ -1680,7 +1930,7 @@ function delProduct(code){
 /* 清空全部业务示例数据（保留账户/参数/产品等配置项） */
 function delAllDemo(){
   confirmModal("删除全部示例数据","确认清空全部业务示例数据？\n\n将清空：客户、订单、回款流水、项目、带娃记录、待办、日记、灵感，以及所有账户余额（含期初余额）。\n保留：账户列表、全局参数、产品清单。\n\n此操作不可撤销。",()=>{
-    M.customers=[];M.orders=[];M.txns=[];M.projects=[];M.baby=[];M.todos=[];M.diaries=[];M.ideas=[];
+    M.customers=[];M.orders=[];M.txns=[];M.projects=[];M.baby=[];M.todos=[];M.diaries=[];M.ideas=[];M.material=[];
     M.accounts.forEach(a=>{a.balance=0;a.opening=0;});
     diarySel="";babyPage=1;babyTodayPage=1;
     toast("已清空全部示例数据");updateTodoBadge();render();
