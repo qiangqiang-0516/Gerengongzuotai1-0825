@@ -368,6 +368,9 @@ a{color:inherit;text-decoration:none}
 .tbl td.seq,.tbl th.seq{width:52px;color:var(--muted);font-variant-numeric:tabular-nums;font-weight:600}
 .tpl-filter{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
 .mini-btn.active{background:var(--accent);color:#fff}
+.extract{margin:4px 0 4px;display:flex;flex-direction:column;gap:2px}
+.ex-item{font-family:var(--font);font-size:13px;font-weight:600;line-height:1.75;color:var(--ink);white-space:normal;word-break:break-word;padding:1px 0}
+.kw{font-weight:700;color:#c0392b;background:linear-gradient(transparent 62%,#fff1a8 62%);border-radius:2px;padding:0 1px}
 </style>
 </head>
 <body>
@@ -478,12 +481,15 @@ const M = {
     {code:"TD0006",title:"读完《纳瓦尔宝典》第三章",remind:"—",repeat:"无",done:false,created:"2026-08-20",due:"2026-08-26"}
   ],
   diaries:[
-    {code:"R20260824",date:"2026-08-24",title:"推进官网改版与尾款、聊私域思路",diary:"今天推进了官网改版评审，和陈先生确认了尾款。中午和同事聚餐聊到私域运营的新思路，很有收获。感恩家人今天帮忙带娃，让我能专注工作。明天可以把咨询方案再优化一下结构。",
-      summary:{今日小事:["推进官网改版评审，与陈先生确认尾款"],收获新知:["聚餐聊到私域运营新思路"],感恩时刻:["家人帮忙带娃，得以专注工作"],优化改进:["咨询方案可再优化结构"]},cats:[{cat:"工作事业",text:"推进官网改版评审，与陈先生确认尾款；咨询方案计划再优化结构",date:"2026-08-24"},{cat:"学习成长",text:"和同事聚餐聊到私域运营的新思路，很有收获",date:"2026-08-24"},{cat:"家庭亲情",text:"感恩家人今天帮忙带娃，让我能专注工作",date:"2026-08-24"}]},
-    {code:"R20260820",date:"2026-08-20",title:"云图私域初稿、用户分层方法",diary:"上午处理了云图科技的私域方案初稿。学到了不少关于用户分层的方法。感谢同事帮忙校对。后续可以把模板再优化。",
-      summary:{今日小事:["处理云图科技私域方案初稿"],收获新知:["学到用户分层方法"],感恩时刻:["同事帮忙校对"],优化改进:["模板可再优化"]},cats:[{cat:"工作事业",text:"处理云图科技私域方案初稿",date:"2026-08-20"},{cat:"学习成长",text:"学到用户分层方法；后续可把模板再优化",date:"2026-08-20"},{cat:"人际关系",text:"感谢同事帮忙校对",date:"2026-08-20"}]},
-    {code:"R20260715",date:"2026-07-15",title:"月度复盘、现金流新认识",diary:"月度复盘完成。收获了对现金流的新认识。感恩团队配合。可以提前规划下月预算。",
-      summary:{今日小事:["月度复盘完成"],收获新知:["对现金流的新认识"],感恩时刻:["团队配合"],优化改进:["提前规划下月预算"]},cats:[{cat:"工作事业",text:"月度复盘完成；可提前规划下月预算",date:"2026-07-15"},{cat:"学习成长",text:"收获对现金流的新认识",date:"2026-07-15"},{cat:"人际关系",text:"感恩团队配合",date:"2026-07-15"}]}
+    {code:"R20260824",date:"2026-08-24",title:"推进官网改版与尾款、聊私域思路",
+      extract:"今日主线是推进官网改版评审并与**陈先生**确认尾款，顺便和同事聚餐聊透了**私域运营新思路**。感恩家人帮忙带娃，让我得以全程专注。明日计划把咨询方案结构再打磨一轮。",
+      cats:[{cat:"工作事业",text:"推进官网改版评审，与陈先生确认尾款；咨询方案计划再优化结构",date:"2026-08-24"},{cat:"学习成长",text:"和同事聚餐聊到私域运营的新思路，很有收获",date:"2026-08-24"},{cat:"家庭亲情",text:"感恩家人今天帮忙带娃，让我能专注工作",date:"2026-08-24"}]},
+    {code:"R20260820",date:"2026-08-20",title:"云图私域初稿、用户分层方法",
+      extract:"今日把**云图科技**的私域方案初稿磨了出来，顺带吃透了**用户分层**这套方法论。心流平稳，感恩同事帮忙兜底校对。下一轮想把模板再迭代，去掉重复字段。",
+      cats:[{cat:"工作事业",text:"处理云图科技私域方案初稿",date:"2026-08-20"},{cat:"学习成长",text:"学到用户分层方法；后续可把模板再优化",date:"2026-08-20"},{cat:"人际关系",text:"感谢同事帮忙校对",date:"2026-08-20"}]},
+    {code:"R20260715",date:"2026-07-15",title:"月度复盘、现金流新认识",
+      extract:"完成了**月度复盘**，对**现金流**的体感比月初清醒很多，靠的是**团队**稳定配合。下一阶段想把月度预算前置做，而不是事中救火。",
+      cats:[{cat:"工作事业",text:"月度复盘完成；可提前规划下月预算",date:"2026-07-15"},{cat:"学习成长",text:"收获对现金流的新认识",date:"2026-07-15"},{cat:"人际关系",text:"感恩团队配合",date:"2026-07-15"}]}
   ],
   ideas:[
     {code:"I0001",text:"用 Notion 数据库统一管理客户跟进时间线",archived:false,project:"",archivedAt:""},
@@ -508,6 +514,7 @@ const $=(s,r=document)=>r.querySelector(s);
 const fmt=n=>"¥"+Math.round(n).toLocaleString("zh-CN");
 function toast(msg){const t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove("show"),1800);}
 function esc(s){return (s??"").toString().replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));}
+function hl(s){return esc(s).replace(/\*\*([^*]+?)\*\*/g,'<span class="kw">$1</span>');}
 function projName(code){if(!code)return "—";return code.split(",").map(c=>{const p=M.projects.find(x=>x.code===c);return p?p.name:c;}).join("、");}
 function projShort(code){const p=M.projects.find(x=>x.code===code);return p?`${p.name}(${p.code})`:"—";}
 function daysBetween(a,b){return Math.round((b-a)/86400000);}
@@ -1047,14 +1054,24 @@ function openCatDrill(cat){
     <div class="btn-row"><button class="btn btn-ghost" onclick="closeModal()">关闭</button></div>`;
   showModal();
 }
+function extractBlock(d){
+  if(!d.extract)return "";
+  // 按中英文句末标点切分（保留标点），取前 3 句
+  const lines=d.extract.split(/(?<=[。；！？.!?；])\s*/).filter(Boolean).slice(0,3);
+  if(!lines.length)return "";
+  return `<div class="extract">${lines.map(s=>`<div class="ex-item">${hl(s)}</div>`).join("")}</div>`;
+}
 function diaryArchive(){
   const groups={};M.diaries.forEach(d=>{const m=d.date.slice(0,7);(groups[m]=groups[m]||[]).push(d);});
   const months=Object.keys(groups).sort().reverse();
   if(!months.length)return '<div class="empty">暂无日记</div>';
   return months.map(m=>{const items=groups[m].slice().reverse();
     return `<div class="param-group open"><div class="pg-head" onclick="this.parentElement.classList.toggle('open')">📅 ${m}<span style="margin-left:8px;color:var(--muted);font-weight:500;font-size:11px">${items.length} 篇</span><span class="caret">›</span></div>
-      <div class="pg-body">${items.map(d=>{const cnt=Object.values(d.summary||{}).reduce((s,a)=>s+(a?a.length:0),0);
-        return `<div class="litem"><div class="lmain"><div class="lt">${d.date} · ${esc(d.title||'未命名')}</div><div class="ls"><span class="code">${d.code}</span> · ${cnt} 条提炼</div></div>
+      <div class="pg-body">${items.map(d=>{
+        return `<div class="litem"><div class="lmain">
+          <div class="lt">${d.date} · ${esc(d.title||'未命名')}</div>
+          ${extractBlock(d)}
+        </div>
           <div class="pd"><button class="mini-btn" onclick="diarySel='${d.code}';render()">查看/编辑</button></div></div>`;}).join("")}</div></div>`;
   }).join("");
 }
