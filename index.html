@@ -3,7 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>一人公司工作台 · 界面原型</title>
+<meta name="theme-color" content="#2f6fed" />
+<link rel="manifest" href="./manifest.json" />
+<link rel="apple-touch-icon" href="./icon.svg" />
+<title>一人公司工作台</title>
 <style>
 /* finesse · register=product · A=blue-gray business · B=400/700 · C=sidebar-shell
  * D=css-only · E=excel-clean · SOUL=6 SPECTACLE=2 DENSITY=7 */
@@ -311,7 +314,23 @@ a{color:inherit;text-decoration:none}
   .tabbar::-webkit-scrollbar{display:none}
   .tabbar a{flex:0 0 auto;min-width:62px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--muted);font-size:10px;font-weight:600;position:relative}
   .tabbar a .ti{font-size:19px}.tabbar a.active{color:var(--accent)}
-  .tabbar a .badge{position:absolute;top:6px;right:50%;margin-right:-18px;background:var(--expense);color:#fff;font-size:9px;min-width:15px;height:15px;border-radius:8px;display:grid;place-items:center;padding:0 4px}
+  .tabbar a .badge{position:absolute;top:6px;right:50%;margin-right:-18px;background:var(--expense);  color:#fff;font-size:9px;min-width:15px;height:15px;border-radius:8px;display:grid;place-items:center;padding:0 4px}
+}
+/* 旗舰手机竖屏（华为 Mate50 ≈412px 逻辑宽）专属微调 */
+@media(max-width:480px){
+  .scroll{padding:12px 12px 100px}
+  .topbar h1{font-size:17px}
+  .card{padding:13px}
+  .quick{gap:6px}.qbtn{padding:13px 4px}.qbtn .ql{font-size:12px;margin-top:5px}
+  .tbl{font-size:12px}.tbl td{padding:9px 8px}
+  .mini-btn{padding:8px 12px;font-size:13px}
+  .pd{display:flex;gap:6px;flex-wrap:wrap}
+  .pd .iconbtn{width:30px;height:30px;font-size:14px}
+  .litem{display:flex;align-items:flex-start;gap:10px}
+  .extract .ex-item{font-size:13px;line-height:1.7}
+  .modal{padding:18px 16px 24px}
+  .field input,.field select,.field textarea{padding:11px 10px;font-size:15px}
+  .pg{min-width:32px;height:32px}
 }
 
 /* 经营模块：操作列横向、搜索、分页 */
@@ -420,7 +439,7 @@ a{color:inherit;text-decoration:none}
 /* ============== Mock data ============== */
 const TODAY=new Date("2026-08-24");
 const TODAY_DATE=isoDate(TODAY);
-const M = {
+let M = {
   accounts:[
     {code:"A0001",name:"招商银行卡",type:"银行卡",balance:8420,opening:8420},
     {code:"A0002",name:"微信钱包",type:"微信",balance:2310,opening:2310},
@@ -509,7 +528,37 @@ const M = {
   material:[]
 };
 
-/* ============== Helpers ============== */
+/* ============== 本地持久化（localStorage） ==============
+ * 关键修复：此前 M 是写死在文件里的常量，delAllDemo 只改内存、从不落盘，
+ * 一刷新脚本重新执行就又加载原始 mock，导致「清除示例数据后又回来了」。
+ * 现在：首次加载用 mock 种子并落盘；之后每次 render() 自动保存，
+ * 「清除示例数据」清掉后会真正持久，刷新不再复原。
+ * 注意：localStorage 仅本机本浏览器有效，跨设备同步仍需后端（见对话说明）。
+ */
+const STORAGE_KEY="workbench_state_v1";
+const SEED=M; // 保留种子，首次或版本不匹配时回退
+function saveState(){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify({ver:1, M})); }
+  catch(e){ /* 隐私模式/超额时静默失败，不影响内存使用 */ }
+}
+function loadState(){
+  try{
+    const raw=localStorage.getItem(STORAGE_KEY);
+    if(!raw) return false;
+    const obj=JSON.parse(raw);
+    if(!obj||obj.ver!==1||!obj.M) return false;
+    // 以种子为基准补齐缺失字段，避免旧备份缺字段导致渲染报错
+    const base=SEED;
+    ["accounts","customers","orders","txns","projects","baby","todos","diaries","ideas","params","templates","babyEvents","material"].forEach(k=>{
+      if(obj.M[k]===undefined) obj.M[k]=base[k];
+    });
+    M=obj.M;
+    return true;
+  }catch(e){ return false; }
+}
+const _firstLoad=loadState(); // 首次为 false（会用种子 M）
+if(!_firstLoad) saveState();    // 首次把种子持久，后续「清除」才能真正落盘
+
 const $=(s,r=document)=>r.querySelector(s);
 const fmt=n=>"¥"+Math.round(n).toLocaleString("zh-CN");
 function toast(msg){const t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove("show"),1800);}
@@ -1412,6 +1461,7 @@ function render(){
   animateBars($("#view"));
   if(r==="#/diary"&&diarySearch){setDiarySearch(diarySearch);}
   window.scrollTo(0,0);
+  saveState(); // 统一落盘：任何改动（含「清除示例数据」）刷新后持久
 }
 function go(h){location.hash=h;}
 window.addEventListener("hashchange",render);
